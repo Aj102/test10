@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Portal | Student Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="Welcome.css">
+    <link rel="stylesheet" href="parent.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+</head>
+<body class="page-parent">
+
+    <header id="header">
+        <div id="title">
+            <div id="title1">
+                <img src="cfsi logo.png" id="logo" alt="CFSI logo">
+                <div id="title-text-group">
+                    <h1>CHILDREN OF FATIMA SCHOOL, INC.</h1>
+                    <p>Parent Portal</p>
+                </div>
+            </div>
+
+            <div id="hp">
+                <a id="home" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            </div>
+        </div>
+
+        <nav id="nav">
+            <a id="children" href="Parent.html">My Children</a>
+            <a id="com-show" href="Community.html">Community Showcase</a>
+            <a id="about" href="about.html">About</a>
+        </nav>
+    </header>
+
+    <main id="main">
+        <h1 id="welcomeGreeting">Welcome to the Parent Portal!</h1>
+
+        <div id="aligner">
+            <div class="parent-shell">
+
+                <section class="pcard" aria-labelledby="childrenTitle">
+                    <h2 id="childrenTitle"><i class="fa-solid fa-children"></i> Your Children</h2>
+                    <p class="psub">You only see students who approved your link request.</p>
+                    <div id="childrenList">
+                        <div class="no-activity-msg">Loading your children...</div>
+                    </div>
+                </section>
+
+                <section class="pcard" aria-labelledby="linkTitle">
+                    <h2 id="linkTitle"><i class="fa-solid fa-link"></i> Connect a Child</h2>
+                    <p class="psub">
+                        Ask your child to open <strong>My Portfolio &rarr; Parent Access</strong>
+                        and share their Parent Link Code. Your child must approve the request.
+                    </p>
+
+                    <form id="linkForm" class="plink-form">
+                        <label for="pcode">Parent Link Code</label>
+                        <div class="plink-row">
+                            <input id="pcode" type="text" placeholder="e.g. 4F2A-9C1D" maxlength="12" autocomplete="off" required>
+                            <button type="submit" id="linkBtn"><i class="fa-solid fa-paper-plane"></i> Send</button>
+                        </div>
+                    </form>
+
+                    <p id="linkMsg" class="plink-msg" role="status" aria-live="polite"></p>
+
+                    <h3 class="psub-title">Requests</h3>
+                    <div id="requestList">
+                        <div class="no-activity-msg" style="margin-top:10px;">No requests yet.</div>
+                    </div>
+
+                    <div class="paccount">
+                        <div>
+                            <span class="paccount-label">Signed in as</span>
+                            <span id="parentEmail" class="paccount-email">...</span>
+                        </div>
+                        <button type="button" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="pfooter">Children of Fatima School, Inc. &middot; Parent Portal</footer>
+
+<script>
+    let me = null;
+    let profile = null;
+    let childLinks = [];
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        me = await requireLogin();
+        if (!me) return;
+
+        profile = await getMyProfile();
+        const role = (profile && profile.role) || me.user_metadata?.role || 'student';
+
+        if (role !== 'parent') {
+            window.location.replace('Welcome.html');
+            return;
+        }
+
+        renderGreeting();
+        document.getElementById('parentEmail').textContent = profile.email || me.email || '';
+
+        const notice = sessionStorage.getItem('cfsi_parent_notice');
+        if (notice) {
+            sessionStorage.removeItem('cfsi_parent_notice');
+            setMessage(notice);
+        }
+
+        document.getElementById('linkForm').addEventListener('submit', handleLinkSubmit);
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await logoutAccount();
+            window.location.replace('login.html');
+        });
+
+        await loadChildren();
+    });
+
+    function parentName() {
+        const name = `${profile.fname || ''} ${profile.lname || ''}`.trim();
+        return name || 'Parent';
+    }
+
+    function renderGreeting() {
+        document.getElementById('welcomeGreeting').textContent =
+            `Welcome, ${parentName()}! Here you can review your children's shared projects.`;
+    }
+
+    function setMessage(text, isError) {
+        const msg = document.getElementById('linkMsg');
+        msg.textContent = text;
+        msg.classList.toggle('is-error', !!isError);
+    }
+
+    async function handleLinkSubmit(event) {
+        event.preventDefault();
+        const input = document.getElementById('pcode');
+        const button = document.getElementById('linkBtn');
+        const code = input.value.trim();
+
+        if (!normalizeParentCode(code)) {
+            setMessage('Enter the Parent Link Code from your child.', true);
+            return;
+        }
+
+        button.disabled = true;
+        setMessage('Sending request...');
+
+        try {
+            await requestParentLink(code);
+            input.value = '';
+            setMessage('Request sent. Ask your child to approve it in My Portfolio \u2192 Parent Access.');
+            await loadChildren();
+        } catch (error) {
+            setMessage(error.message || 'Could not send the request.', true);
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    async function loadChildren() {
+        const list = document.getElementById('childrenList');
+        const requests = document.getElementById('requestList');
+
+        try {
+            childLinks = await getMyChildren();
+        } catch (error) {
+            list.innerHTML = `
+                <div class="pempty">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>Could not load your children.</div>
+                    <span>${esc(error.message || 'Check your connection.')}</span>
+                    <span>If this keeps happening, run <strong>parent_links.sql</strong> in Supabase.</span>
+                </div>`;
+            requests.innerHTML = '';
+            return;
+        }
+
+        const approved = childLinks.filter(link => link.status === 'approved');
+        const waiting = childLinks.filter(link => link.status !== 'approved');
+
+        renderRequests(waiting);
+
+        if (!approved.length) {
+            list.innerHTML = `
+                <div class="pempty">
+                    <i class="fa-solid fa-user-group"></i>
+                    <div>No linked children yet.</div>
+                    <span>Enter your child's Parent Link Code and wait for them to approve it.</span>
+                </div>`;
+            return;
+        }
+
+        list.innerHTML = '<div class="no-activity-msg">Loading portfolios...</div>';
+
+        const ids = approved.map(link => link.student_id);
+        const projectsByChild = {};
+
+        const { data, error } = await sb.from('projects')
+            .select('*')
+            .in('user_id', ids)
+            .order('created_at', { ascending: false });
+
+        if (!error) {
+            (data || [])
+                .filter(row => row.is_public || row.visibility === 'parents')
+                .forEach(row => {
+                    if (!projectsByChild[row.user_id]) projectsByChild[row.user_id] = [];
+                    projectsByChild[row.user_id].push(mapProject(row));
+                });
+        }
+
+        list.innerHTML = approved.map(link => renderChild(link, projectsByChild[link.student_id] || [])).join('');
+    }
+
+    function renderChild(link, projects) {
+        const fullName = `${link.fname || ''} ${link.lname || ''}`.trim() || 'Student';
+        const meta = [link.strand, link.grade ? `Grade ${link.grade}` : '', link.section]
+            .filter(Boolean).join(' \u2022 ');
+        const avatar = safeUrl(link.avatar_url) || 'no profile.jpg';
+        const bio = link.bio && String(link.bio).trim()
+            ? esc(link.bio)
+            : 'No introduction provided yet.';
+
+        const projectItems = projects.length
+            ? projects.slice(0, 12).map(project => {
+                const href = project.fileUrl ? downloadUrl(project.fileUrl, project.fileName) : '';
+                const title = esc(project.title || project.fileName || 'Untitled project');
+                const label = [project.category, project.teamsUrl ? 'Microsoft Teams' : '', project.date].filter(Boolean).join(' \u2022 ');
+                return `
+                    <li>
+                        ${href
+                            ? `<a href="${esc(href)}" target="_blank" rel="noopener">${title}</a>`
+                            : `<span class="project-title-plain">${title}</span>`}
+                        <span>${esc(label)}</span>
+                    </li>`;
+            }).join('')
+            : '<li class="project-empty">No projects shared yet.</li>';
+
+        return `
+            <article class="child-card">
+                <div class="child-head">
+                    <img class="child-avatar" src="${esc(avatar)}" alt="${esc(fullName)} avatar"
+                         onerror="this.src='no profile.jpg'">
+                    <div class="child-id">
+                        <h3 class="child-name">${esc(fullName)}</h3>
+                        <p class="child-meta">${esc(meta || 'Student')}</p>
+                    </div>
+                    <button type="button" class="unlink-btn"
+                            onclick="unlinkChild(${Number(link.link_id)}, '${esc(fullName).replace(/'/g, '&#39;')}')"
+                            title="Remove access">
+                        <i class="fa-solid fa-link-slash"></i> Unlink
+                    </button>
+                </div>
+                <p class="child-bio">${bio}</p>
+                <div class="child-projects">
+                    <h4><i class="fa-solid fa-folder-open"></i> Projects (${projects.length})</h4>
+                    <ul class="project-list">${projectItems}</ul>
+                </div>
+            </article>`;
+    }
+
+    function renderRequests(links) {
+        const container = document.getElementById('requestList');
+
+        if (!links.length) {
+            container.innerHTML = '<div class="no-activity-msg" style="margin-top:10px;">No requests yet.</div>';
+            return;
+        }
+
+        container.innerHTML = links.map(link => {
+            const name = `${link.fname || ''} ${link.lname || ''}`.trim() || 'Student';
+            const pending = link.status === 'pending';
+            return `
+                <div class="request-item ${pending ? 'is-pending' : 'is-declined'}">
+                    <div>
+                        <div class="request-name">${esc(name)}</div>
+                        <div class="request-status">
+                            ${pending
+                                ? 'Waiting for your child to approve.'
+                                : 'Declined by your child.'}
+                        </div>
+                    </div>
+                    <i class="fa-solid ${pending ? 'fa-hourglass-half' : 'fa-circle-xmark'}"></i>
+                </div>`;
+        }).join('');
+    }
+
+    async function unlinkChild(linkId, name) {
+        if (!confirm(`Remove access to ${name}'s portfolio? They can approve a new request later.`)) return;
+
+        try {
+            await revokeParentLink(linkId);
+            await loadChildren();
+        } catch (error) {
+            alert(error.message || 'Could not remove this link.');
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent sign up | Student Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wght@0,100..900;1,100..900&family=Belanosima:wght@400;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="signup1.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+    <script src="face-verify.js"></script>
+
+    <style>
+        /* Same card as the student sign-up (two columns, 750px wide). The page
+           scrolls instead of the card, so nothing gets clipped at the top. */
+        body.page-parent-signup {
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        body.page-parent-signup #form1 {
+            width: 750px;
+            max-width: 100%;
+            max-height: none;
+            overflow: visible;
+            justify-content: flex-start;
+        }
+
+        /* Two-column body, like #PISA on the student sign-up */
+        #PDCP {
+            display: flex;
+            gap: 36px;
+            align-items: flex-start;
+        }
+
+        #PD,
+        #SC {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #PD > h3,
+        #SC > h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: var(--ink);
+            margin: 0 0 12px 0;
+        }
+
+        /* Field labels only - the consent label keeps its own styling */
+        #PD > label,
+        #SC > label {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink);
+            margin: 12px 0 4px 0;
+        }
+
+        #PD input[type="text"],
+        #PD input[type="email"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: solid #cbd5e1 1px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background-color: #ffffff;
+            margin-bottom: 4px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #PD input[type="text"]:focus,
+        #PD input[type="email"]:focus {
+            border-color: var(--brand);
+            outline: none;
+            box-shadow: 0 0 5px var(--focus-ring);
+        }
+
+        #parentCode {
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .parent-note {
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--tint);
+            border: 1px solid var(--tint-border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: var(--text-soft);
+            margin: 8px 0 4px 0;
+        }
+
+        .parent-note strong {
+            color: var(--ink);
+        }
+
+        #checkbox {
+            margin-top: 16px;
+        }
+
+        #signupMessage:not(:empty) {
+            margin: 12px 0 0 0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--tint);
+            border: 1px solid var(--tint-border);
+            color: var(--text-soft);
+            font-size: 13px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Back / Create buttons wrap instead of overflowing the card */
+        #btn {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        @media (max-width: 800px) {
+            #PDCP {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #btn {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            #btn #bbtn,
+            #btn #mainbtn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body class="page-signup1 page-parent-signup">
+
+<section id="form1">
+    <div id="header">
+        <div>
+            <h1>PARENT PORTAL: SIGN UP</h1>
+            <p>Create a parent account to view your child&rsquo;s academic portfolio.</p>
+        </div>
+    </div>
+
+    <div id="PDCP">
+        <div id="PD">
+            <h3>Parent Details</h3>
+
+            <label for="pfname">First Name</label>
+            <input id="pfname" type="text" placeholder="e.g. Ana" autocomplete="given-name" required>
+
+            <label for="plname">Last Name</label>
+            <input id="plname" type="text" placeholder="e.g. Santos" autocomplete="family-name" required>
+
+            <label for="pemail">Email Address</label>
+            <input id="pemail" type="email" placeholder="you@example.com" autocomplete="email" required>
+
+            <label for="parentCode">Child&rsquo;s Parent Link Code</label>
+            <input id="parentCode" type="text" placeholder="e.g. 4F2A-9C1D" maxlength="12" autocomplete="off" required>
+            <div class="parent-note">
+                <strong>Where do I find this?</strong> Ask your child to sign in, open
+                <strong>My Portfolio &rarr; Parent Access</strong>, and share the code shown there.
+                After you sign up, your child must <strong>approve</strong> the request before you
+                can see their work.
+            </div>
+        </div>
+
+        <div id="SC">
+            <h3>Security Credentials</h3>
+
+            <label for="pass">Create Password</label>
+            <input id="pass" type="password" minlength="8" autocomplete="new-password"
+                   placeholder="At least 8 characters" required>
+
+            <label for="cpass">Confirm Password</label>
+            <input id="cpass" type="password" minlength="8" autocomplete="new-password"
+                   placeholder="Re-enter password" required>
+
+            <div id="checkbox">
+                <input required type="checkbox" id="agree" class="check">
+                <label for="agree" class="agree">
+                    I am the parent or legal guardian of this student, and I agree to the
+                    <a href="#" class="pp">Parent Access &amp; Privacy Policy</a> of Children of Fatima School, Inc.
+                </label>
+            </div>
+
+            <p id="signupMessage" role="status" aria-live="polite"></p>
+        </div>
+    </div>
+
+    <p class="fv-page-hint"><i class="fa-solid fa-shield-halved"></i>A quick on-camera age check confirms adult accounts are created for teachers and parents only. It stays on your device.</p>
+
+    <div id="btn">
+        <a id="bbtn" href="login.html">Back</a>
+        <button id="mainbtn" type="button">CREATE PARENT ACCOUNT</button>
+    </div>
+</section>
+
+<script>
+    document.getElementById("mainbtn").addEventListener("click", async () => {
+        const fname = document.getElementById("pfname").value.trim();
+        const lname = document.getElementById("plname").value.trim();
+        const email = document.getElementById("pemail").value.trim().toLowerCase();
+        const code = document.getElementById("parentCode").value.trim();
+        const password = document.getElementById("pass").value;
+        const confirmPassword = document.getElementById("cpass").value;
+        const agreed = document.getElementById("agree").checked;
+        const message = document.getElementById("signupMessage");
+        const button = document.getElementById("mainbtn");
+
+        message.textContent = "";
+
+        if (!fname || !lname) {
+            message.textContent = "Enter your first and last name.";
+            return;
+        }
+
+        if (!email) {
+            message.textContent = "Enter your email address.";
+            return;
+        }
+
+        if (!normalizeParentCode(code)) {
+            message.textContent = "Enter the Parent Link Code from your child's dashboard.";
+            return;
+        }
+
+        if (password.length < 8) {
+            message.textContent = "Password must be at least 8 characters.";
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match.";
+            return;
+        }
+
+        if (!agreed) {
+            message.textContent = "Please confirm the Parent Access & Privacy Policy.";
+            return;
+        }
+
+        const face = await FaceVerify.ensure({ mode: "adult" });
+        if (!face) return;
+
+        if (!face.adult) {
+            const next = await FaceVerify.showMinorNotice();
+            if (next === "retry") document.getElementById("mainbtn").click();
+            return;
+        }
+
+        button.disabled = true;
+
+        try {
+            await registerParent({ fname, lname, email, faceCheck: face.method, faceResult: face.adult ? "adult" : "student" }, password);
+
+            try {
+                await requestParentLink(code);
+            } catch (linkError) {
+                sessionStorage.setItem(
+                    "cfsi_parent_notice",
+                    "Your account is ready, but the link request did not go through: " +
+                    (linkError.message || "unknown error") +
+                    " You can try the code again from the Parent Portal."
+                );
+            }
+
+            window.location.href = "Parent.html";
+        } catch (error) {
+            message.textContent = error.message || "Could not create your parent account.";
+            button.disabled = false;
+        }
+    });
+
+    document.getElementById("cpass").addEventListener("keydown", event => {
+        if (event.key === "Enter") document.getElementById("mainbtn").click();
+    });
+</script>
+
+</body>
+</html>

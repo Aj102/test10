@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up | Student Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wght@0,100..900;1,100..900&family=Belanosima:wght@400;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="transition.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+    <script src="face-verify.js"></script>
+</head>
+<body class="page-signup">
+
+<form id="form1">
+    <div id="header">
+        <div>
+            <h1>STUDENT PORTFOLIO: SIGN UP</h1>
+            <p>Create your account to showcase your academic achievements and work.</p>
+        </div>
+        <div id="lpa">
+            <div class="line" id="blue"></div>
+            <div class="line" id="gray"></div>
+        </div>
+    </div>
+
+    <div id="PISA">
+        <div id="PI">
+            <h3 id="Pinfo">Personal Information</h3>
+
+            <label for="fname">First Name</label>
+            <input id="fname" type="text" placeholder="e.g. Maria" required>
+
+            <label for="lname">Last Name</label>
+            <input id="lname" type="text" placeholder="e.g. Santos" required>
+
+            <label for="bdate">Date of Birth</label>
+            <input id="bdate" type="date" required>
+
+            <p>Sex</p>
+            <div id="sex">
+                <input type="radio" name="sex" value="Male" class="pick" required>
+                <span class="labelp">Male</span>
+                <input type="radio" name="sex" value="Female" class="pick" required>
+                <span class="labelp">Female</span>
+            </div>
+        </div>
+
+        <div id="SA">
+            <h3 id="sad">School &amp; Account Details</h3>
+
+            <label for="strandbtn">Strand</label>
+            <select id="strandbtn" required>
+                <option value="" disabled selected>Select Strand</option>
+                <option value="ICT">ICT</option>
+                <option value="HUMMS">HUMMS</option>
+                <option value="ABM">ABM</option>
+            </select>
+
+            <label for="glbtn">Grade Level</label>
+            <select id="glbtn" required>
+                <option value="" disabled selected>Select Grade Level</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+
+            <label for="secbtn">Section</label>
+            <select id="secbtn" required>
+                <option value="" disabled selected>Select Section</option>
+            </select>
+
+            <label for="sebtn">Student Email</label>
+            <input id="sebtn" type="email" placeholder="student@fatima.edu.ph" required>
+            <p id="emailHint">Only @fatima.edu.ph institutional emails are accepted.</p>
+        </div>
+    </div>
+
+    <p class="fv-page-hint"><i class="fa-solid fa-shield-halved"></i>A quick on-camera age check runs when you continue so we can open the right account type. It stays on your device.</p>
+
+    <div id="btn">
+        <button type="submit" id="mainbtn">NEXT: SET PASSWORD →</button>
+        <span id="btn1">
+            <span>Already have an account?</span>
+            <a href="login.html">Log In</a>
+        </span>
+    </div>
+</form>
+
+<script>
+    const sectionsData = {
+        "11": ["Lincoln", "Luther", "Sophocles", "Voltaire", "Fabella", "Franklin", "Stallman", "Zuckerberg"],
+        "12": ["Musk", "Gosling", "Maslow", "Walton", "Gandhi", "Mandela", "Macaulay"]
+    };
+
+    const form = document.getElementById("form1");
+    const gradeSelect = document.getElementById("glbtn");
+    const sectionSelect = document.getElementById("secbtn");
+
+    const STUDENT_EMAIL_PATTERN = /^[a-z0-9._%+-]+@fatima\.edu\.ph$/i;
+    const STUDENT_EMAIL_HINT = "Only @fatima.edu.ph institutional emails are accepted.";
+    const STUDENT_EMAIL_ERROR = "Use your @fatima.edu.ph student email (e.g. maria.santos@fatima.edu.ph).";
+
+    const emailInput = document.getElementById("sebtn");
+    const emailHint = document.getElementById("emailHint");
+
+    function updateStudentEmailHint() {
+        const value = emailInput.value.trim();
+        const invalid = value !== "" && !STUDENT_EMAIL_PATTERN.test(value);
+
+        emailInput.setCustomValidity(invalid ? STUDENT_EMAIL_ERROR : "");
+        emailHint.textContent = invalid ? STUDENT_EMAIL_ERROR : STUDENT_EMAIL_HINT;
+        emailHint.classList.toggle("email-hint-error", invalid);
+
+        return value !== "" && !invalid;
+    }
+
+    emailInput.addEventListener("input", updateStudentEmailHint);
+
+    function updateSections(grade, selectedSection = "") {
+        sectionSelect.innerHTML =
+            '<option value="" disabled>Select Section</option>';
+
+        (sectionsData[grade] || []).forEach(section => {
+            const option = document.createElement("option");
+            option.value = section;
+            option.textContent = section;
+            option.selected = section === selectedSection;
+            sectionSelect.appendChild(option);
+        });
+
+        if (!selectedSection) {
+            sectionSelect.selectedIndex = 0;
+        }
+    }
+
+    gradeSelect.addEventListener("change", () => {
+        updateSections(gradeSelect.value);
+        localStorage.setItem("glbtn", gradeSelect.value);
+        localStorage.removeItem("secbtn");
+    });
+
+    const fields = form.querySelectorAll("input, select");
+
+    fields.forEach(field => {
+        if (field.type === "radio") {
+            field.checked = localStorage.getItem("sex") === field.value;
+        } else {
+            const saved = localStorage.getItem(field.id);
+            if (saved !== null) field.value = saved;
+        }
+    });
+
+    if (gradeSelect.value) {
+        updateSections(gradeSelect.value, localStorage.getItem("secbtn") || "");
+    }
+
+    updateStudentEmailHint();
+
+    fields.forEach(field => {
+        const saveField = () => {
+            if (field.type === "radio") {
+                if (field.checked) localStorage.setItem("sex", field.value);
+            } else {
+                localStorage.setItem(field.id, field.value);
+            }
+        };
+
+        field.addEventListener("input", saveField);
+        field.addEventListener("change", saveField);
+    });
+
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (!form.reportValidity()) return;
+
+        if (!updateStudentEmailHint()) {
+            emailInput.reportValidity();
+            emailInput.focus();
+            return;
+        }
+
+        const birthDate = new Date(`${document.getElementById("bdate").value}T00:00:00`);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+
+        if (
+            today.getMonth() < birthDate.getMonth() ||
+            (today.getMonth() === birthDate.getMonth() &&
+                today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+
+        const face = await FaceVerify.ensure({ mode: "student", declaredAge: age });
+        if (!face) return;
+
+        if (face.adult) {
+            FaceVerify.showAdultChoices();
+            return;
+        }
+
+        const profile = {
+            fname: document.getElementById("fname").value.trim(),
+            lname: document.getElementById("lname").value.trim(),
+            bdate: document.getElementById("bdate").value,
+            age: String(age),
+            sex: document.querySelector('input[name="sex"]:checked').value,
+            strand: document.getElementById("strandbtn").value,
+            grade: gradeSelect.value,
+            section: sectionSelect.value,
+            email: document.getElementById("sebtn").value.trim().toLowerCase(),
+            faceCheck: face.method,
+            faceResult: face.adult ? "adult" : "student"
+        };
+
+        Object.entries({
+            fname: profile.fname,
+            lname: profile.lname,
+            bdate: profile.bdate,
+            age: profile.age,
+            sex: profile.sex,
+            strandbtn: profile.strand,
+            glbtn: profile.grade,
+            secbtn: profile.section,
+            sebtn: profile.email
+        }).forEach(([key, value]) => localStorage.setItem(key, value));
+
+        localStorage.setItem("cfsi_pending_signup", JSON.stringify(profile));
+        window.location.href = "Signup1.html";
+    });
+</script>
+
+</body>
+</html>

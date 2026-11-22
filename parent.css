@@ -1,0 +1,478 @@
+/* ============================================================
+   CFSI Student Portfolio - Parent Portal
+   ============================================================ */
+
+body.page-parent {
+    padding-bottom: 40px;
+}
+
+/* Active tab uses the same palette tokens as the student pages */
+#nav > #children {
+    color: #ffffff;
+    background-color: var(--active-tint);
+    border-bottom: 2px solid var(--brand-light);
+}
+
+body.page-parent #main {
+    background-color: var(--panel);
+}
+
+.parent-shell {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.pcard {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pcard:hover {
+    box-shadow: 0 10px 24px rgba(11, 37, 69, 0.08);
+}
+
+.pcard h2 {
+    margin: 0 0 6px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pcard h2 i {
+    color: var(--brand);
+    font-size: 15px;
+}
+
+.psub {
+    margin: 0 0 16px 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.psub strong {
+    color: var(--text-soft);
+}
+
+.psub-title {
+    margin: 18px 0 6px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* --- Child cards --- */
+
+.child-card {
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.child-card:last-child {
+    margin-bottom: 0;
+}
+
+.child-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.child-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--surface-3);
+    border: 2px solid var(--brand-light);
+    flex-shrink: 0;
+}
+
+.child-id {
+    min-width: 0;
+    flex: 1;
+}
+
+.child-name {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.child-meta {
+    margin: 2px 0 0 0;
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+.unlink-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.unlink-btn:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+
+.child-bio {
+    margin: 10px 0 0 0;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--text-soft);
+}
+
+.child-projects {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.child-projects h4 {
+    margin: 0 0 8px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.child-projects h4 i {
+    color: var(--brand);
+}
+
+.project-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.project-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    min-width: 0;
+}
+
+.project-list a,
+.project-title-plain {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--brand);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.project-list a:hover {
+    text-decoration: underline;
+}
+
+.project-title-plain {
+    color: var(--text-soft);
+}
+
+.project-list li > span {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.project-list li.project-empty {
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* --- Link form --- */
+
+.plink-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.plink-form label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-soft);
+}
+
+.plink-row {
+    display: flex;
+    gap: 8px;
+}
+
+.plink-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border-radius: 9px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+.plink-row input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.plink-row button {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: 1px solid var(--brand);
+    border-radius: 9px;
+    background: var(--brand);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.plink-row button:hover {
+    background: var(--brand-dark);
+}
+
+.plink-row button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.plink-msg {
+    margin: 10px 0 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.plink-msg:not(:empty):not(.is-error) {
+    padding: 8px 10px;
+    border-radius: 9px;
+    background: var(--tint);
+    border: 1px solid var(--tint-border);
+    color: var(--text-soft);
+}
+
+.plink-msg.is-error {
+    padding: 8px 10px;
+    border-radius: 9px;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+}
+
+/* --- Requests --- */
+
+.request-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    margin-top: 8px;
+}
+
+.request-item.is-pending {
+    background: var(--tint);
+    border-color: var(--tint-border);
+}
+
+.request-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.request-status {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.request-item i {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.request-item.is-pending i {
+    color: var(--brand);
+}
+
+.request-item.is-declined i {
+    color: #b91c1c;
+}
+
+/* --- Empty states & account row --- */
+
+.pempty {
+    text-align: center;
+    padding: 26px 12px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+.pempty i {
+    display: block;
+    font-size: 26px;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+}
+
+.pempty div {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-soft);
+    margin-bottom: 4px;
+}
+
+.pempty span {
+    display: block;
+}
+
+.paccount {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.paccount-label {
+    display: block;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.paccount-email {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-soft);
+    word-break: break-all;
+}
+
+#logoutBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 9px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text-soft);
+    font-family: 'Poppins', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+#logoutBtn:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+
+.pfooter {
+    width: 100%;
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    padding: 6px 12px 0 12px;
+}
+
+@media (max-width: 900px) {
+    .parent-shell {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    #nav > #children {
+        padding: 6px 12px;
+    }
+
+    .plink-row {
+        flex-direction: column;
+    }
+
+    .plink-row button {
+        width: 100%;
+        justify-content: center;
+    }
+}

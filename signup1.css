@@ -1,0 +1,189 @@
+/* Import modern font styles from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+
+body {
+    background-image: url('Starting\ bg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+#form1 {
+    background-color: #F7F0DD;
+    padding: 35px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 550px;
+    box-sizing: border-box;
+}
+
+/* Header */
+#header {
+    border-bottom: solid 1px #a19986b4;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+#header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    color: #0B2545;
+    margin: 0 0 8px 0;
+}
+
+#header p {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #333333;
+    margin: 0;
+}
+
+#lpa {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.line {
+    height: 6px;
+    width: 45%;
+    border-radius: 20px;
+}
+
+#blue {
+    background-color: #1360AB;
+}
+
+/* Security Credentials / Personal Info Section */
+#PI {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+#PI > h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    color: #0B2545;
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid #a19986b4 1px;
+    margin-bottom: 15px;
+}
+
+#PI p {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 8px 0 4px 0;
+    color: #333;
+}
+
+/* Password Inputs */
+#pass, #cpass {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: solid #ccc 1px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#pass:focus, #cpass:focus {
+    border-color: #1360AB;
+    outline: none;
+    box-shadow: 0 0 5px rgba(19, 96, 171, 0.3);
+}
+
+/* Checkbox Terms & Conditions */
+#checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.check {
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.agree {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.agree a {
+    color: #1360AB;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.agree a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons Container */
+#btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    border-top: solid 1px #a19986b4;
+    padding-top: 20px;
+}
+
+#bbtn {
+    padding: 12px 25px;
+    border: solid #0B2545 2px;
+    border-radius: 10px;
+    color: #0B2545;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 200ms;
+}
+
+#bbtn:hover {
+    background-color: rgba(11, 37, 69, 0.1);
+}
+
+#mainbtn {
+    padding: 12px 25px;
+    border: solid #0B2545 2px;
+    border-radius: 10px;
+    background-color: #0B2545;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 200ms;
+    text-align: center;
+}
+
+#mainbtn:hover {
+    background-color: #1360AB;
+}

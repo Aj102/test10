@@ -1,0 +1,583 @@
+/* =========================================================
+   responsive.css  -  CFSI Student Portfolio
+   Load this LAST on every page (after the page's own CSS).
+   Breakpoints:  1200 laptop-small | 1024 tablet-landscape |
+                 900 tablet-portrait | 700 large phone | 480 phone
+   ========================================================= */
+
+/* ---------- Global safety nets ---------- */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+img, video, iframe {
+    max-width: 100%;
+}
+
+/* style1.css / signup1.css size some boxes with width:100% + padding but no
+   border-box, which pushed the page wider than the screen. */
+.featured-works-section,
+.page-signup1 #bbtn,
+.page-signup1 #mainbtn {
+    box-sizing: border-box;
+}
+
+/* iOS/Android zoom into inputs under 16px - stop that on phones & tablets */
+@media (max-width: 1024px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+    input[type="checkbox"], input[type="radio"] {
+        font-size: inherit !important;
+    }
+}
+
+/* Fixed backgrounds are janky / zoomed on iOS & most touch browsers */
+@media (max-width: 1024px), (hover: none) {
+    body {
+        background-attachment: scroll !important;
+        background-color: #dbe7f5;
+    }
+}
+
+/* Don't leave "stuck" hover lifts on touch screens */
+@media (hover: none) {
+    .file-card:hover, .info-card:hover, .featured-project-card:hover,
+    .news-item:hover, .activity-item:hover, .notification-item:hover,
+    #card1:hover, #card2:hover, #card3:hover, #card4:hover,
+    .upload-cta-btn:hover, .banner-cta-btn:hover, #archiveBtn:hover {
+        transform: none;
+    }
+
+    /* Welcome: avatar "Upload" overlay can't rely on hover */
+    .page-welcome #content {
+        opacity: 1;
+        background: linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
+        align-items: flex-end;
+        padding-bottom: 6px;
+    }
+}
+
+/* Comfortable tap targets on touch devices */
+@media (pointer: coarse) {
+    .filter-tab, .page-btn, .btn-preview, .btn-delete, .btn-like,
+    .mode-btn, .project-upload-btn, .btn-cancel, .btn-submit,
+    #clearSearchBtn, .bundle-tab-btn, .notif-mark-read {
+        min-height: 40px;
+    }
+    .page-number-btn { width: 38px; height: 38px; }
+    .project-delete-btn { min-height: 40px; }
+    #closeModalBtn, #closePreviewBtn { min-width: 40px; min-height: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* =========================================================
+   SHARED HEADER + NAV  (Welcome, Community, projects, about)
+   ========================================================= */
+#header #title1 { min-width: 0; }
+#header #hp { flex-shrink: 0; }
+#header #hp > #home { white-space: nowrap; }
+
+@media (max-width: 900px) {
+    #header #nav {
+        height: auto;
+        flex-wrap: wrap;
+        gap: 6px 8px;
+        padding: 8px 10px;
+    }
+    #header #nav > a {
+        font-size: 13px;
+        padding: 8px 12px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 700px) {
+    #header #title {
+        padding: 10px 14px;
+        gap: 10px;
+    }
+    #header #title1 { flex: 1 1 auto; }
+    #header #logo {
+        height: 46px;
+        width: 46px;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+    #header #title h1 {
+        font-size: 14px;
+        line-height: 1.25;
+    }
+    #header #title p { font-size: 11px; }
+    #header #hp > #home {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 400px) {
+    #header #logo { height: 38px; width: 38px; margin-right: 8px; }
+    #header #title h1 { font-size: 12px; }
+    #header #title p { font-size: 10px; }
+}
+
+/* =========================================================
+   APP PAGES: About / Community / Projects
+   ========================================================= */
+@media (min-width: 1025px) {
+    @supports (height: 100dvh) {
+        .page-about, .page-community, .page-projects { height: 100dvh; }
+        main#whitebg, main#wrapper { max-height: calc(100dvh - 180px); }
+    }
+}
+
+@media (max-width: 1024px) {
+    .page-about, .page-community, .page-projects {
+        height: auto !important;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow: visible !important;
+    }
+    main#whitebg, main#wrapper {
+        max-height: none !important;
+        overflow: visible !important;
+        width: 94%;
+        margin: 16px auto 24px auto;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    main#whitebg, main#wrapper {
+        width: 96%;
+        padding: 14px;
+        border-radius: 16px;
+        gap: 16px;
+    }
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+@media (max-width: 1024px) {
+    .page-about .about-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    .page-about .about-grid-2,
+    .page-about .about-grid-3,
+    .page-about .team-grid,
+    .page-about .pvm-grid { grid-template-columns: 1fr; }
+    .page-about .values-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+    .page-about .about-banner { padding: 14px 16px; }
+    .page-about .about-banner p { font-size: 15px; }
+    .page-about .banner-cta-btn { width: 100%; justify-content: center; }
+    .page-about .info-card { padding: 16px; }
+    .page-about .values-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   COMMUNITY SHOWCASE
+   ========================================================= */
+@media (max-width: 1200px) {
+    .page-community #wrapper { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+    .page-community #wrapper { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 560px) {
+    .page-community #wrapper { grid-template-columns: 1fr; }
+    .page-community #cstudent { padding: 14px 16px; }
+    .page-community #cstudent p { font-size: 15px; }
+    .page-community .upload-cta-btn { width: 100%; justify-content: center; }
+    .page-community .search-box { min-width: 0; flex-basis: 100%; }
+    .page-community .showcase-toolbar { padding: 10px 12px; }
+    .page-community .pagination-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+        text-align: center;
+    }
+    .page-community .pagination-controls { flex-wrap: wrap; justify-content: center; }
+}
+
+/* =========================================================
+   MY PROJECTS
+   ========================================================= */
+@media (max-width: 1200px) {
+    .page-projects #main2 { grid-template-columns: repeat(3, 1fr); }
+    .page-projects .storage-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+    .page-projects #main2 { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 600px) {
+    .page-projects .storage-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+    .page-projects #main2 { grid-template-columns: 1fr; }
+    .page-projects #buttoners { justify-content: stretch; }
+    .page-projects #archiveBtn { width: 100%; justify-content: center; }
+    .page-projects #sbar { padding: 10px 12px; }
+    .page-projects .search-box { min-width: 0; flex-basis: 100%; }
+    .page-projects .sort-group { width: 100%; }
+    .page-projects #sortSelect { flex: 1; }
+    .page-projects .form-row { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   MODALS (Community + Projects)
+   ========================================================= */
+@media (max-width: 640px) {
+    .modal-content {
+        width: 94%;
+        padding: 16px;
+        border-radius: 16px;
+    }
+    .preview-stage { min-height: 180px; }
+    .preview-pdf-frame { height: 300px; }
+    .doc-viewer,
+    .doc-frame-shell { height: 300px; }
+    .upload-preview-stage { min-height: 180px; max-height: 340px; }
+    .upload-preview-pdf-frame { height: 300px; }
+    .preview-desc-text { overflow-wrap: anywhere; }
+}
+@media (max-width: 480px) {
+    .modal-actions { flex-wrap: wrap; }
+    .modal-actions .btn-cancel,
+    .modal-actions .btn-submit { flex: 1 1 140px; justify-content: center; }
+}
+
+/* =========================================================
+   WELCOME (dashboard)
+   ========================================================= */
+@media (max-width: 700px) {
+    .page-welcome #main {
+        width: 96%;
+        min-height: 0;
+        padding: 14px 12px 28px 12px;
+        margin: 14px auto;
+    }
+    .page-welcome #welcomeGreeting {
+        font-size: 18px;
+        padding-bottom: 10px;
+        margin-bottom: 16px;
+        overflow-wrap: anywhere;
+    }
+    .page-welcome #dashboardGrid { grid-template-columns: 1fr; gap: 16px; }
+    .page-welcome #card1, .page-welcome #card2,
+    .page-welcome #card3, .page-welcome #card4 {
+        height: auto;
+        min-height: 0;
+    }
+    .page-welcome .news-container,
+    .page-welcome .activity-container,
+    .page-welcome .notification-container { max-height: 340px; }
+    .page-welcome #cards1 {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 16px;
+    }
+}
+
+/* Welcome modals use inline fixed widths - make them fluid */
+#profileModal, #editProfileModal, #bioModal {
+    padding: 12px;
+    z-index: 1000;
+    overflow-y: auto;
+}
+#profileModal > div, #editProfileModal > div, #bioModal > div {
+    width: 100% !important;
+    max-width: 450px;
+    max-height: 92vh;
+    max-height: 92dvh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+@media (max-width: 480px) {
+    #profileModal > div, #editProfileModal > div, #bioModal > div {
+        padding: 20px !important;
+    }
+    #profileModal h2, #editProfileModal h2, #bioModal h2 { font-size: 18px; }
+}
+
+/* =========================================================
+   INDEX (home)
+   ========================================================= */
+@media (max-width: 900px) {
+    .page-index {
+        height: auto !important;
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+    .page-index .navbar {
+        position: sticky;
+        top: 0;
+        height: auto;
+        min-height: 72px;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        padding: 8px 14px;
+        z-index: 100;
+    }
+    .page-index .nav { margin-left: auto; }
+    .page-index .body {
+        margin-top: 0;
+        height: auto;
+        padding: 24px 0 28px 0;
+    }
+    .page-index .parent {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+    .page-index .gp1 {
+        width: min(92%, 520px);
+        height: auto;
+        min-height: 0;
+        margin-top: 0;
+        padding: 26px 22px;
+        border-radius: 0 14px 14px 0;
+    }
+    .page-index .gpt { margin: 0; font-size: 20px; }
+    .page-index .gp2 {
+        width: min(calc(100% - 32px), 360px);
+        height: auto;
+        margin: 0 auto;
+        padding-bottom: 20px;
+    }
+    .page-index #ictbt { padding: 5px 5px 5px 12px; }
+    .page-index #searchfield { flex: 1; width: auto; min-width: 0; }
+    .page-index .featured-works-section { padding: 18px 16px; }
+    .page-index .featured-works-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 240px));
+    }
+}
+
+@media (max-width: 480px) {
+    .page-index #logo { height: 44px; width: 44px; }
+    .page-index .main-title { font-size: 12px; }
+    .page-index .subtitle { font-size: 10px; }
+    .page-index #login, .page-index #su,
+    .page-index #portfolioBtn, .page-index #logoutBtn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+    .page-index #login:hover, .page-index #su:hover { padding: 8px 14px; }
+    .page-index .gpt { font-size: 16px; }
+    .page-index #gpt2 { font-size: 25px; }
+    .page-index .gpt h2:first-child { font-size: 13px; }
+}
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+.page-login {
+    height: auto !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 16px;
+    box-sizing: border-box;
+}
+.page-login #form { width: 100%; max-width: 380px; }
+
+@media (max-width: 480px) {
+    .page-login #form { padding: 28px 20px; }
+    .page-login #tlog > h1 { font-size: 22px; }
+}
+
+/* =========================================================
+   SIGN UP  (step 1 = .page-signup, step 2 = .page-signup1)
+   ========================================================= */
+.page-signup, .page-signup1 {
+    height: auto !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 16px;
+    box-sizing: border-box;
+}
+.page-signup1 #form1 { width: min(550px, 100%); }
+
+@media (max-width: 800px) {
+    .page-signup #form1 { width: 100%; }
+    .page-signup #PISA { flex-direction: column; gap: 6px; }
+}
+
+@media (max-width: 560px) {
+    .page-signup #form1, .page-signup1 #form1 { padding: 24px 20px; border-radius: 16px; }
+    .page-signup h1, .page-signup1 #header h1 { font-size: 18px; }
+}
+
+@media (max-width: 420px) {
+    .page-signup1 #btn {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .page-signup1 #bbtn, .page-signup1 #mainbtn { text-align: center; width: 100%; }
+}
+
+/* =========================================================
+   PARENT PORTAL
+   ========================================================= */
+@media (max-width: 1024px) {
+    .page-parent #main {
+        width: 94%;
+        min-height: 0;
+        padding: 22px;
+    }
+}
+
+/* 1fr tracks keep the card's min-content width, which made the page wider
+   than the screen on phones - minmax(0, 1fr) + min-width: 0 lets it shrink. */
+@media (max-width: 900px) {
+    .page-parent .parent-shell {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .page-parent .pcard {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .page-parent #main {
+        width: 96%;
+        padding: 14px 12px 24px 12px;
+        margin: 14px auto;
+        border-radius: 16px;
+    }
+    .page-parent #welcomeGreeting {
+        font-size: 15px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+    .page-parent .parent-shell { gap: 16px; }
+    .page-parent .pcard { padding: 18px 16px; }
+}
+
+@media (max-width: 480px) {
+    .page-parent .child-head { gap: 10px; }
+    .page-parent .child-avatar { width: 44px; height: 44px; }
+    .page-parent .unlink-btn { padding: 6px 8px; font-size: 10.5px; }
+    .page-parent .project-list li { flex-wrap: wrap; }
+    .page-parent .project-list li > span { white-space: normal; }
+    .page-parent .paccount {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .page-parent #logoutBtn { justify-content: center; }
+}
+
+/* =========================================================
+   WELCOME - small screens
+   ========================================================= */
+@media (max-width: 1024px) {
+    .page-welcome #main {
+        width: 94%;
+        min-height: 0;
+        padding: 22px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-welcome .projects-grid { grid-template-columns: 1fr; }
+    .page-welcome .project-img-wrapper { height: 160px; }
+    .page-welcome .featured-upload-bar { width: 96%; }
+    .page-welcome #welcomeGreeting {
+        font-size: 16px;
+        padding: 14px 16px;
+    }
+    .page-welcome #card1,
+    .page-welcome #card2,
+    .page-welcome #card3,
+    .page-welcome #card4 {
+        border-radius: 14px;
+    }
+}
+
+/* =========================================================
+   INDEX - stacked hero on phones
+   ========================================================= */
+@media (max-width: 600px) {
+    .page-index .parent { padding: 0 12px; gap: 18px; }
+    .page-index .gp1 {
+        width: 100%;
+        padding: 22px 18px;
+        border-radius: 14px;
+    }
+    .page-index .gp2 { width: 100%; }
+    .page-index .featured-works-grid { grid-template-columns: 1fr; }
+    .page-index .featured-works-section { padding: 16px 14px; }
+}
+
+/* =========================================================
+   TEACHER REVIEW DESK
+   ========================================================= */
+@media (max-width: 1024px) {
+    .page-teacher #whitebg { width: 94%; padding: 16px; }
+    .page-teacher .modal-content { max-width: 94%; }
+}
+
+@media (max-width: 720px) {
+    .page-teacher .teacher-banner { padding: 14px; gap: 12px; }
+    .page-teacher .teacher-banner-text h2 { font-size: 17px; }
+}
+
+@media (max-width: 480px) {
+    .page-teacher #whitebg {
+        width: 96%;
+        padding: 12px;
+        margin: 12px 0 18px;
+        border-radius: 14px;
+    }
+    .page-teacher .teacher-stats { width: 100%; }
+    .page-teacher .teacher-stat {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 8px 10px;
+    }
+    .page-teacher .teacher-stat strong { font-size: 17px; }
+    .page-teacher .teacher-tabs {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .page-teacher .teacher-tab {
+        flex: 1 1 auto;
+        padding: 8px 10px;
+        font-size: 11.5px;
+    }
+    .page-teacher .teacher-user { width: 100%; }
+    .page-teacher #logoutBtn { min-height: 38px; }
+    .page-teacher .teacher-card-preview { height: 150px; }
+    .page-teacher .modal-content { padding: 16px; }
+    .page-teacher .modal-header h3 { font-size: 14px; }
+    .page-teacher .review-tabs { flex-wrap: wrap; }
+    .page-teacher .review-tab { flex: 1 1 90px; }
+    .page-teacher .rv-rubric-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    .page-teacher .rv-rubric-row select { width: 100%; }
+    .page-teacher .modal-actions { flex-wrap: wrap; }
+    .page-teacher .modal-actions .btn-cancel,
+    .page-teacher .modal-actions .btn-submit {
+        flex: 1 1 140px;
+        justify-content: center;
+    }
+    .page-teacher .ex-admin-actions button,
+    .page-teacher .ex-admin-actions a {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+    .page-teacher .ex-project-head { flex-wrap: wrap; gap: 4px; }
+}
+

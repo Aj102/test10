@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | Student Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="Community.css">    
+    <link rel="stylesheet" href="responsive.css">
+    <script src="transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="auth.js"></script>
+    <style>
+        /* Multi-file student showcase grid enhancements */
+        .bundle-grid-preview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            position: relative;
+        }
+        .bundle-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 70px;
+        }
+        .bundle-more-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(11, 37, 69, 0.88);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-top-left-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .bundle-selector-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 0;
+            margin-bottom: 12px;
+        }
+        .bundle-tab-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 6px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #475569;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .bundle-tab-btn.active {
+            background: #0c5cbe;
+            color: white;
+            border-color: #0c5cbe;
+        }
+        .term-group {
+            flex: 0 0 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid #0c5cbe;
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+        .term-group-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #0B2545;
+        }
+        .term-group-header > i {
+            color: #0c5cbe;
+        }
+        .term-group-header strong {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #0B2545;
+        }
+        .term-group-meta {
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        .portfolio-section-label {
+            flex: 0 0 100%;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 4px 0 -4px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+        .portfolio-section-label i {
+            color: #0c5cbe;
+        }
+        .term-group-files {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        /* Cross-Subject Badges & Filter Bar */
+        .subject-pills-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .subject-chip {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #0B2545;
+            border: 1px solid #bfdbfe;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .subject-chip.coding { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+        .subject-chip.research { background: #fdf4ff; color: #86198f; border-color: #f5d0fe; }
+        .subject-chip.arts { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+        .subject-chip.science { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+        .subject-chip.business { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+
+        .term-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            color: #475569;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .subject-select-filter {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #0B2545;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 7px 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Star Rating Widget Styles */
+        .star-rating-widget {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+        .star-rating-widget i {
+            font-size: 13px;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: color 0.1s ease, transform 0.1s ease;
+        }
+        .star-rating-widget i.rated {
+            color: #f59e0b;
+        }
+        .star-rating-widget i:hover {
+            transform: scale(1.15);
+        }
+        .star-avg-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: #b45309;
+            margin-left: 5px;
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px 20px;
+            margin-top: 10px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+        .pagination-info {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .page-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .page-btn:hover:not(:disabled) {
+            background: #eff6ff;
+            color: #0c5cbe;
+            border-color: #bfdbfe;
+        }
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .page-number-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .page-number-btn.active {
+            background: #0c5cbe;
+            color: white;
+            border-color: #0c5cbe;
+        }
+        .page-number-btn:hover:not(.active) {
+            background: #e2e8f0;
+        }
+
+        /* QR Share Button & Box */
+        .btn-qr-share {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+            padding: 9px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+        .btn-qr-share:hover {
+            background: #DC9E24;
+            color: #0B2545;
+        }
+        .qr-box-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 12px 0;
+        }
+        .qr-canvas-holder {
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #0c5cbe;
+            box-shadow: 0 4px 12px rgba(11, 37, 69, 0.08);
+        }
+        .share-url-row {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            margin-top: 12px;
+        }
+        .share-url-input {
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #334155;
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+</head>
+<body class="page-community">
+    
+    <header id="header">
+        <div id="title">
+            <div id="title1">
+                <img src="cfsi logo.png" id="logo">
+                <div id="title-text-group">
+                    <h1>CHILDREN OF FATIMA SCHOOL, INC.</h1>
+                    <p>Student Portal & Academic Hub</p>
+                </div>
+            </div>
+
+            <div id="hp">
+                <a id="home" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            </div>   
+        </div>
+        
+        <nav id="nav">
+            <a id="portfolio" href="Welcome.html">My Portfolio</a>
+            <a id="com-show" href="Community.html">Community Showcase</a>
+            <a id="project" href="projects.html">My Projects</a>
+            <a id="about" href="about.html">About</a>
+        </nav>
+    </header>
+
+    <main id="whitebg">
+
+        <div id="cstudent">
+            <div>
+                <p><i class="fa-solid fa-users-viewfinder"></i> COMMUNITY SHOWCASE - CROSS-SUBJECT PORTFOLIOS</p>
+                <span class="showcase-sub">Explore complete student portfolios aggregating Coding, Research, Visual Arts, and multi-term works</span>
+            </div>
+            <a href="projects.html" class="upload-cta-btn">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Share Your Project
+            </a>
+        </div>
+
+        <!-- SEARCH & FILTER BAR -->
+        <div class="showcase-toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="communitySearch" placeholder="Search by student, grade, strand, subject, project, #tag, or skill...">
+            </div>
+
+            <select id="subjectFilterSelect" class="subject-select-filter" title="Filter by Academic Subject">
+                <option value="all">All Subjects</option>
+                <option value="Coding & ICT">Coding & ICT</option>
+                <option value="Research & Capstone">Research & Capstone</option>
+                <option value="Visual Arts & Media">Visual Arts & Media</option>
+                <option value="Entrepreneurship">Entrepreneurship</option>
+                <option value="Science & STEM">Science & STEM</option>
+                <option value="Humanities & Advocacy">Humanities & Advocacy</option>
+            </select>
+
+            <select id="gradeFilterSelect" class="subject-select-filter" title="Filter by Grade Level">
+                <option value="all">All Grade Levels</option>
+            </select>
+
+            <select id="strandFilterSelect" class="subject-select-filter" title="Filter by Strand / Track">
+                <option value="all">All Strands</option>
+            </select>
+
+            <select id="skillFilterSelect" class="subject-select-filter" title="Filter by Skill">
+                <option value="all">All Skills</option>
+            </select>
+
+            <div class="filter-group">
+                <button data-category="all" class="filter-tab active">All Media</button>
+                <button data-category="image" class="filter-tab">Images</button>
+                <button data-category="video" class="filter-tab">Videos</button>
+                <button data-category="pdf" class="filter-tab">PDFs</button>
+                <button data-category="document" class="filter-tab">Docs</button>
+                <button data-category="link" class="filter-tab">Links</button>
+                <button data-category="live" class="filter-tab"><i class="fa-solid fa-tower-broadcast"></i> Live Apps</button>
+            </div>
+        </div>
+
+        <!-- FACULTY-CURATED EXHIBITIONS -->
+        <section id="exhibitionsSection" class="exhibitions-section" style="display: none;">
+            <div class="exhibitions-heading">
+                <div>
+                    <p class="exhibitions-kicker"><i class="fa-solid fa-landmark"></i> Faculty-curated</p>
+                    <h2>Exhibitions</h2>
+                    <span>Collections assembled by CFSI teachers from work shared in the showcase.</span>
+                </div>
+            </div>
+            <div id="exhibitionCards" class="exhibition-cards"></div>
+        </section>
+
+        <!-- COMMUNITY CARDS GRID (ONE CROSS-SUBJECT PORTFOLIO CARD PER STUDENT) -->
+        <section id="wrapper"></section>
+
+    </main>
+
+    <!-- CROSS-SUBJECT STUDENT PORTFOLIO PREVIEW MODAL -->
+    <div id="previewModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="previewModalTitle"><i class="fa-solid fa-user-graduate"></i> Student Portfolio</h3>
+                <button id="closePreviewBtn" type="button">&times;</button>
+            </div>
+
+            <!-- Selector for projects/files uploaded by this student across subjects & terms -->
+            <div id="bundleSelectorContainer" style="display: none;">
+                <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Portfolio Works &mdash; featured projects and archived files:
+                </div>
+                <div id="bundleSelectorBar" class="bundle-selector-bar"></div>
+            </div>
+
+            <div id="previewViewTabs" class="preview-view-tabs" style="display: none;">
+                <div class="preview-view-tab-group">
+                    <button type="button" class="preview-view-tab active" data-view="live" onclick="switchCommunityView('live')">
+                        <i class="fa-solid fa-tower-broadcast"></i> Live Preview
+                    </button>
+                    <button type="button" class="preview-view-tab" data-view="file" onclick="switchCommunityView('file')">
+                        <i class="fa-solid fa-paperclip"></i> Fallback / Attachment
+                    </button>
+                </div>
+                <a id="communityOpenLive" class="preview-open-live" href="#" target="_blank" rel="noopener noreferrer">
+                    Open live <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+
+            <div id="previewStage" class="preview-stage"></div>
+
+            <p id="liveFrameNotice" class="live-frame-notice" style="display: none;">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Some sites block embedding (X-Frame-Options / CSP). If the preview stays blank, use "Open live" or switch to the fallback attachment.</span>
+            </p>
+
+            <div class="preview-details">
+                <div class="preview-meta-row">
+                    <span id="previewSubjectBadge" class="subject-chip">Subject</span>
+                    <span id="previewTermBadge" class="term-pill">Term</span>
+                    <span id="previewBadge" class="file-type-badge">Category</span>
+                    <span id="previewAuthor"><i class="fa-solid fa-user-graduate"></i> Student</span>
+                    <span id="previewDate">Shared: --</span>
+                </div>
+                <h4 id="previewItemTitle" style="margin: 0 0 6px 0; font-size: 14px; color: #0B2545;"></h4>
+                <p id="previewDesc" class="preview-desc-text"></p>
+                <div id="previewSkills" class="skills-row"></div>
+                <div id="previewTags" class="file-tags"></div>
+                <div id="previewReflection" class="preview-reflection" style="display: none;"></div>
+                <!-- teams-integration v1 -->
+                <div id="previewTeams" class="teams-source-box" style="display: none;">
+                    <span class="teams-source-icon"><i class="fa-brands fa-microsoft"></i></span>
+                    <div class="teams-source-body">
+                        <strong id="previewTeamsTitle">Imported from Microsoft Teams</strong>
+                        <span id="previewTeamsMeta" class="teams-source-meta"></span>
+                        <a id="previewTeamsLink" class="teams-source-link" href="#" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span>Open original</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="shareProjectQrBtn" class="btn-qr-share">
+                    <i class="fa-solid fa-qrcode"></i> Project QR
+                </button>
+                <button type="button" id="closePreviewFooterBtn" class="btn-cancel">Close</button>
+                <a id="downloadFileBtn" class="btn-submit" download>
+                    <i class="fa-solid fa-download"></i> Download File
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CURATED EXHIBITION VIEW MODAL -->
+    <div id="exhibitionViewModal" class="modal-overlay" style="z-index: 1050;">
+        <div class="modal-content exhibition-view-modal">
+            <div class="modal-header">
+                <h3 id="exhibitionViewTitle"><i class="fa-solid fa-landmark"></i> Exhibition</h3>
+                <button type="button" onclick="closeExhibitionView()" style="background:none; border:none; font-size:24px; color:#64748b; cursor:pointer;" aria-label="Close">&times;</button>
+            </div>
+            <div class="exhibition-view-meta" id="exhibitionViewMeta"></div>
+            <p class="exhibition-view-desc" id="exhibitionViewDesc"></p>
+            <div id="exhibitionViewItems" class="exhibition-view-items"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeExhibitionView()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR SHARE MODAL -->
+    <div id="qrModal" class="modal-overlay" style="z-index: 1100;">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <div class="modal-header">
+                <h3 id="qrModalTitle"><i class="fa-solid fa-qrcode"></i> Scannable Fair QR Code</h3>
+                <button type="button" onclick="closeQrModal()" style="background:none; border:none; font-size:24px; color:#64748b; cursor:pointer;">&times;</button>
+            </div>
+            <p id="qrModalSubtitle" style="margin:0; font-size:13px; color:#475569;">
+                Scan with any phone camera to view directly without logging in.
+            </p>
+            <div class="qr-box-wrapper">
+                <div id="qrCanvasHolder" class="qr-canvas-holder"></div>
+                <div class="share-url-row">
+                    <input type="text" id="qrShareUrlInput" class="share-url-input" readonly>
+                    <button type="button" id="copyQrUrlBtn" class="btn-submit" style="padding: 8px 12px;">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+            <div class="modal-actions" style="justify-content: center; margin-top: 10px;">
+                <button type="button" class="btn-cancel" onclick="closeQrModal()">Close</button>
+                <button type="button" id="downloadQrPngBtn" class="btn-submit">
+                    <i class="fa-solid fa-download"></i> Download QR PNG
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let projects = [];
+    let ratings = [];
+    let me = null;
+    let viewerRole = 'student';
+
+    let currentCategory = 'all';
+    let currentSubjectFilter = 'all';
+    let currentSkillFilter = 'all';
+    let currentGradeFilter = 'all';
+    let currentStrandFilter = 'all';
+    let currentSearch = '';
+    let currentPage = 1;
+    const ITEMS_PER_PAGE = 8;
+
+    let directoryById = {};
+    let exhibitionRows = [];
+    let exhibitionItemRows = [];
+    let exhibitions = [];
+
+    let activeStudentAllFiles = [];
+    let activeStudentFilteredFiles = [];
+    let activeFileIndex = 0;
+    let activeView = 'live';
+    let lastPreviewItemId = null;
+    let documentPreviewToken = 0;
+    const viewedProjectIds = new Set();
+
+    const BADGE_BY_CAT = { image: 'photo-badge', pdf: 'pdf-badge', video: 'video-badge', document: 'doc-badge', link: 'link-badge' };
+
+    function subjectChipClass(subj) {
+        const s = (subj || '').toLowerCase();
+        if (s.includes('coding') || s.includes('ict')) return 'coding';
+        if (s.includes('research') || s.includes('capstone')) return 'research';
+        if (s.includes('art') || s.includes('media')) return 'arts';
+        if (s.includes('science') || s.includes('stem')) return 'science';
+        if (s.includes('entrepreneur') || s.includes('business')) return 'business';
+        return '';
+    }
+
+    function subjectIcon(subj) {
+        const s = (subj || '').toLowerCase();
+        if (s.includes('coding') || s.includes('ict')) return 'fa-code';
+        if (s.includes('research') || s.includes('capstone')) return 'fa-book-open';
+        if (s.includes('art') || s.includes('media')) return 'fa-palette';
+        if (s.includes('science') || s.includes('stem')) return 'fa-flask';
+        if (s.includes('entrepreneur') || s.includes('business')) return 'fa-briefcase';
+        return 'fa-graduation-cap';
+    }
+
+    async function applyRoleNavigation() {
+        const profile = await getMyProfile();
+        const role = (profile && profile.role) || (me && me.user_metadata && me.user_metadata.role) || 'student';
+        viewerRole = role;
+
+        if (role === 'teacher') {
+            const portfolioLink = document.getElementById('portfolio');
+            if (portfolioLink) {
+                portfolioLink.textContent = 'Review Desk';
+                portfolioLink.href = 'Teacher.html';
+            }
+            document.getElementById('project')?.remove();
+            document.querySelector('.upload-cta-btn')?.remove();
+            return;
+        }
+
+        if (role !== 'parent') return;
+
+        const portfolioLink = document.getElementById('portfolio');
+        const projectLink = document.getElementById('project');
+        const uploadCta = document.querySelector('.upload-cta-btn');
+
+        if (portfolioLink) {
+            portfolioLink.textContent = 'My Children';
+            portfolioLink.href = 'Parent.html';
+        }
+        if (projectLink) projectLink.remove();
+        if (uploadCta) uploadCta.remove();
+    }
+
+    async function loadData() {
+        me = await getUser();
+        await applyRoleNavigation();
+
+        const [p, r, d, ex, exi, f, prof] = await Promise.all([
+            // RLS returns public projects, the viewer's own, and (for linked
+            // parents) their children's parent-shared projects.
+            sb.from('projects').select('*').order('created_at', { ascending: false }),
+            sb.from('ratings').select('rater_id, author_id, score'),
+            sb.rpc('community_directory'),
+            sb.from('exhibitions').select('*').eq('is_published', true).order('created_at', { ascending: false }),
+            sb.from('exhibition_items').select('exhibition_id, project_id, position'),
+            sb.from('featured').select('user_id, slot, image_url, caption'),
+            sb.from('public_profiles').select('id, fname, lname')
+        ]);
+
+        if (p.error) {
+            document.getElementById('wrapper').innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h4>Could not load student projects</h4>
+                    <p>Please check your connection and refresh the page.</p>
+                </div>`;
+            return;
+        }
+
+        directoryById = {};
+        ((d && !d.error && d.data) || []).forEach(row => {
+            directoryById[String(row.id)] = row;
+        });
+
+        const nameById = {};
+        ((prof && !prof.error && prof.data) || []).forEach(row => {
+            nameById[String(row.id)] = `${row.fname || ''} ${row.lname || ''}`.trim();
+        });
+
+        projects = [
+            ...p.data.map(mapProject),
+            ...((f && !f.error && f.data) || []).map(row =>
+                mapFeaturedWork(row, nameById[String(row.user_id)])
+            )
+        ];
+        ratings = r.data || [];
+        exhibitionRows = (ex && !ex.error && ex.data) || [];
+        exhibitionItemRows = (exi && !exi.error && exi.data) || [];
+        buildExhibitions();
+        renderCommunity();
+        handleDirectDeepLink();
+    }
+
+    /* ---------- Learner lookup (grade / strand from profiles) ---------- */
+    function learnerFor(authorId) {
+        return directoryById[String(authorId)] || {};
+    }
+
+    function gradeLabel(value) {
+        const g = String(value || '').trim();
+        if (!g) return '';
+        return /^grade/i.test(g) ? g : `Grade ${g}`;
+    }
+
+    function learnerMetaText(authorId) {
+        const learner = learnerFor(authorId);
+        return [gradeLabel(learner.grade), learner.strand]
+            .filter(Boolean)
+            .join(' \u2022 ');
+    }
+
+    /* Featured slots live in their own table; present them as portfolio works
+       so a student's card compiles both featured and archived projects. */
+    function mapFeaturedWork(row, authorName) {
+        const caption = String(row.caption || '').trim();
+        const name = authorName || 'CFSI Student';
+        return {
+            id: `featured-${row.user_id}-${row.slot}`,
+            authorId: row.user_id,
+            author: name,
+            title: caption || `Featured Project ${row.slot}`,
+            desc: '',
+            subject: 'Featured Works',
+            term: 'Featured',
+            category: 'image',
+            fileUrl: safeUrl(row.image_url),
+            date: 'Featured work',
+            tags: ['#Featured'],
+            skills: [],
+            reflection: null,
+            isPublic: true,
+            visibility: 'public',
+            isFeatured: true,
+            featuredSlot: Number(row.slot) || 0
+        };
+    }
+
+    /* ---------- Faculty-curated exhibitions ---------- */
+    function buildExhibitions() {
+        const byId = {};
+        projects.forEach(project => { byId[String(project.id)] = project; });
+
+        exhibitions = exhibitionRows.map(row => {
+            const items = exhibitionItemRows
+                .filter(item => String(item.exhibition_id) === String(row.id))
+                .sort((a, b) => (Number(a.position) || 0) - (Number(b.position) || 0))
+                .map(item => byId[String(item.project_id)])
+                .filter(Boolean);
+
+            return {
+                id: row.id,
+                title: row.title || 'Untitled exhibition',
+                description: row.description || '',
+                curator: row.curator_name || 'CFSI Faculty',
+                items
+            };
+        }).filter(exhibition => exhibition.items.length > 0);
+    }
+
+    function exhibitionThumb(item) {
+        if (item.category === 'image' && item.fileUrl) {
+            return `<img src="${esc(item.fileUrl)}" alt="${esc(item.title)}">`;
+        }
+        if (getLivePreviewUrl(item)) {
+            return `<span class="exhibition-thumb-icon live"><i class="fa-solid fa-tower-broadcast"></i></span>`;
+        }
+        const [icon, color] = miniIcon(item.category);
+        return `<span class="exhibition-thumb-icon" style="color:${color};"><i class="fa-solid ${icon}"></i></span>`;
+    }
+
+    function renderExhibitions(show) {
+        const section = document.getElementById('exhibitionsSection');
+        const holder = document.getElementById('exhibitionCards');
+        if (!section || !holder) return;
+
+        if (!show || !exhibitions.length) {
+            section.style.display = 'none';
+            holder.innerHTML = '';
+            return;
+        }
+
+        section.style.display = 'block';
+        holder.innerHTML = exhibitions.map(exhibition => {
+            const covers = exhibition.items.slice(0, 3).map(exhibitionThumb).join('');
+            const subjects = Array.from(new Set(exhibition.items.map(item => item.subject))).slice(0, 3);
+            return `
+                <article class="exhibition-card" onclick="openExhibitionView(${Number(exhibition.id)})">
+                    <div class="exhibition-cover">${covers}
+                        <span class="exhibition-count"><i class="fa-solid fa-images"></i> ${exhibition.items.length}</span>
+                    </div>
+                    <div class="exhibition-body">
+                        <h3>${esc(exhibition.title)}</h3>
+                        <p>${esc(exhibition.description || 'A collection of standout student work.')}</p>
+                        <div class="exhibition-subjects">
+                            ${subjects.map(subj => `<span>${esc(subj)}</span>`).join('')}
+                        </div>
+                        <div class="exhibition-footer">
+                            <span><i class="fa-solid fa-chalkboard-user"></i> ${esc(exhibition.curator)}</span>
+                            <span>View exhibition <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </article>`;
+        }).join('');
+    }
+
+    function openExhibitionView(id) {
+        const exhibition = exhibitions.find(ex => Number(ex.id) === Number(id));
+        if (!exhibition) return;
+
+        document.getElementById('exhibitionViewTitle').innerHTML =
+            `<i class="fa-solid fa-landmark"></i> ${esc(exhibition.title)}`;
+        document.getElementById('exhibitionViewMeta').innerHTML = `
+            <span><i class="fa-solid fa-images"></i> ${exhibition.items.length} work${exhibition.items.length === 1 ? '' : 's'}</span>
+            <span><i class="fa-solid fa-chalkboard-user"></i> Curated by ${esc(exhibition.curator)}</span>`;
+        document.getElementById('exhibitionViewDesc').textContent = exhibition.description || '';
+
+        const holder = document.getElementById('exhibitionViewItems');
+        holder.innerHTML = exhibition.items.map(item => `
+            <button type="button" class="exhibition-item" data-student="${esc(item.authorId)}" data-project="${esc(item.id)}">
+                <span class="exhibition-item-thumb">${exhibitionThumb(item)}</span>
+                <span class="exhibition-item-body">
+                    <strong>${esc(item.title)}</strong>
+                    <small>${esc(item.author)} \u00b7 ${esc(item.subject)}</small>
+                    ${item.skills && item.skills.length
+                        ? `<span class="exhibition-item-skills">${item.skills.slice(0, 3).map(skill => `<em>${esc(skill)}</em>`).join('')}</span>`
+                        : ''}
+                </span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>`).join('');
+
+        holder.querySelectorAll('.exhibition-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                closeExhibitionView();
+                openStudentPortfolio(btn.dataset.student, btn.dataset.project);
+            });
+        });
+
+        document.getElementById('exhibitionViewModal').classList.add('active');
+    }
+
+    function closeExhibitionView() {
+        document.getElementById('exhibitionViewModal').classList.remove('active');
+    }
+
+    async function recordProjectView(item) {
+        if (!item || !item.id || !item.isPublic || item.isFeatured) return;
+        if (me && String(item.authorId) === String(me.id)) return;
+
+        const key = String(item.id);
+        if (viewedProjectIds.has(key)) return;
+        viewedProjectIds.add(key);
+
+        const { error } = await sb.from('project_views').insert({
+            project_id: item.id,
+            viewer_id: me ? me.id : null
+        });
+        if (error) viewedProjectIds.delete(key);
+    }
+
+    /* ---------- Direct QR / URL Deep-Link Handler (No Login Required) ---------- */
+    function handleDirectDeepLink() {
+        const params = new URLSearchParams(window.location.search);
+        const targetProjectId = params.get('project');
+        const targetStudentId = params.get('student');
+
+        if (targetProjectId) {
+            const targetItem = projects.find(item => String(item.id) === String(targetProjectId));
+            if (targetItem) {
+                currentCategory = 'all';
+                currentSubjectFilter = 'all';
+                openStudentPortfolio(targetItem.authorId, targetItem.id);
+            } else {
+                alert('This project link could not be found or is set to Private by the student.');
+            }
+        } else if (targetStudentId) {
+            const exists = projects.some(item => String(item.authorId) === String(targetStudentId));
+            if (exists) {
+                currentCategory = 'all';
+                currentSubjectFilter = 'all';
+                openStudentPortfolio(targetStudentId);
+            } else {
+                alert('No public projects found for this student portfolio link.');
+            }
+        }
+    }
+
+    function getDomainFromUrl(url) {
+        try { return new URL(url).hostname.replace(/^www\./, ''); }
+        catch { return 'External Link'; }
+    }
+
+    function liveCardMockHtml(url) {
+        return `
+            <div class="icon-preview live-card-preview">
+                <div class="live-browser-mock">
+                    <div class="live-browser-bar"><i></i><i></i><i></i><em>${esc(getDomainFromUrl(url))}</em></div>
+                    <div class="live-browser-body">
+                        <i class="fa-solid fa-tower-broadcast"></i>
+                        <strong>LIVE PREVIEW</strong>
+                        <small>Click to run this app</small>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    function ratingInfo(authorId) {
+        const rs = ratings.filter(r => r.author_id === authorId);
+        const count = rs.length;
+        const avg = count ? rs.reduce((a, r) => a + r.score, 0) / count : 0;
+        const mine = me ? ((rs.find(r => r.rater_id === me.id) || {}).score || 0) : 0;
+        return { avg, count, mine };
+    }
+
+    async function rateStudent(authorId, score) {
+        if (!me) { alert('Please log in to rate student works.'); return; }
+        if (me.id === authorId) { alert("You can't rate your own showcase."); return; }
+
+        const { error } = await sb.from('ratings').upsert({ rater_id: me.id, author_id: authorId, score });
+        if (error) { alert('Could not save your rating. Please try again.'); return; }
+
+        const r = await sb.from('ratings').select('rater_id, author_id, score');
+        ratings = r.data || ratings;
+        renderCommunity();
+    }
+
+    function groupByStudent(list) {
+        const map = {};
+        list.forEach(item => {
+            if (!map[item.authorId]) {
+                map[item.authorId] = {
+                    authorId: item.authorId,
+                    author: item.author,
+                    latestTitle: item.groupTitle || item.title.replace(/\s\(\d+\/\d+\)$/, ''),
+                    latestDesc: item.desc,
+                    subjects: new Set(),
+                    terms: new Set(),
+                    tags: new Set(),
+                    skills: new Set(),
+                    files: []
+                };
+            }
+            map[item.authorId].subjects.add(item.subject);
+            map[item.authorId].terms.add(item.term);
+            (item.skills || []).forEach(s => map[item.authorId].skills.add(s));
+            item.tags.forEach(t => map[item.authorId].tags.add(t));
+            map[item.authorId].files.push(item);
+        });
+        return Object.values(map).map(s => ({
+            ...s,
+            subjects: Array.from(s.subjects),
+            terms: Array.from(s.terms),
+            tags: Array.from(s.tags).slice(0, 4),
+            skills: Array.from(s.skills),
+            rating: ratingInfo(s.authorId)
+        }));
+    }
+
+    function miniIcon(cat) {
+        if (cat === 'video') return ['fa-video', '#3b82f6'];
+        if (cat === 'pdf') return ['fa-file-pdf', '#e11d48'];
+        if (cat === 'document') return ['fa-file-code', '#d97706'];
+        if (cat === 'link') return ['fa-link', '#7e22ce'];
+        return ['fa-file', '#0c5cbe'];
+    }
+
+    function cardPreview(student) {
+        const files = student.files;
+        const f = files[0];
+        const liveUrl = getLivePreviewUrl(f);
+
+        if (files.length > 1) {
+            const thumbs = files.slice(0, 4).map(x => {
+                if (x.category === 'image' && x.fileUrl) {
+                    return `<img src="${esc(x.fileUrl)}" class="bundle-thumb" alt="${esc(x.title)}">`;
+                }
+                const [ic, col] = miniIcon(x.category);
+                return `<div class="icon-preview" style="min-height:70px;"><i class="fa-solid ${ic}" style="color:${col}; font-size:22px;"></i></div>`;
+            }).join('');
+            return `<div class="bundle-grid-preview">${thumbs}<div class="bundle-more-overlay"><i class="fa-solid fa-layer-group"></i> ${files.length} works &middot; ${student.subjects.length} subj</div></div>`;
+        }
+
+        if (liveUrl) return liveCardMockHtml(liveUrl);
+
+        if (f.teamsUrl && f.category === 'link') {
+            const meta = teamsKindMeta(f.teamsKind || teamsArtifactKind(f.teamsUrl));
+            return `
+                <div class="icon-preview teams-preview-box">
+                    <i class="fa-brands fa-microsoft teams-large-icon"></i>
+                    <span class="teams-kind-label">${esc(meta.label)}</span>
+                    <em class="teams-domain-label">${esc(getDomainFromUrl(f.teamsUrl))}</em>
+                </div>`;
+        }
+
+        if (f.category === 'image') {
+            return f.fileUrl
+                ? `<img src="${esc(f.fileUrl)}" alt="${esc(f.title)}" class="file-thumb-img">`
+                : `<div class="icon-preview"><i class="fa-solid fa-image" style="font-size:40px;color:#059669;"></i></div>`;
+        }
+        if (f.category === 'pdf') return `<div class="icon-preview"><i class="fa-solid fa-file-pdf pdf-large-icon"></i></div>`;
+        if (f.category === 'video') return `<div class="file-preview-box video-preview-box"><i class="fa-solid fa-circle-play video-play-icon"></i></div>`;
+        if (f.category === 'document') return `<div class="icon-preview"><i class="fa-solid fa-file-code doc-large-icon"></i></div>`;
+        return `
+            <div class="icon-preview link-preview-box">
+                <i class="fa-solid fa-globe link-large-icon"></i>
+                <span class="link-domain-label">${esc(getDomainFromUrl(f.fileUrl))}</span>
+            </div>`;
+    }
+
+    function renderCommunity() {
+        const grid = document.getElementById('wrapper');
+        grid.innerHTML = '';
+        updateLearnerFilterOptions();
+        updateCommunitySkillOptions();
+
+        const q = currentSearch.toLowerCase();
+        const visibleProjects = projects.filter(item =>
+            item.isPublic || (viewerRole === 'parent' && item.visibility === 'parents')
+        );
+
+        const filtered = visibleProjects.filter(item => {
+            const learner = learnerFor(item.authorId);
+            const matchesCat = currentCategory === 'all'
+                || (currentCategory === 'live' ? !!getLivePreviewUrl(item) : item.category === currentCategory);
+            const matchesSubj = currentSubjectFilter === 'all' || item.subject === currentSubjectFilter;
+            const matchesSkill = currentSkillFilter === 'all'
+                || item.skills.some(s => s.toLowerCase() === currentSkillFilter.toLowerCase());
+            const matchesGrade = currentGradeFilter === 'all'
+                || String(learner.grade || '') === currentGradeFilter;
+            const matchesStrand = currentStrandFilter === 'all'
+                || String(learner.strand || '') === currentStrandFilter;
+            const learnerText = [
+                learner.grade,
+                learner.grade ? `grade ${learner.grade}` : '',
+                learner.strand
+            ].join(' ').toLowerCase();
+            const matchesSearch = !q ||
+                item.title.toLowerCase().includes(q) ||
+                item.desc.toLowerCase().includes(q) ||
+                item.author.toLowerCase().includes(q) ||
+                item.subject.toLowerCase().includes(q) ||
+                item.term.toLowerCase().includes(q) ||
+                learnerText.includes(q) ||
+                item.tags.some(t => t.toLowerCase().includes(q)) ||
+                item.skills.some(s => s.toLowerCase().includes(q));
+            return matchesCat && matchesSubj && matchesSkill && matchesGrade && matchesStrand && matchesSearch;
+        });
+
+        const filtersActive = !!q
+            || currentCategory !== 'all'
+            || currentSubjectFilter !== 'all'
+            || currentSkillFilter !== 'all'
+            || currentGradeFilter !== 'all'
+            || currentStrandFilter !== 'all';
+        renderExhibitions(!filtersActive);
+
+        const studentCards = groupByStudent(filtered);
+
+        if (studentCards.length === 0) {
+            grid.innerHTML = viewerRole === 'teacher'
+                ? `
+                <div class="empty-state">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <h4>No student portfolios match this filter</h4>
+                    <p>Try a different search or filter to find work to review.</p>
+                </div>`
+                : viewerRole === 'parent'
+                ? `
+                <div class="empty-state">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <h4>No student portfolios match this filter</h4>
+                    <p>Explore other students&rsquo; work above, or check your children&rsquo;s shared projects in the Parent Portal.</p>
+                    <a href="Parent.html" class="btn-submit">
+                        <i class="fa-solid fa-children"></i> Go to My Children
+                    </a>
+                </div>`
+                : `
+                <div class="empty-state">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <h4>No student portfolios match this filter</h4>
+                    <p>Upload projects across Coding, Research, or Visual Arts in "My Projects" to build your cross-subject portfolio.</p>
+                    <a href="projects.html" class="btn-submit">
+                        <i class="fa-solid fa-plus"></i> Go to My Projects
+                    </a>
+                </div>`;
+            return;
+        }
+
+        const totalPages = Math.ceil(studentCards.length / ITEMS_PER_PAGE);
+        if (currentPage > totalPages) currentPage = totalPages || 1;
+        if (currentPage < 1) currentPage = 1;
+
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        studentCards.slice(start, start + ITEMS_PER_PAGE).forEach(student => {
+            const total = student.files.length;
+            const badgeClass = total > 1 ? 'photo-badge' : (BADGE_BY_CAT[student.files[0].category] || 'photo-badge');
+            const typeLabel = total > 1 ? `${total} Works` : '1 Work';
+            const subjectsHtml = student.subjects.map(subj =>
+                `<span class="subject-chip ${subjectChipClass(subj)}"><i class="fa-solid ${subjectIcon(subj)}"></i> ${esc(subj)}</span>`
+            ).join('');
+            const tagsHtml = student.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('');
+            const skillsHtml = student.skills.slice(0, 6).map(s => `<span class="skill-chip"><i class="fa-solid fa-bolt"></i>${esc(s)}</span>`).join('');
+            const learnerMeta = learnerMetaText(student.authorId);
+            const { avg, count, mine } = student.rating;
+            const liveFile = student.files.find(f => !!getLivePreviewUrl(f));
+            const liveUrl = liveFile ? getLivePreviewUrl(liveFile) : '';
+            const teamsFile = student.files.find(f => !!f.teamsUrl);
+            const hasFeatured = student.files.some(f => f.isFeatured);
+
+            let starsHtml = '';
+            for (let s = 1; s <= 5; s++) {
+                const ratedClass = s <= Math.round(avg) ? 'rated' : '';
+                starsHtml += `<i class="fa-solid fa-star ${ratedClass}" onclick="event.stopPropagation(); rateStudent('${student.authorId}', ${s})" title="Rate ${s} Star${s > 1 ? 's' : ''}"></i>`;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'file-card';
+            card.innerHTML = `
+                <div class="file-card-header">
+                    <span class="author-pill" style="max-width: 165px; color: #0B2545; font-weight: 700;" title="${esc(student.author)}">
+                        <i class="fa-solid fa-user-graduate" style="color: #0c5cbe;"></i> ${esc(student.author)}
+                    </span>
+                    <span class="header-meta">
+                        ${teamsFile ? '<span class="teams-chip" title="Includes work linked or imported from Microsoft Teams"><i class="fa-brands fa-microsoft"></i> TEAMS</span>' : ''}
+                        ${liveUrl ? '<span class="live-chip" title="Has a live web/app preview"><span class="live-dot"></span> LIVE</span>' : ''}
+                        ${hasFeatured ? '<span class="featured-chip" title="Includes featured portfolio works"><i class="fa-solid fa-star"></i> FEATURED</span>' : ''}
+                        <span class="file-type-badge ${badgeClass}"><i class="fa-solid fa-folder-open"></i> ${typeLabel}</span>
+                    </span>
+                </div>
+                <div class="file-preview-box" onclick="openStudentPortfolio('${student.authorId}')">
+                    ${cardPreview(student)}
+                </div>
+                <div class="file-card-body">
+                    <div class="subject-pills-row">${subjectsHtml}</div>
+                    ${learnerMeta ? `<p class="learner-meta"><i class="fa-solid fa-id-badge"></i> ${esc(learnerMeta)}</p>` : ''}
+                    ${skillsHtml ? `<div class="skills-row">${skillsHtml}</div>` : ''}
+                    <h4 class="file-title" title="${esc(student.latestTitle)}">Latest: ${esc(student.latestTitle)}</h4>
+                    <p class="file-desc">${esc(student.latestDesc)}</p>
+                    <div class="file-tags">${tagsHtml}</div>
+                </div>
+                <div class="file-card-footer">
+                    <div class="star-rating-widget" title="${count} rating${count === 1 ? '' : 's'}${mine ? ' - you rated ' + mine : ''}">
+                        ${starsHtml}
+                        <span class="star-avg-label">${avg.toFixed(1)}</span>
+                    </div>
+                    <button type="button" class="btn-preview" onclick="openStudentPortfolio('${student.authorId}')">
+                        <i class="fa-solid fa-eye"></i> Portfolio (${total})
+                    </button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        if (totalPages > 1) {
+            let pageButtonsHtml = '';
+            for (let p = 1; p <= totalPages; p++) {
+                pageButtonsHtml += `<button type="button" class="page-number-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+            }
+            const row = document.createElement('div');
+            row.className = 'pagination-container';
+            row.innerHTML = `
+                <span class="pagination-info">Showing page ${currentPage} of ${totalPages} (${studentCards.length} students total)</span>
+                <div class="pagination-controls">
+                    <button type="button" class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+                        <i class="fa-solid fa-chevron-left"></i> Prev
+                    </button>
+                    ${pageButtonsHtml}
+                    <button type="button" class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+                        Next <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            `;
+            grid.appendChild(row);
+        }
+    }
+
+    function updateLearnerFilterOptions() {
+        const gradeSelect = document.getElementById('gradeFilterSelect');
+        const strandSelect = document.getElementById('strandFilterSelect');
+        if (!gradeSelect || !strandSelect) return;
+
+        const learners = projects.map(item => learnerFor(item.authorId));
+        const grades = Array.from(new Set(learners.map(l => String(l.grade || '').trim()).filter(Boolean)))
+            .sort((a, b) => (parseInt(a, 10) || 0) - (parseInt(b, 10) || 0) || a.localeCompare(b));
+        const strands = Array.from(new Set(learners.map(l => String(l.strand || '').trim()).filter(Boolean)))
+            .sort((a, b) => a.localeCompare(b));
+
+        if (currentGradeFilter !== 'all' && !grades.includes(currentGradeFilter)) currentGradeFilter = 'all';
+        if (currentStrandFilter !== 'all' && !strands.includes(currentStrandFilter)) currentStrandFilter = 'all';
+
+        gradeSelect.innerHTML = '<option value="all">All Grade Levels</option>' +
+            grades.map(g => `<option value="${esc(g)}">${esc(gradeLabel(g))}</option>`).join('');
+        strandSelect.innerHTML = '<option value="all">All Strands</option>' +
+            strands.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+
+        gradeSelect.value = currentGradeFilter;
+        strandSelect.value = currentStrandFilter;
+        gradeSelect.disabled = grades.length === 0;
+        strandSelect.disabled = strands.length === 0;
+    }
+
+    function updateCommunitySkillOptions() {
+        const select = document.getElementById('skillFilterSelect');
+        if (!select) return;
+
+        const allSkills = Array.from(new Set(projects.flatMap(p => p.skills || [])))
+            .sort((a, b) => a.localeCompare(b));
+
+        if (currentSkillFilter !== 'all' && !allSkills.some(s => s.toLowerCase() === currentSkillFilter.toLowerCase())) {
+            currentSkillFilter = 'all';
+        }
+
+        select.innerHTML = '<option value="all">All Skills</option>' +
+            allSkills.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+        select.value = currentSkillFilter;
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        renderCommunity();
+        document.getElementById('whitebg').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ---------- Cross-Subject Student Portfolio Modal ---------- */
+    const previewModal = document.getElementById('previewModal');
+
+    function closePreviewModal() {
+        const v = document.querySelector('#previewStage video');
+        if (v) v.pause();
+        previewModal.classList.remove('active');
+
+        const stageEl = document.getElementById('previewStage');
+        if (stageEl) {
+            stageEl.innerHTML = '';
+            stageEl.classList.remove('live-stage', 'doc-stage');
+        }
+        documentPreviewToken++;
+        activeView = 'live';
+        lastPreviewItemId = null;
+        document.getElementById('liveFrameNotice').style.display = 'none';
+        document.getElementById('previewViewTabs').style.display = 'none';
+    }
+    document.getElementById('closePreviewBtn').addEventListener('click', closePreviewModal);
+    document.getElementById('closePreviewFooterBtn').addEventListener('click', closePreviewModal);
+
+    function termSortValue(term) {
+        return academicTermRank(term);
+    }
+
+    function openStudentPortfolio(authorId, selectedProjectId = null) {
+        activeStudentAllFiles = projects.filter(i => i.authorId === authorId);
+        if (activeStudentAllFiles.length === 0) return;
+
+        const authorName = activeStudentAllFiles[0].author;
+        document.getElementById('previewModalTitle').innerHTML = `<i class="fa-solid fa-user-graduate"></i> ${esc(authorName)}'s Cross-Subject Portfolio`;
+        const learnerMeta = learnerMetaText(authorId);
+        document.getElementById('previewAuthor').innerHTML =
+            `<i class="fa-solid fa-user-graduate"></i> Student: ${esc(authorName)}${learnerMeta ? ` &middot; ${esc(learnerMeta)}` : ''}`;
+
+        renderPortfolioWorks(selectedProjectId);
+        previewModal.classList.add('active');
+    }
+
+    function renderPortfolioWorks(selectedProjectId) {
+        activeStudentFilteredFiles = [...activeStudentAllFiles];
+
+        activeFileIndex = 0;
+        if (selectedProjectId !== null) {
+            const foundIdx = activeStudentFilteredFiles.findIndex(f => String(f.id) === String(selectedProjectId));
+            if (foundIdx !== -1) activeFileIndex = foundIdx;
+        }
+
+        const selectorContainer = document.getElementById('bundleSelectorContainer');
+        const selectorBar = document.getElementById('bundleSelectorBar');
+
+        if (activeStudentFilteredFiles.length > 0) {
+            selectorContainer.style.display = 'block';
+            selectorBar.innerHTML = '';
+
+            const featuredEntries = [];
+            const termGroups = new Map();
+            activeStudentFilteredFiles.forEach((f, idx) => {
+                if (f.isFeatured) {
+                    featuredEntries.push({ file: f, idx });
+                    return;
+                }
+                const key = f.term || 'Unspecified Term';
+                if (!termGroups.has(key)) termGroups.set(key, []);
+                termGroups.get(key).push({ file: f, idx });
+            });
+
+            const appendGroup = (icon, titleHtml, metaHtml, entries) => {
+                const groupEl = document.createElement('div');
+                groupEl.className = 'term-group';
+
+                const header = document.createElement('div');
+                header.className = 'term-group-header';
+                header.innerHTML = `
+                    <i class="fa-solid ${icon}"></i>
+                    <strong>${titleHtml}</strong>
+                    <span class="term-group-meta">${metaHtml}</span>`;
+                groupEl.appendChild(header);
+
+                const filesRow = document.createElement('div');
+                filesRow.className = 'term-group-files';
+                entries.forEach(({ file, idx }) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = `bundle-tab-btn ${idx === activeFileIndex ? 'active' : ''}`;
+                    btn.innerHTML = `<i class="fa-solid ${subjectIcon(file.subject)}"></i> ${esc(file.title)} <span style="opacity:0.75; font-size:10px;">(${esc(file.subject)})</span>`;
+                    btn.onclick = () => {
+                        activeFileIndex = idx;
+                        document.querySelectorAll('.bundle-tab-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        renderPreviewStage();
+                        recordProjectView(activeStudentFilteredFiles[activeFileIndex]);
+                    };
+                    filesRow.appendChild(btn);
+                });
+
+                groupEl.appendChild(filesRow);
+                selectorBar.appendChild(groupEl);
+            };
+
+            if (featuredEntries.length) {
+                featuredEntries.sort((a, b) => a.file.featuredSlot - b.file.featuredSlot);
+                appendGroup(
+                    'fa-star',
+                    'Featured Projects',
+                    `${featuredEntries.length} featured work${featuredEntries.length > 1 ? 's' : ''}`,
+                    featuredEntries
+                );
+            }
+
+            if (termGroups.size) {
+                const archivedTotal = Array.from(termGroups.values())
+                    .reduce((sum, entries) => sum + entries.length, 0);
+
+                const archiveLabel = document.createElement('div');
+                archiveLabel.className = 'portfolio-section-label';
+                archiveLabel.innerHTML = `<i class="fa-solid fa-box-archive"></i> Archived Projects (${archivedTotal})`;
+                selectorBar.appendChild(archiveLabel);
+
+                Array.from(termGroups.entries())
+                    .sort((a, b) => termSortValue(b[0]) - termSortValue(a[0]))
+                    .forEach(([term, entries]) => {
+                        const subjects = Array.from(new Set(entries.map(e => e.file.subject)));
+                        const subjectLabel = subjects
+                            .map(s => {
+                                const n = entries.filter(e => e.file.subject === s).length;
+                                return n > 1 ? `${s} (${n})` : s;
+                            })
+                            .join(' · ');
+
+                        appendGroup(
+                            'fa-calendar-days',
+                            esc(term),
+                            `${entries.length} work${entries.length > 1 ? 's' : ''} · ${esc(subjectLabel)}`,
+                            entries
+                        );
+                    });
+            }
+        } else {
+            selectorContainer.style.display = 'none';
+        }
+
+        renderPreviewStage();
+        recordProjectView(activeStudentFilteredFiles[activeFileIndex]);
+    }
+
+    function updateCommunityTabs() {
+        document.querySelectorAll('#previewViewTabs .preview-view-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-view') === activeView);
+        });
+    }
+
+    function switchCommunityView(view) {
+        activeView = view;
+        updateCommunityTabs();
+        renderCommunityStage();
+    }
+
+    function renderPreviewStage() {
+        const item = activeStudentFilteredFiles[activeFileIndex];
+        if (!item) return;
+
+        const liveUrl = getLivePreviewUrl(item);
+        if (String(item.id) !== String(lastPreviewItemId)) {
+            lastPreviewItemId = item.id;
+            activeView = liveUrl ? 'live' : 'file';
+        }
+
+        const downloadBtn = document.getElementById('downloadFileBtn');
+        const subjBadge = document.getElementById('previewSubjectBadge');
+        const termBadge = document.getElementById('previewTermBadge');
+
+        subjBadge.className = `subject-chip ${subjectChipClass(item.subject)}`;
+        subjBadge.innerHTML = `<i class="fa-solid ${subjectIcon(item.subject)}"></i> ${esc(item.subject)}`;
+        termBadge.textContent = item.term;
+
+        document.getElementById('previewDate').textContent = `Shared: ${item.date}`;
+        document.getElementById('previewItemTitle').textContent = item.title;
+        const descEl = document.getElementById('previewDesc');
+        descEl.textContent = item.desc || '';
+        descEl.style.display = (item.desc || '').trim() ? '' : 'none';
+        document.getElementById('previewTags').innerHTML = item.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('');
+        document.getElementById('previewSkills').innerHTML = item.skills.map(s => `<span class="skill-chip"><i class="fa-solid fa-bolt"></i>${esc(s)}</span>`).join('');
+        const reflectionEl = document.getElementById('previewReflection');
+        reflectionEl.innerHTML = reflectionBlockHtml(item.reflection);
+        reflectionEl.style.display = reflectionEl.innerHTML ? 'block' : 'none';
+
+        const teamsBox = document.getElementById('previewTeams');
+        if (item.teamsUrl) {
+            const teamsMeta = teamsKindMeta(item.teamsKind || teamsArtifactKind(item.teamsUrl));
+            document.getElementById('previewTeamsTitle').textContent = `Imported from Microsoft Teams · ${teamsMeta.label}`;
+            document.getElementById('previewTeamsMeta').textContent =
+                `${getDomainFromUrl(item.teamsUrl)} — opens the original artifact; a school Microsoft account may be required.`;
+            const teamsLink = document.getElementById('previewTeamsLink');
+            teamsLink.href = item.teamsUrl;
+            teamsLink.querySelector('span').textContent = teamsActionLabel(item.teamsUrl);
+            teamsBox.style.display = 'flex';
+        } else {
+            teamsBox.style.display = 'none';
+        }
+
+        // Wire up the Share / QR button for the active project
+        document.getElementById('shareProjectQrBtn').onclick = () => {
+            const directUrl = new URL('Community.html', window.location.href);
+            directUrl.searchParams.set('project', item.id);
+            openQrModal(item.title, directUrl.href);
+        };
+
+        if (item.category === 'link') {
+            downloadBtn.href = item.fileUrl || item.liveUrl || '#';
+            downloadBtn.removeAttribute('download');
+            downloadBtn.setAttribute('target', '_blank');
+            downloadBtn.setAttribute('rel', 'noopener noreferrer');
+            downloadBtn.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Link';
+        } else {
+            downloadBtn.href = item.fileUrl ? downloadUrl(item.fileUrl, item.fileName || item.title) : '#';
+            downloadBtn.removeAttribute('target');
+            downloadBtn.removeAttribute('rel');
+            downloadBtn.setAttribute('download', item.fileName || item.title);
+            downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> Download File';
+        }
+
+        const tabs = document.getElementById('previewViewTabs');
+        const openLive = document.getElementById('communityOpenLive');
+        const notice = document.getElementById('liveFrameNotice');
+
+        if (liveUrl) {
+            tabs.style.display = 'flex';
+            openLive.href = liveUrl;
+            notice.style.display = 'flex';
+        } else {
+            tabs.style.display = 'none';
+            openLive.setAttribute('href', '#');
+            notice.style.display = 'none';
+        }
+
+        updateCommunityTabs();
+        renderCommunityStage();
+    }
+
+    function renderCommunityStage() {
+        const item = activeStudentFilteredFiles[activeFileIndex];
+        if (!item) return;
+
+        const stageEl = document.getElementById('previewStage');
+        const badgeEl = document.getElementById('previewBadge');
+        const liveUrl = getLivePreviewUrl(item);
+        const token = ++documentPreviewToken;
+
+        if (liveUrl && activeView === 'live') {
+            stageEl.classList.add('live-stage');
+            stageEl.innerHTML = `
+                <div class="live-frame-shell">
+                    <div class="live-frame-chrome">
+                        <span class="live-chrome-dots"><i></i><i></i><i></i></span>
+                        <span class="live-chrome-url" title="${esc(liveUrl)}">${esc(liveUrl)}</span>
+                    </div>
+                    <div class="live-frame-viewport">
+                        <div class="live-frame-loader"><span class="live-spinner"></span> Loading live preview…</div>
+                        <iframe class="live-preview-iframe"
+                            src="${esc(liveUrl)}"
+                            title="Live preview of ${esc(item.title)}"
+                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-presentation"
+                            referrerpolicy="no-referrer"
+                            allow="fullscreen; clipboard-write; autoplay; encrypted-media"></iframe>
+                    </div>
+                </div>`;
+
+            badgeEl.className = 'file-type-badge live-badge';
+            badgeEl.innerHTML = '<span class="live-dot"></span> Live App';
+
+            const frame = stageEl.querySelector('.live-preview-iframe');
+            const loader = stageEl.querySelector('.live-frame-loader');
+            const reveal = () => { if (loader && loader.parentNode) loader.remove(); };
+            if (frame) {
+                frame.addEventListener('load', reveal);
+                setTimeout(reveal, 9000);
+            }
+            return;
+        }
+
+        stageEl.classList.remove('live-stage', 'doc-stage');
+
+        if (item.category === 'link') {
+            if (item.teamsUrl) {
+                const teamsMeta = teamsKindMeta(item.teamsKind || teamsArtifactKind(item.teamsUrl));
+                badgeEl.className = 'file-type-badge teams-badge';
+                badgeEl.innerHTML = '<i class="fa-brands fa-microsoft"></i> Microsoft Teams';
+                stageEl.innerHTML = `
+                    <div class="preview-doc-placeholder teams-stage-placeholder">
+                        <i class="fa-brands fa-microsoft" style="font-size: 52px; color: #6264a7;"></i>
+                        <p><strong>${esc(teamsMeta.label)}</strong></p>
+                        <span>${esc(item.title)} · ${esc(getDomainFromUrl(item.teamsUrl))}</span>
+                        <a class="teams-stage-link" href="${esc(item.teamsUrl)}" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> ${esc(teamsActionLabel(item.teamsUrl))}
+                        </a>
+                    </div>`;
+                return;
+            }
+            badgeEl.className = 'file-type-badge link-badge';
+            badgeEl.innerHTML = '<i class="fa-solid fa-link"></i> Web Link';
+            stageEl.innerHTML = `
+                <div class="preview-doc-placeholder">
+                    <i class="fa-solid fa-globe" style="font-size: 48px; color: #a855f7;"></i>
+                    <p><strong>${esc(item.title)}</strong></p>
+                    <span style="word-break: break-all; max-width: 90%; font-size: 12px; color: #94a3b8;">${esc(item.fileUrl)}</span>
+                </div>`;
+            return;
+        }
+
+        if (item.category === 'image' && item.fileUrl) {
+            badgeEl.className = 'file-type-badge photo-badge';
+            badgeEl.innerHTML = '<i class="fa-solid fa-image"></i> Photo';
+            stageEl.innerHTML = `<img src="${esc(item.fileUrl)}" alt="${esc(item.title)}" class="preview-media-img">`;
+        } else if (item.category === 'video' && item.fileUrl) {
+            badgeEl.className = 'file-type-badge video-badge';
+            badgeEl.innerHTML = '<i class="fa-solid fa-video"></i> Video';
+            stageEl.innerHTML = `<video controls class="preview-media-video"><source src="${esc(item.fileUrl)}" type="${esc(item.mimeType)}"></video>`;
+        } else if (item.category === 'pdf' && item.fileUrl) {
+            badgeEl.className = 'file-type-badge pdf-badge';
+            badgeEl.innerHTML = '<i class="fa-solid fa-file-pdf"></i> PDF';
+            stageEl.innerHTML = `<iframe src="${esc(item.fileUrl)}" class="preview-pdf-frame" title="${esc(item.title)}"></iframe>`;
+        } else {
+            renderDocumentStage(item, stageEl, badgeEl, token);
+        }
+    }
+
+    /* ---------- In-modal document viewers ---------- */
+    const DOCUMENT_TEXT_EXTS = ['txt', 'md', 'markdown', 'csv', 'json', 'xml', 'yml', 'yaml', 'log', 'ini', 'css', 'js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'py', 'java', 'c', 'cpp', 'h', 'rb', 'php', 'sql', 'sh', 'bat', 'html', 'htm'];
+    const DOCUMENT_BADGES = {
+        docx: ['fa-file-word', 'Word Document'],
+        doc: ['fa-file-word', 'Word Document'],
+        zip: ['fa-file-zipper', 'ZIP Archive'],
+        py: ['fa-file-code', 'Python File'],
+        js: ['fa-file-code', 'JavaScript File'],
+        css: ['fa-file-code', 'Stylesheet'],
+        html: ['fa-file-code', 'Web Page'],
+        htm: ['fa-file-code', 'Web Page'],
+        txt: ['fa-file-lines', 'Text File'],
+        md: ['fa-file-lines', 'Markdown File'],
+        csv: ['fa-file-csv', 'CSV File'],
+        json: ['fa-file-code', 'JSON File'],
+        sql: ['fa-file-code', 'SQL File']
+    };
+    const MAX_TEXT_PREVIEW_CHARS = 150000;
+
+    function fileExtensionOf(item) {
+        const name = String(item.fileName || item.fileUrl || '').split(/[?#]/)[0];
+        const match = name.match(/\.([a-z0-9]+)$/i);
+        return match ? match[1].toLowerCase() : '';
+    }
+
+    function setDocumentBadge(badgeEl, ext) {
+        const [icon, label] = DOCUMENT_BADGES[ext] || ['fa-file-lines', 'Document'];
+        badgeEl.className = 'file-type-badge doc-badge';
+        badgeEl.innerHTML = `<i class="fa-solid ${icon}"></i> ${label}`;
+    }
+
+    function documentPlaceholder(stageEl, icon, title, hint) {
+        stageEl.classList.remove('doc-stage');
+        stageEl.innerHTML = `
+            <div class="preview-doc-placeholder">
+                <i class="fa-solid ${icon}" style="font-size: 48px; color: #d97706;"></i>
+                <p><strong>${esc(title)}</strong></p>
+                <span>${esc(hint)}</span>
+            </div>`;
+    }
+
+    let mammothLibraryPromise = null;
+    function loadMammothLibrary() {
+        if (window.mammoth) return Promise.resolve(window.mammoth);
+        if (!mammothLibraryPromise) {
+            mammothLibraryPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js';
+                script.onload = () => resolve(window.mammoth);
+                script.onerror = () => {
+                    mammothLibraryPromise = null;
+                    reject(new Error('Document viewer failed to load'));
+                };
+                document.head.appendChild(script);
+            });
+        }
+        return mammothLibraryPromise;
+    }
+
+    function wordPreviewPage(innerHtml) {
+        return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+            body { margin: 0; padding: 26px 30px 40px; font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #1e293b; background: #ffffff; }
+            h1, h2, h3, h4, h5 { color: #0B2545; line-height: 1.3; margin: 1.2em 0 0.5em; }
+            h1 { font-size: 22px; } h2 { font-size: 18px; } h3 { font-size: 15.5px; }
+            p { margin: 0 0 0.9em; }
+            img { max-width: 100%; height: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 0.9em 0; font-size: 13px; }
+            td, th { border: 1px solid #cbd5e1; padding: 6px 9px; vertical-align: top; }
+            th { background: #f1f5f9; text-align: left; }
+            ul, ol { margin: 0 0 0.9em; padding-left: 22px; }
+            blockquote { margin: 0.9em 0; padding: 4px 14px; border-left: 3px solid #cbd5e1; color: #475569; }
+            code { font-family: Consolas, monospace; background: #f1f5f9; padding: 1px 4px; border-radius: 4px; }
+        </style></head><body>${innerHtml}</body></html>`;
+    }
+
+    async function renderDocumentStage(item, stageEl, badgeEl, token) {
+        const ext = fileExtensionOf(item);
+        const fileName = item.fileName || item.title;
+
+        if (item.category !== 'document' || !item.fileUrl) {
+            documentPlaceholder(stageEl, 'fa-file-code', fileName, 'Preview is not available for this file. Download it to open.');
+            return;
+        }
+
+        setDocumentBadge(badgeEl, ext);
+
+        if (ext === 'zip' || ext === 'rar' || ext === '7z') {
+            documentPlaceholder(stageEl, 'fa-file-zipper', fileName, 'Archives cannot be previewed. Download it to open.');
+            return;
+        }
+
+        const isWordDoc = ext === 'docx' || /wordprocessingml\.document/i.test(item.mimeType);
+        const isLegacyDoc = ext === 'doc' && !isWordDoc;
+        const isText = DOCUMENT_TEXT_EXTS.includes(ext);
+
+        if (isLegacyDoc) {
+            documentPlaceholder(stageEl, 'fa-file-word', fileName, 'Legacy .doc files cannot be previewed in the browser. Download it to open.');
+            return;
+        }
+
+        if (!isWordDoc && !isText) {
+            documentPlaceholder(stageEl, 'fa-file-code', fileName, 'Preview is not available for this file type. Download it to open.');
+            return;
+        }
+
+        stageEl.classList.remove('doc-stage');
+        stageEl.innerHTML = `<div class="preview-doc-placeholder"><span class="live-spinner"></span><p>Loading ${isWordDoc ? 'document' : 'file'} preview…</p></div>`;
+
+        try {
+            if (isWordDoc) {
+                const [mammoth, response] = await Promise.all([loadMammothLibrary(), fetch(item.fileUrl)]);
+                if (!response.ok) throw new Error('Could not download the document');
+                const arrayBuffer = await response.arrayBuffer();
+                const result = await mammoth.convertToHtml({ arrayBuffer });
+                if (token !== documentPreviewToken) return;
+                const page = wordPreviewPage(result.value || '<p><em>This document appears to be empty.</em></p>');
+                stageEl.classList.add('doc-stage');
+                stageEl.innerHTML = `
+                    <div class="doc-frame-shell">
+                        <div class="doc-viewer-bar"><i class="fa-solid fa-file-word"></i><span>${esc(fileName)}</span><em>Word document · read only</em></div>
+                        <iframe class="preview-doc-frame" sandbox="" title="Document preview of ${esc(item.title)}" srcdoc="${esc(page)}"></iframe>
+                    </div>`;
+                return;
+            }
+
+            const response = await fetch(item.fileUrl);
+            if (!response.ok) throw new Error('Could not download the file');
+            let text = await response.text();
+            if (token !== documentPreviewToken) return;
+
+            const truncated = text.length > MAX_TEXT_PREVIEW_CHARS;
+            if (truncated) text = text.slice(0, MAX_TEXT_PREVIEW_CHARS);
+            const lineCount = text ? text.split('\n').length : 0;
+
+            stageEl.classList.add('doc-stage');
+            stageEl.innerHTML = `
+                <div class="doc-viewer">
+                    <div class="doc-viewer-bar"><i class="fa-solid fa-file-code"></i><span>${esc(fileName)}</span><em>${lineCount} line${lineCount === 1 ? '' : 's'}${truncated ? ' · preview truncated' : ''}</em></div>
+                    <pre class="doc-viewer-code">${text ? esc(text) : 'This file is empty.'}</pre>
+                </div>`;
+        } catch (err) {
+            if (token !== documentPreviewToken) return;
+            documentPlaceholder(stageEl, 'fa-triangle-exclamation', fileName, 'Preview could not load right now. Download the file to view it.');
+        }
+    }
+
+    /* ---------- QR Code Generator Modal ---------- */
+    function openQrModal(title, shareUrl) {
+        const holder = document.getElementById('qrCanvasHolder');
+        holder.innerHTML = '';
+        document.getElementById('qrModalTitle').innerHTML = `<i class="fa-solid fa-qrcode"></i> ${esc(title)}`;
+        document.getElementById('qrShareUrlInput').value = shareUrl;
+
+        new QRCode(holder, {
+            text: shareUrl,
+            width: 200,
+            height: 200,
+            colorDark: '#0B2545',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        document.getElementById('qrModal').classList.add('active');
+    }
+
+    function closeQrModal() {
+        document.getElementById('qrModal').classList.remove('active');
+    }
+
+    document.getElementById('copyQrUrlBtn').addEventListener('click', async () => {
+        const input = document.getElementById('qrShareUrlInput');
+        input.select();
+        await navigator.clipboard.writeText(input.value);
+        const btn = document.getElementById('copyQrUrlBtn');
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2000);
+    });
+
+    document.getElementById('downloadQrPngBtn').addEventListener('click', () => {
+        const canvas = document.querySelector('#qrCanvasHolder canvas');
+        if (!canvas) return;
+        const link = document.createElement('a');
+        link.download = 'CFSI_Fair_QR.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+
+    /* ---------- Search & filters ---------- */
+    document.getElementById('communitySearch').addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        currentPage = 1;
+        renderCommunity();
+    });
+
+    document.getElementById('subjectFilterSelect').addEventListener('change', (e) => {
+        currentSubjectFilter = e.target.value;
+        currentPage = 1;
+        renderCommunity();
+    });
+
+    document.getElementById('gradeFilterSelect').addEventListener('change', (e) => {
+        currentGradeFilter = e.target.value;
+        currentPage = 1;
+        renderCommunity();
+    });
+
+    document.getElementById('strandFilterSelect').addEventListener('change', (e) => {
+        currentStrandFilter = e.target.value;
+        currentPage = 1;
+        renderCommunity();
+    });
+
+    document.getElementById('exhibitionViewModal').addEventListener('click', (e) => {
+        if (e.target.id === 'exhibitionViewModal') closeExhibitionView();
+    });
+
+    document.getElementById('skillFilterSelect').addEventListener('change', (e) => {
+        currentSkillFilter = e.target.value;
+        currentPage = 1;
+        renderCommunity();
+    });
+
+    document.querySelectorAll('.filter-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCategory = btn.getAttribute('data-category');
+            currentPage = 1;
+            renderCommunity();
+        });
+    });
+
+    loadData();
+</script>
+</body>
+</html>

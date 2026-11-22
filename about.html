@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Student Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="about.css"> 
+    <link rel="stylesheet" href="responsive.css">   
+    <script src="transition.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+</head>
+<body class="page-about">
+    
+    <header id="header">
+        <div id="title">
+            <div id="title1">
+                <img src="cfsi logo.png" id="logo">
+                <div id="title-text-group">
+                    <h1>CHILDREN OF FATIMA SCHOOL, INC.</h1>
+                    <p>Student Portal & Academic Hub</p>
+                </div>
+            </div>
+            <div id="hp">
+                    <a id="home" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            </div>   
+
+        </div>
+
+        
+
+        <nav id="nav">
+            <a id="portfolio" href="Welcome.html">My Portfolio</a>
+            <a id="com-show" href="Community.html">Community Showcase</a>
+            <a id="project" href="projects.html">My Projects</a>
+            <a id="about" href="about.html">About</a>
+        </nav>
+    </header>
+
+    <main id="whitebg">
+
+        <!-- HERO BANNER (Matches Community Showcase Header) -->
+        <div class="about-banner">
+            <div>
+                <p><i class="fa-solid fa-circle-info"></i> ABOUT THE CFSI STUDENT PORTFOLIO</p>
+                <span class="banner-sub">An online academic hub where Senior High School Fatimanians build profiles and showcase their best work</span>
+            </div>
+            <a href="Community.html" class="banner-cta-btn">
+                <i class="fa-solid fa-users-viewfinder"></i> Explore Showcase
+            </a>
+        </div>
+
+        <!-- OVERVIEW & WHO IT'S FOR -->
+        <div class="about-grid-2">
+            <section class="info-card">
+                <div class="card-header">
+                    <span class="icon-badge blue"><i class="fa-solid fa-laptop-file"></i></span>
+                    <h3>What Is It?</h3>
+                </div>
+                <p>The <strong>CFSI Student Portfolio</strong> is a dedicated digital space made for Senior High School students of Children of Fatima School, Inc. Here, learners can create a profile, upload their best projects, and share them with the school community so their hard work doesn't stay buried in notebooks and folders.</p>
+            </section>
+
+            <section class="info-card">
+                <div class="card-header">
+                    <span class="icon-badge emerald"><i class="fa-solid fa-users"></i></span>
+                    <h3>Who It’s For</h3>
+                </div>
+                <p>Designed primarily for current <strong>Grades 11 and 12 students</strong> to document their academic journey, as well as <strong>teachers and advisers</strong> reviewing student output, and parents or visitors celebrating Fatimanian excellence.</p>
+            </section>
+        </div>
+
+        <!-- PURPOSE, FEATURES & HOW IT WORKS -->
+        <div class="about-grid-3">
+            <section class="info-card">
+                <div class="card-header">
+                    <span class="icon-badge amber"><i class="fa-solid fa-bullseye"></i></span>
+                    <h3>Why It Exists</h3>
+                </div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-check"></i> Gives students a single place to organize and present projects, photos, documents, and videos.</li>
+                    <li><i class="fa-solid fa-check"></i> Highlights skills and growth over time for college applications, scholarships, and future careers.</li>
+                    <li><i class="fa-solid fa-check"></i> Inspires students to take pride in their work and learn from peers.</li>
+                </ul>
+            </section>
+
+            <section class="info-card">
+                <div class="card-header">
+                    <span class="icon-badge purple"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                    <h3>Key Features</h3>
+                </div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-check"></i> Register using your LRN, grade level, and section.</li>
+                    <li><i class="fa-solid fa-check"></i> Customize your student profile with personal details and photo.</li>
+                    <li><i class="fa-solid fa-check"></i> Upload photos, PDFs, videos, documents, and web links.</li>
+                    <li><i class="fa-solid fa-check"></i> Browse, search, filter, and rate works in the Community Showcase.</li>
+                    <li><i class="fa-solid fa-check"></i> Search for fellow learners directly from the home page.</li>
+                </ul>
+            </section>
+
+            <section class="info-card">
+                <div class="card-header">
+                    <span class="icon-badge rose"><i class="fa-solid fa-route"></i></span>
+                    <h3>How It Works</h3>
+                </div>
+                <ol class="step-list">
+                    <li><span class="step-num">1</span> <div><strong>Sign Up:</strong> Create an account using your official CFSI school details.</div></li>
+                    <li><span class="step-num">2</span> <div><strong>Upload Projects:</strong> Add your outputs, descriptions, and #tags to your portfolio.</div></li>
+                    <li><span class="step-num">3</span> <div><strong>Share & Inspire:</strong> Publish your works to the Community Showcase for classmates and teachers to view.</div></li>
+                </ol>
+            </section>
+        </div>
+
+        <!-- ABOUT THE SCHOOL -->
+        <section class="info-card school-section">
+            <div class="card-header">
+                <span class="icon-badge blue"><i class="fa-solid fa-school"></i></span>
+                <h3>About Children of Fatima School, Inc.</h3>
+            </div>
+            <p class="school-history">Children of Fatima School, Inc. was founded and established in <strong>October 1995</strong> by <strong>Ma. Presentacion G. Pineda</strong> and <strong>Wilfredo R. Jesalva</strong> (who became its first principal), with the support of <strong>Mr. Alejandro F. Pineda</strong> and <strong>Mrs. Victoria G. Pineda</strong>. The school officially opened its doors and began classes in <strong>June 1996</strong>.</p>
+
+            <div class="pvm-grid">
+                <div class="pvm-box">
+                    <h4><i class="fa-solid fa-compass"></i> PHILOSOPHY</h4>
+                    <p>A non-sectarian institution intending to strengthen the values and characters of learners to be a better catalyst of society by loving God in serving others.</p>
+                </div>
+
+                <div class="pvm-box">
+                    <h4><i class="fa-solid fa-eye"></i> VISION</h4>
+                    <p>CFSI envisions learners whose values and competencies enable them to realize and utilize their full potential which may contribute to the furtherance of the quality of life in their respective communities and in the wider circle of society.</p>
+                </div>
+
+                <div class="pvm-box full-span">
+                    <h4><i class="fa-solid fa-flag"></i> MISSION</h4>
+                    <p>The academic community of CFSI commits themselves to protect and promote the right of every learner to quality and complete basic education where:</p>
+                    <ul class="styled-list compact">
+                        <li><i class="fa-solid fa-angle-right"></i> Learners are provided with a safe and motivating environment;</li>
+                        <li><i class="fa-solid fa-angle-right"></i> Teachers facilitate learning and constantly nurture every Fatimanian;</li>
+                        <li><i class="fa-solid fa-angle-right"></i> Administrators, staff, and stakeholders share responsibilities to ensure a supportive environment for effective learning to happen and develop life-long learners.</li>
+                    </ul>
+                </div>
+
+                <div class="pvm-box full-span">
+                    <h4><i class="fa-solid fa-list-check"></i> GOALS AND OBJECTIVES</h4>
+                    <p>CFSI will deliver continuous, quality, yet affordable education despite setbacks experienced by educational institutions and apply flexibility relative to the capacity of the learners to engage in learning for the development of one's values and character in serving God by serving others. For this school year, the institution intends to:</p>
+                    <ul class="styled-list compact">
+                        <li><i class="fa-solid fa-angle-right"></i> Strategize avenues to meet the capability of learners in the delivery of learning to provide educational opportunities without compromising safety;</li>
+                        <li><i class="fa-solid fa-angle-right"></i> Create partnerships within and among stakeholders and establish affiliations that serve as a support system for distance learning; and</li>
+                        <li><i class="fa-solid fa-angle-right"></i> Improve the quality of education by consistently reviewing and updating the curriculum relevant to the needs of learners by focusing on the MATATAG curriculum and current landscape of education.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CORE VALUES -->
+            <div class="core-values-wrap">
+                <h4>CORE VALUES</h4>
+                <div class="values-grid">
+                    <div class="value-pill">
+                        <span class="value-letter">C</span>
+                        <span>Commitment to Excellence</span>
+                    </div>
+                    <div class="value-pill">
+                        <span class="value-letter">F</span>
+                        <span>Faith in God</span>
+                    </div>
+                    <div class="value-pill">
+                        <span class="value-letter">S</span>
+                        <span>Service to Others</span>
+                    </div>
+                    <div class="value-pill">
+                        <span class="value-letter">I</span>
+                        <span>Integrity to Oneself</span>
+                    </div>
+                </div>
+                <blockquote class="school-motto">
+                    “We don't just school our learners, we educate them... Fatimanians always apply values.”
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- TEAM / DEVELOPERS -->
+        <section class="info-card">
+            <div class="card-header">
+                <span class="icon-badge blue"><i class="fa-solid fa-code"></i></span>
+                <h3>Project Team & Developers</h3>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-group">
+                    <h4><i class="fa-solid fa-diagram-project"></i> Management & Coordination</h4>
+                    <p><strong>Project Leader / Lead Researcher:</strong><br>Perez, Aj Lawrence B.</p>
+                    <p><strong>Assistant Project Leader / Vice Leader:</strong><br>Guevarra, Miguel Jed L.</p>
+                </div>
+
+                <div class="team-group">
+                    <h4><i class="fa-solid fa-laptop-code"></i> Technical & Development Team</h4>
+                    <p><strong>Lead Developer / Full-Stack Programmer:</strong><br>Perez, Aj Lawrence B.</p>
+                    <p><strong>UI/UX Designer & Front-End Lead:</strong><br>Perez, Aj Lawrence B.</p>
+                    <p><strong>Database Administrator / Backend Support:</strong><br>Perez, Aj Lawrence B.</p>
+                </div>
+
+                <div class="team-group">
+                    <h4><i class="fa-solid fa-file-lines"></i> Research & Documentation Team</h4>
+                    <p><strong>Lead Documenter / Manuscript Writer:</strong><br>Delos Reyes, Jheymielhyn P. &bull; Cabasig, Razhel Allie E. &bull; Cordova, Hannah N.</p>
+                    <p><strong>Data Analyst & Testing Lead:</strong><br>Ramos, Dustin P. &bull; Alimurong, Aries N. &bull; Babadilla, Erica C. &bull; Dizon, Marcus C.</p>
+                    <p><strong>Documentation:</strong><br>Selda, Edhison Carl B. &bull; Cahano, Christian &bull; Gonzales, Jasper John L. &bull; Valenzuela, Kino E.</p>
+                </div>
+            </div>
+
+            <div class="dev-footer-badge">
+                <i class="fa-solid fa-graduation-cap"></i> Developed as a Practical Research / III Project &bull; School Year 2026–2027
+            </div>
+        </section>
+
+    </main>
+
+<script>
+    async function applyRoleNavigation() {
+        const me = await getUser();
+        if (!me) return;
+
+        const profile = await getMyProfile();
+        const role = (profile && profile.role) || me.user_metadata?.role || 'student';
+        if (role !== 'parent' && role !== 'teacher') return;
+
+        document.getElementById('project')?.remove();
+
+        const portfolioLink = document.getElementById('portfolio');
+        if (portfolioLink) {
+            if (role === 'teacher') {
+                portfolioLink.textContent = 'Review Desk';
+                portfolioLink.href = 'Teacher.html';
+            } else {
+                portfolioLink.textContent = 'My Children';
+                portfolioLink.href = 'Parent.html';
+            }
+        }
+    }
+
+    applyRoleNavigation();
+</script>
+
+</body>
+</html>

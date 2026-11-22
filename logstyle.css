@@ -1,0 +1,223 @@
+/* Import modern font styles from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+
+    background-image: url('Starting\ bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    backdrop-filter: blur(5px);
+    font-family: 'Inter', sans-serif;
+}
+
+#form {
+    background-color: #F2ECCA;
+    border-radius: 12px;
+    padding: 40px 50px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    margin: 0;
+    width: 380px;
+    box-sizing: border-box;
+}
+
+#tlog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#tlog > h1 {
+    font-size: 28px;
+    color: #21527D;
+    font-family: 'Poppins', sans-serif;
+    margin: 0 0 10px 0;
+}
+
+#tlog > img {
+    height: 60px;
+    width: 65px;
+    margin-bottom: 10px;
+}
+
+#tlog > p {
+    font-size: 14px;
+    color: #21527D;
+    margin: 0 0 20px 0;
+    font-family: 'Inter', sans-serif;
+}
+
+#stname {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #21527D;
+    font-family: 'Poppins', sans-serif;
+}
+
+#user, #pss {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: solid #ccc 1px;
+    border-radius: 8px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#user:focus-within, #pss:focus-within {
+    border-color: #21527D;
+    box-shadow: 0 0 5px rgba(33, 82, 125, 0.3);
+}
+
+.fa-solid {
+    font-size: 16px;
+    color: gray;
+    margin-right: 10px;
+}
+
+#username, #pass {
+    height: 38px;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+#stps {
+    margin-top: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #21527D;
+    margin-bottom: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+#fp {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #21527D;
+    font-size: 12px;
+}
+
+.fp-label {
+    margin: 0;
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #21527D;
+    opacity: 0.75;
+    font-family: 'Inter', sans-serif;
+}
+
+.fp-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.fp-links > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 34px;
+    padding: 6px 4px;
+    border: 1px solid rgba(33, 82, 125, 0.3);
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #21527D;
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.fp-links > a i {
+    font-size: 11px;
+    color: inherit;
+    margin: 0;
+}
+
+.fp-links > a:hover {
+    background-color: #21527D;
+    border-color: #21527D;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.fp-links > a:focus-visible {
+    outline: 2px solid #21527D;
+    outline-offset: 2px;
+}
+
+/* Theme palettes: follow the active colors instead of the fixed blue */
+html[data-theme] .fp-label,
+html[data-theme] .fp-links > a {
+    color: var(--ink, #21527D);
+}
+
+html[data-theme] .fp-links > a {
+    border-color: var(--border-strong, rgba(33, 82, 125, 0.3));
+    background-color: var(--surface, #ffffff);
+}
+
+html[data-theme] .fp-links > a:hover {
+    background-color: var(--brand, #21527D);
+    border-color: var(--brand, #21527D);
+    color: #ffffff;
+}
+
+html[data-theme] .fp-links > a:focus-visible {
+    outline-color: var(--brand, #21527D);
+}
+
+@media (max-width: 400px) {
+    .fp-links { gap: 6px; }
+    .fp-links > a {
+        font-size: 11px;
+        gap: 4px;
+        padding: 6px 2px;
+    }
+}
+
+#btn {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+button {
+    background-color: #2B4051;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 20px;
+    color: white;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 200ms ease;
+}
+
+button:hover {
+    background-color: #21527D;
+}

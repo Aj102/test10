@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Review Desk | Student Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="teacher.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+</head>
+<body class="page-teacher">
+
+<header id="header">
+    <div id="title">
+        <div id="title1">
+            <img src="cfsi logo.png" id="logo" alt="CFSI logo">
+            <div id="title-text-group">
+                <h1>CHILDREN OF FATIMA SCHOOL, INC.</h1>
+                <p>Teacher Review Desk</p>
+            </div>
+        </div>
+        <div id="hp">
+            <a id="home" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        </div>
+    </div>
+
+    <nav id="nav">
+        <a id="desk" class="active" href="Teacher.html">Review Desk</a>
+        <a id="com-show" href="Community.html">Community Showcase</a>
+        <a id="about" href="about.html">About</a>
+    </nav>
+</header>
+
+<main id="whitebg">
+
+    <section class="teacher-banner">
+        <div class="teacher-banner-text">
+            <p><i class="fa-solid fa-pen-to-square"></i> TEACHER REVIEWS</p>
+            <h2>Feedback, Rubrics &amp; Milestone Reviews</h2>
+            <span>Review student projects posted to the Community Showcase and featured works. Only teacher accounts can write reviews.</span>
+        </div>
+        <div class="teacher-stats">
+            <div class="teacher-stat">
+                <strong id="statProjects">0</strong>
+                <span>Posted Projects</span>
+            </div>
+            <div class="teacher-stat">
+                <strong id="statFeatured">0</strong>
+                <span>Featured Works</span>
+            </div>
+            <div class="teacher-stat">
+                <strong id="statReviews">0</strong>
+                <span>Reviews Given</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="teacher-toolbar">
+        <div class="teacher-tabs" role="tablist">
+            <button type="button" class="teacher-tab active" data-mode="projects" onclick="switchTargetMode('projects')">
+                <i class="fa-solid fa-folder-open"></i> Posted Projects
+            </button>
+            <button type="button" class="teacher-tab" data-mode="featured" onclick="switchTargetMode('featured')">
+                <i class="fa-solid fa-star"></i> Featured Works
+            </button>
+            <button type="button" class="teacher-tab" data-mode="exhibitions" onclick="switchTargetMode('exhibitions')">
+                <i class="fa-solid fa-landmark"></i> Exhibitions
+            </button>
+        </div>
+        <div class="teacher-tools">
+            <button type="button" id="newExhibitionBtn" class="btn-submit" style="display: none;" onclick="openExhibitionEditor()">
+                <i class="fa-solid fa-plus"></i> New Exhibition
+            </button>
+            <input id="teacherSearch" type="search" placeholder="Search student, project, or subject...">
+            <div class="teacher-user">
+                <span id="teacherName">Teacher</span>
+                <button type="button" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+            </div>
+        </div>
+    </div>
+
+    <p id="exhibitionPageStatus" class="exhibition-page-status" role="status" aria-live="polite"></p>
+
+    <section id="targetGrid" class="teacher-grid">
+        <div class="teacher-empty">Loading student work...</div>
+    </section>
+
+</main>
+
+<footer class="teacher-footer">Children of Fatima School, Inc. &middot; Teacher Review Desk</footer>
+
+<!-- Review Modal -->
+<div id="reviewModal" class="modal-overlay">
+    <div class="modal-content review-modal-content" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+        <div class="modal-header">
+            <h3 id="reviewModalTitle"><i class="fa-solid fa-pen-to-square"></i> Review</h3>
+            <button type="button" class="modal-close-btn" id="closeReviewBtn" aria-label="Close">&times;</button>
+        </div>
+
+        <div id="reviewTargetMeta" class="review-target-meta"></div>
+
+        <div class="review-tabs" role="tablist">
+            <button type="button" class="review-tab active" data-kind="feedback" onclick="switchReviewTab('feedback')">
+                <i class="fa-solid fa-comment-dots"></i> Feedback
+            </button>
+            <button type="button" class="review-tab" data-kind="rubric" onclick="switchReviewTab('rubric')">
+                <i class="fa-solid fa-clipboard-list"></i> Rubric
+            </button>
+            <button type="button" class="review-tab" data-kind="milestone" onclick="switchReviewTab('milestone')">
+                <i class="fa-solid fa-flag-checkered"></i> Milestones
+            </button>
+        </div>
+
+        <div id="reviewBody"></div>
+
+        <p id="reviewStatus" class="review-status" role="status" aria-live="polite"></p>
+
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeReview()">Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- Curate Exhibition Modal -->
+<div id="exhibitionModal" class="modal-overlay">
+    <div class="modal-content review-modal-content" role="dialog" aria-modal="true" aria-labelledby="exhibitionModalTitle">
+        <div class="modal-header">
+            <h3 id="exhibitionModalTitle"><i class="fa-solid fa-landmark"></i> New Exhibition</h3>
+            <button type="button" class="modal-close-btn" onclick="closeExhibitionEditor()" aria-label="Close">&times;</button>
+        </div>
+
+        <div class="ex-form">
+            <label for="exTitle">Exhibition title</label>
+            <input id="exTitle" type="text" maxlength="120" placeholder="e.g. Grade 12 Capstone Highlights">
+
+            <label for="exDesc">Short description</label>
+            <textarea id="exDesc" rows="3" maxlength="2000" placeholder="What ties these works together?"></textarea>
+
+            <label class="ex-publish-row" for="exPublished">
+                <input type="checkbox" id="exPublished">
+                <span>Publish on the Community Showcase</span>
+            </label>
+
+            <div class="ex-project-head">
+                <strong>Choose public projects</strong>
+                <span id="exSelectedCount">0 selected</span>
+            </div>
+            <input id="exProjectSearch" type="search" placeholder="Search public projects by title, student, or subject...">
+            <div id="exProjectList" class="ex-project-list"></div>
+
+            <p id="exStatus" class="review-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeExhibitionEditor()">Cancel</button>
+            <button type="button" class="btn-submit" id="saveExhibitionBtn" onclick="saveExhibition(this)">
+                <i class="fa-solid fa-floppy-disk"></i> Save Exhibition
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let me = null;
+    let myProfile = null;
+    let projectTargets = [];
+    let featuredTargets = [];
+    let myReviews = [];
+    let myExhibitions = [];
+    let editingExhibitionId = null;
+    let exhibitionSelectedIds = new Set();
+    let targetMode = 'projects';
+    let searchTerm = '';
+    let activeTarget = null;
+    let activeKind = 'feedback';
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        me = await requireLogin();
+        if (!me) return;
+
+        myProfile = await getMyProfile();
+        const role = (myProfile && myProfile.role) || me.user_metadata?.role || 'student';
+
+        if (role !== 'teacher') {
+            window.location.replace(role === 'parent' ? 'Parent.html' : 'Welcome.html');
+            return;
+        }
+
+        document.getElementById('teacherName').textContent = teacherFullName();
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await logoutAccount();
+            window.location.replace('login.html');
+        });
+        document.getElementById('teacherSearch').addEventListener('input', event => {
+            searchTerm = event.target.value.trim().toLowerCase();
+            renderGrid();
+        });
+        document.getElementById('closeReviewBtn').addEventListener('click', closeReview);
+        document.getElementById('reviewModal').addEventListener('click', event => {
+            if (event.target.id === 'reviewModal') closeReview();
+        });
+        document.getElementById('exhibitionModal').addEventListener('click', event => {
+            if (event.target.id === 'exhibitionModal') closeExhibitionEditor();
+        });
+        document.getElementById('exProjectSearch').addEventListener('input', renderExhibitionProjectPicker);
+
+        await loadData();
+    });
+
+    function teacherFullName() {
+        const name = `${myProfile?.fname || ''} ${myProfile?.lname || ''}`.trim();
+        return name || 'Teacher';
+    }
+
+    function studentName(row) {
+        return `${row.fname || ''} ${row.lname || ''}`.trim() || 'CFSI Student';
+    }
+
+    function fmtWhen(iso) {
+        return new Date(iso).toLocaleString('en-US', {
+            month: 'short', day: '2-digit', year: 'numeric', hour: 'numeric', minute: '2-digit'
+        });
+    }
+
+    async function loadData() {
+        const [projRes, featRes, profRes, revRes, exhRes, exhItemRes] = await Promise.all([
+            sb.from('projects').select('*').or('is_public.eq.true,visibility.eq.teacher').order('created_at', { ascending: false }),
+            sb.from('featured').select('user_id, slot, image_url, caption').order('user_id').order('slot'),
+            sb.from('public_profiles').select('id, fname, lname'),
+            sb.from('teacher_reviews').select('*').eq('teacher_id', me.id).order('created_at', { ascending: false }),
+            sb.from('exhibitions').select('*').eq('teacher_id', me.id).order('updated_at', { ascending: false }),
+            sb.from('exhibition_items').select('exhibition_id, project_id, position')
+        ]);
+
+        const grid = document.getElementById('targetGrid');
+
+        if (projRes.error) {
+            grid.innerHTML = `
+                <div class="teacher-empty">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Could not load posted projects. Check your connection and refresh.
+                </div>`;
+            return;
+        }
+
+        const profilesById = {};
+        (profRes.data || []).forEach(p => { profilesById[p.id] = p; });
+
+        projectTargets = (projRes.data || []).map(row => ({
+            key: `p${row.id}`,
+            type: 'project',
+            projectId: row.id,
+            studentId: row.user_id,
+            studentName: row.author || 'CFSI Student',
+            title: row.title,
+            subject: inferSubjectFromProject(row),
+            term: inferTermFromProject(row),
+            isPublic: row.is_public === true,
+            teacherOnly: row.visibility === 'teacher' && !row.is_public,
+            date: fmtDate(row.created_at)
+        }));
+
+        featuredTargets = (featRes.data || []).map(row => ({
+            key: `f${row.user_id}-${row.slot}`,
+            type: 'featured',
+            featuredOwnerId: row.user_id,
+            featuredSlot: row.slot,
+            studentId: row.user_id,
+            studentName: studentName(profilesById[row.user_id] || {}),
+            title: row.caption && row.caption.trim() ? row.caption.trim() : `Featured Work ${row.slot}`,
+            subject: `Slot ${row.slot}`,
+            term: '',
+            date: '',
+            imageUrl: safeUrl(row.image_url)
+        }));
+
+        myReviews = (revRes.data || []).map(mapTeacherReview);
+
+        const itemsByExhibition = {};
+        ((exhItemRes && !exhItemRes.error && exhItemRes.data) || []).forEach(item => {
+            const key = String(item.exhibition_id);
+            (itemsByExhibition[key] = itemsByExhibition[key] || []).push(item);
+        });
+        myExhibitions = ((exhRes && !exhRes.error && exhRes.data) || []).map(row => ({
+            ...row,
+            projectIds: (itemsByExhibition[String(row.id)] || [])
+                .sort((a, b) => a.position - b.position)
+                .map(item => item.project_id)
+        }));
+
+        renderStats();
+        renderGrid();
+    }
+
+    function renderStats() {
+        document.getElementById('statProjects').textContent = projectTargets.length;
+        document.getElementById('statFeatured').textContent = featuredTargets.length;
+        document.getElementById('statReviews').textContent = myReviews.length;
+    }
+
+    function targetMatchesReview(target, review) {
+        if (target.type === 'project') {
+            return review.projectId != null && String(review.projectId) === String(target.projectId);
+        }
+        return review.projectId == null
+            && String(review.studentId) === String(target.studentId)
+            && Number(review.featuredSlot) === Number(target.featuredSlot);
+    }
+
+    function reviewsForTarget(target) {
+        return myReviews.filter(review => targetMatchesReview(target, review));
+    }
+
+    function reviewSummary(target) {
+        const rows = reviewsForTarget(target);
+        const rubric = rows.find(r => r.kind === 'rubric');
+        const milestones = rows.filter(r => r.kind === 'milestone');
+        return {
+            feedback: rows.filter(r => r.kind === 'feedback').length,
+            rubric,
+            milestones,
+            approved: milestones.filter(r => r.status === 'approved').length
+        };
+    }
+
+    function switchTargetMode(mode) {
+        targetMode = mode;
+        document.querySelectorAll('.teacher-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+        });
+        const isExhibitions = mode === 'exhibitions';
+        document.getElementById('teacherSearch').style.display = isExhibitions ? 'none' : '';
+        document.getElementById('newExhibitionBtn').style.display = isExhibitions ? '' : 'none';
+        setExhibitionPageStatus('');
+        renderGrid();
+    }
+
+    function renderGrid() {
+        if (targetMode === 'exhibitions') {
+            renderExhibitionGrid();
+            return;
+        }
+
+        const grid = document.getElementById('targetGrid');
+        const list = (targetMode === 'projects' ? projectTargets : featuredTargets).filter(target => {
+            if (!searchTerm) return true;
+            return `${target.studentName} ${target.title} ${target.subject} ${target.term}`
+                .toLowerCase()
+                .includes(searchTerm);
+        });
+
+        if (!list.length) {
+            grid.innerHTML = `
+                <div class="teacher-empty">
+                    <i class="fa-regular fa-folder-open"></i>
+                    ${targetMode === 'projects'
+                        ? 'No posted projects match this search yet.'
+                        : 'No featured works match this search yet.'}
+                </div>`;
+            return;
+        }
+
+        grid.innerHTML = list.map(target => {
+            const summary = reviewSummary(target);
+            const rubricLabel = summary.rubric
+                ? `Rubric ${summary.rubric.totalScore == null ? '\u2014' : summary.rubric.totalScore}/${RUBRIC_MAX_TOTAL}`
+                : 'No rubric yet';
+            const preview = target.type === 'featured' && target.imageUrl
+                ? `<img src="${esc(target.imageUrl)}" alt="${esc(target.title)}" class="teacher-card-img">`
+                : `<div class="teacher-card-icon"><i class="fa-solid ${target.type === 'featured' ? 'fa-star' : 'fa-folder-open'}"></i></div>`;
+
+            return `
+                <article class="teacher-card" onclick="openReview('${target.key}')">
+                    <div class="teacher-card-preview">${preview}</div>
+                    <div class="teacher-card-body">
+                        <span class="teacher-card-tag">${target.type === 'featured' ? 'Featured Work' : (target.teacherOnly ? 'Teacher-only Project' : 'Posted Project')}</span>
+                        <h3>${esc(target.title)}</h3>
+                        <p class="teacher-card-student"><i class="fa-solid fa-user-graduate"></i> ${esc(target.studentName)}</p>
+                        <p class="teacher-card-meta">${esc([target.subject, target.term, target.date].filter(Boolean).join(' \u2022 '))}</p>
+                        <div class="teacher-card-badges">
+                            <span><i class="fa-solid fa-comment-dots"></i> ${summary.feedback}</span>
+                            <span><i class="fa-solid fa-clipboard-list"></i> ${rubricLabel}</span>
+                            <span><i class="fa-solid fa-flag-checkered"></i> ${summary.milestones.length}/3</span>
+                        </div>
+                        <button type="button" class="teacher-card-btn">
+                            <i class="fa-solid fa-pen-to-square"></i> Review
+                        </button>
+                    </div>
+                </article>`;
+        }).join('');
+    }
+
+    /* ---------- Faculty-curated exhibitions ---------- */
+    function setExhibitionPageStatus(text, isError) {
+        const el = document.getElementById('exhibitionPageStatus');
+        if (!el) return;
+        el.textContent = text || '';
+        el.classList.toggle('is-error', !!isError);
+        el.style.display = text ? 'block' : 'none';
+    }
+
+    function setExhibitionStatus(text, isError) {
+        const el = document.getElementById('exStatus');
+        el.textContent = text || '';
+        el.classList.toggle('is-error', !!isError);
+    }
+
+    function exhibitionProjects(exhibition) {
+        return exhibition.projectIds
+            .map(id => projectTargets.find(target => String(target.projectId) === String(id)))
+            .filter(Boolean);
+    }
+
+    function renderExhibitionGrid() {
+        const grid = document.getElementById('targetGrid');
+
+        if (!myExhibitions.length) {
+            grid.innerHTML = `
+                <div class="teacher-empty">
+                    <i class="fa-solid fa-landmark"></i>
+                    <p>No exhibitions yet. Curate a collection from work shared in the Community Showcase.</p>
+                    <button type="button" class="btn-submit" onclick="openExhibitionEditor()">
+                        <i class="fa-solid fa-plus"></i> Create your first exhibition
+                    </button>
+                </div>`;
+            return;
+        }
+
+        grid.innerHTML = myExhibitions.map(exhibition => {
+            const items = exhibitionProjects(exhibition);
+            const previewTitles = items.slice(0, 3)
+                .map(item => `<li>${esc(item.title)}</li>`)
+                .join('');
+            return `
+                <article class="teacher-card exhibition-admin-card">
+                    <div class="teacher-card-preview">
+                        <div class="teacher-card-icon"><i class="fa-solid fa-landmark"></i></div>
+                        <span class="ex-status ${exhibition.is_published ? 'published' : 'draft'}">
+                            ${exhibition.is_published ? 'Published' : 'Draft'}
+                        </span>
+                    </div>
+                    <div class="teacher-card-body">
+                        <span class="teacher-card-tag">${items.length} work${items.length === 1 ? '' : 's'}</span>
+                        <h3>${esc(exhibition.title)}</h3>
+                        <p class="teacher-card-meta">${esc(exhibition.description || 'No description yet.')}</p>
+                        <ul class="ex-admin-list">${previewTitles}</ul>
+                        <div class="ex-admin-actions">
+                            <button type="button" onclick="openExhibitionEditor(${Number(exhibition.id)})">
+                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                            </button>
+                            <button type="button" class="danger" onclick="deleteExhibition(${Number(exhibition.id)})">
+                                <i class="fa-solid fa-trash-can"></i> Delete
+                            </button>
+                            ${exhibition.is_published
+                                ? `<a href="Community.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Showcase</a>`
+                                : ''}
+                        </div>
+                    </div>
+                </article>`;
+        }).join('');
+    }
+
+    function openExhibitionEditor(exhibitionId = null) {
+        const exhibition = exhibitionId == null
+            ? null
+            : myExhibitions.find(row => Number(row.id) === Number(exhibitionId));
+
+        editingExhibitionId = exhibition ? exhibition.id : null;
+
+        const publicIds = new Set(projectTargets.filter(target => target.isPublic).map(target => String(target.projectId)));
+        exhibitionSelectedIds = new Set(
+            (exhibition ? exhibition.projectIds : [])
+                .map(String)
+                .filter(id => publicIds.has(id))
+        );
+
+        document.getElementById('exhibitionModalTitle').innerHTML =
+            `<i class="fa-solid fa-landmark"></i> ${exhibition ? 'Edit Exhibition' : 'New Exhibition'}`;
+        document.getElementById('exTitle').value = exhibition ? exhibition.title : '';
+        document.getElementById('exDesc').value = exhibition ? (exhibition.description || '') : '';
+        document.getElementById('exPublished').checked = exhibition ? exhibition.is_published === true : false;
+        document.getElementById('exProjectSearch').value = '';
+        setExhibitionStatus('');
+        renderExhibitionProjectPicker();
+        document.getElementById('exhibitionModal').classList.add('active');
+    }
+
+    function closeExhibitionEditor() {
+        document.getElementById('exhibitionModal').classList.remove('active');
+        editingExhibitionId = null;
+        exhibitionSelectedIds = new Set();
+    }
+
+    function renderExhibitionProjectPicker() {
+        const holder = document.getElementById('exProjectList');
+        if (!holder) return;
+
+        const term = document.getElementById('exProjectSearch').value.trim().toLowerCase();
+        const options = projectTargets.filter(target => {
+            if (!target.isPublic) return false;
+            if (!term) return true;
+            return `${target.title} ${target.studentName} ${target.subject} ${target.term}`
+                .toLowerCase()
+                .includes(term);
+        });
+
+        holder.innerHTML = options.length
+            ? options.map(target => {
+                const checked = exhibitionSelectedIds.has(String(target.projectId));
+                return `
+                    <label class="ex-project-item${checked ? ' selected' : ''}">
+                        <input type="checkbox" value="${target.projectId}" ${checked ? 'checked' : ''} onchange="toggleExhibitionProject(this)">
+                        <span>
+                            <strong>${esc(target.title)}</strong>
+                            <small>${esc(target.studentName)} \u00b7 ${esc(target.subject)}</small>
+                        </span>
+                    </label>`;
+            }).join('')
+            : `<p class="ex-project-empty">${projectTargets.some(target => target.isPublic)
+                ? 'No public projects match this search.'
+                : 'No public projects yet. Ask students to share work to the Community Showcase first.'}</p>`;
+
+        updateExhibitionSelectedCount();
+    }
+
+    function toggleExhibitionProject(input) {
+        const id = String(input.value);
+        if (input.checked) exhibitionSelectedIds.add(id);
+        else exhibitionSelectedIds.delete(id);
+        input.closest('.ex-project-item').classList.toggle('selected', input.checked);
+        updateExhibitionSelectedCount();
+    }
+
+    function updateExhibitionSelectedCount() {
+        document.getElementById('exSelectedCount').textContent =
+            `${exhibitionSelectedIds.size} selected`;
+    }
+
+    async function saveExhibition(button) {
+        const title = document.getElementById('exTitle').value.trim();
+        const description = document.getElementById('exDesc').value.trim();
+        const isPublished = document.getElementById('exPublished').checked;
+
+        if (title.length < 3) {
+            setExhibitionStatus('Give the exhibition a title between 3 and 120 characters.', true);
+            return;
+        }
+        if (!exhibitionSelectedIds.size) {
+            setExhibitionStatus('Choose at least one public project.', true);
+            return;
+        }
+
+        const wasEditing = editingExhibitionId != null;
+        button.disabled = true;
+        setExhibitionStatus('Saving...');
+
+        try {
+            const { error } = await sb.rpc('save_exhibition', {
+                p_id: editingExhibitionId,
+                p_title: title,
+                p_description: description || null,
+                p_is_published: isPublished,
+                p_project_ids: Array.from(exhibitionSelectedIds).map(Number)
+            });
+            if (error) throw new Error(error.message || 'Could not save this exhibition.');
+
+            closeExhibitionEditor();
+            await loadData();
+            setExhibitionPageStatus(wasEditing
+                ? 'Exhibition updated.'
+                : (isPublished
+                    ? 'Exhibition published on the Community Showcase.'
+                    : 'Draft exhibition saved.'));
+        } catch (error) {
+            setExhibitionStatus(error.message || 'Could not save this exhibition.', true);
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    async function deleteExhibition(id) {
+        const exhibition = myExhibitions.find(row => Number(row.id) === Number(id));
+        if (!exhibition) return;
+
+        if (!confirm(`Delete "${exhibition.title}"? This removes the collection but keeps every student project.`)) {
+            return;
+        }
+
+        setExhibitionPageStatus('Deleting exhibition...');
+        const { error } = await sb.rpc('delete_exhibition', { p_id: id });
+
+        if (error) {
+            setExhibitionPageStatus(error.message || 'Could not delete this exhibition.', true);
+            return;
+        }
+
+        await loadData();
+        setExhibitionPageStatus('Exhibition deleted.');
+    }
+
+    function findTarget(key) {
+        return [...projectTargets, ...featuredTargets].find(target => target.key === key) || null;
+    }
+
+    function openReview(key) {
+        const target = findTarget(key);
+        if (!target) return;
+
+        activeTarget = target;
+        activeKind = 'feedback';
+
+        document.getElementById('reviewModalTitle').innerHTML =
+            `<i class="fa-solid fa-pen-to-square"></i> ${esc(target.title)}`;
+        document.getElementById('reviewTargetMeta').innerHTML = `
+            <span><i class="fa-solid fa-user-graduate"></i> ${esc(target.studentName)}</span>
+            <span><i class="fa-solid fa-tag"></i> ${esc(target.type === 'featured' ? `Featured slot ${target.featuredSlot}` : target.subject)}</span>
+            ${target.type === 'project'
+                ? `<a href="Community.html?project=${target.projectId}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Showcase</a>`
+                : `<a href="index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Showcase Home</a>`}`;
+
+        document.querySelectorAll('.review-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-kind') === 'feedback');
+        });
+
+        setReviewStatus('');
+        renderReviewBody();
+        document.getElementById('reviewModal').classList.add('active');
+    }
+
+    function closeReview() {
+        document.getElementById('reviewModal').classList.remove('active');
+        activeTarget = null;
+    }
+
+    function switchReviewTab(kind) {
+        activeKind = kind;
+        document.querySelectorAll('.review-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-kind') === kind);
+        });
+        setReviewStatus('');
+        renderReviewBody();
+    }
+
+    function setReviewStatus(text, isError) {
+        const el = document.getElementById('reviewStatus');
+        el.textContent = text;
+        el.classList.toggle('is-error', !!isError);
+    }
+
+    function renderReviewBody() {
+        const body = document.getElementById('reviewBody');
+        if (!activeTarget) {
+            body.innerHTML = '';
+            return;
+        }
+
+        const rows = reviewsForTarget(activeTarget);
+
+        if (activeKind === 'feedback') {
+            const feedback = rows.filter(r => r.kind === 'feedback');
+            body.innerHTML = `
+                ${feedback.length ? `<div class="rv-existing">${feedback.map(r => `
+                    <div class="rv-existing-item">
+                        <div class="rv-existing-head">
+                            <strong>${esc(teacherFullName())}</strong>
+                            <span>${esc(fmtWhen(r.createdAt))}</span>
+                        </div>
+                        <p>${esc(r.message)}</p>
+                    </div>`).join('')}</div>` : '<p class="rv-hint">No feedback posted for this work yet.</p>'}
+                <div class="rv-form">
+                    <label for="feedbackText">New feedback</label>
+                    <textarea id="feedbackText" rows="4" maxlength="2000" placeholder="Comment on strengths, improvements, and next steps..."></textarea>
+                    <button type="button" class="btn-submit rv-submit" onclick="postFeedback(this)">
+                        <i class="fa-solid fa-paper-plane"></i> Post Feedback
+                    </button>
+                </div>`;
+            return;
+        }
+
+        if (activeKind === 'rubric') {
+            const rubric = rows.find(r => r.kind === 'rubric');
+            const scores = (rubric && rubric.scores) || {};
+
+            body.innerHTML = `
+                <p class="rv-hint">Score each criterion from 1 to 5. Saving again updates your previous rubric.</p>
+                <div class="rv-rubric">
+                    ${RUBRIC_CRITERIA.map(criterion => `
+                        <label class="rv-rubric-row" for="rb_${criterion.key}">
+                            <span>${esc(criterion.label)}</span>
+                            <select id="rb_${criterion.key}">
+                                <option value="">--</option>
+                                ${[1, 2, 3, 4, 5].map(n => `<option value="${n}"${Number(scores[criterion.key]) === n ? ' selected' : ''}>${n}</option>`).join('')}
+                            </select>
+                        </label>`).join('')}
+                </div>
+                <div class="rv-form">
+                    <label for="rubricComment">Comments (optional)</label>
+                    <textarea id="rubricComment" rows="3" maxlength="2000" placeholder="Explain the scores or suggest improvements...">${esc(rubric ? rubric.message : '')}</textarea>
+                    <button type="button" class="btn-submit rv-submit" onclick="saveRubric(this)">
+                        <i class="fa-solid fa-floppy-disk"></i> ${rubric ? 'Update Rubric' : 'Save Rubric'}
+                    </button>
+                </div>`;
+            return;
+        }
+
+        const milestones = rows.filter(r => r.kind === 'milestone');
+        const listing = milestones.length
+            ? milestones.map(r => {
+                const stageLabel = (MILESTONE_STAGES.find(s => s.key === r.stage) || {}).label || r.stage;
+                const approved = r.status === 'approved';
+                return `
+                    <div class="rv-existing-item">
+                        <div class="rv-existing-head">
+                            <strong>${esc(stageLabel)}</strong>
+                            <span class="rv-status-pill ${approved ? 'is-approved' : 'is-revision'}">${approved ? 'Approved' : 'Needs Revision'}</span>
+                        </div>
+                        ${r.message ? `<p>${esc(r.message)}</p>` : '<p class="rv-muted">No notes.</p>'}
+                        <span class="rv-existing-date">${esc(fmtWhen(r.updatedAt || r.createdAt))}</span>
+                    </div>`;
+            }).join('')
+            : '<p class="rv-hint">No milestone reviews yet.</p>';
+
+        body.innerHTML = `
+            <div class="rv-form">
+                <label for="msStage">Milestone stage</label>
+                <select id="msStage" onchange="fillMilestoneForm()">
+                    ${MILESTONE_STAGES.map(stage => `<option value="${stage.key}">${esc(stage.label)}</option>`).join('')}
+                </select>
+
+                <label for="msStatus">Decision</label>
+                <select id="msStatus">
+                    <option value="approved">Approved</option>
+                    <option value="needs_revision">Needs Revision</option>
+                </select>
+
+                <label for="msNote">Notes (optional)</label>
+                <textarea id="msNote" rows="3" maxlength="2000" placeholder="What should the student do next?"></textarea>
+
+                <button type="button" class="btn-submit rv-submit" onclick="saveMilestone(this)">
+                    <i class="fa-solid fa-flag-checkered"></i> Save Milestone Review
+                </button>
+            </div>
+            <h4 class="rv-subtitle">Existing milestone reviews</h4>
+            <div class="rv-existing">${listing}</div>`;
+
+        fillMilestoneForm();
+    }
+
+    function fillMilestoneForm() {
+        if (activeKind !== 'milestone' || !activeTarget) return;
+        const stageEl = document.getElementById('msStage');
+        const statusEl = document.getElementById('msStatus');
+        const noteEl = document.getElementById('msNote');
+        if (!stageEl || !statusEl || !noteEl) return;
+
+        const existing = reviewsForTarget(activeTarget)
+            .find(r => r.kind === 'milestone' && r.stage === stageEl.value);
+
+        statusEl.value = existing ? existing.status : 'approved';
+        noteEl.value = existing ? existing.message : '';
+    }
+
+    function currentTargetPayload() {
+        return activeTarget.type === 'project'
+            ? { projectId: activeTarget.projectId, featuredOwnerId: null, featuredSlot: null }
+            : { projectId: null, featuredOwnerId: activeTarget.featuredOwnerId, featuredSlot: activeTarget.featuredSlot };
+    }
+
+    async function refreshReviews() {
+        const { data, error } = await sb.from('teacher_reviews')
+            .select('*')
+            .eq('teacher_id', me.id)
+            .order('created_at', { ascending: false });
+        if (!error) myReviews = (data || []).map(mapTeacherReview);
+        renderStats();
+        renderGrid();
+    }
+
+    async function submitFromForm(button, payload, successText) {
+        if (!activeTarget) return;
+        button.disabled = true;
+        setReviewStatus('Saving...');
+        try {
+            await submitTeacherReview({ ...currentTargetPayload(), ...payload });
+            await refreshReviews();
+            renderReviewBody();
+            setReviewStatus(successText);
+        } catch (error) {
+            setReviewStatus(error.message || 'Could not save this review.', true);
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    function postFeedback(button) {
+        const message = document.getElementById('feedbackText').value.trim();
+        if (!message) {
+            setReviewStatus('Write your feedback before posting.', true);
+            return;
+        }
+        submitFromForm(button, { kind: 'feedback', message }, 'Feedback posted. The student can see it now.');
+    }
+
+    function saveRubric(button) {
+        const scores = {};
+        for (const criterion of RUBRIC_CRITERIA) {
+            const value = document.getElementById(`rb_${criterion.key}`).value;
+            if (!value) {
+                setReviewStatus(`Score every criterion - "${criterion.label}" is blank.`, true);
+                return;
+            }
+            scores[criterion.key] = Number(value);
+        }
+        const message = document.getElementById('rubricComment').value.trim();
+        submitFromForm(button, { kind: 'rubric', scores, message }, 'Rubric saved. The student can see the scores now.');
+    }
+
+    function saveMilestone(button) {
+        const stage = document.getElementById('msStage').value;
+        const status = document.getElementById('msStatus').value;
+        const message = document.getElementById('msNote').value.trim();
+        submitFromForm(button, { kind: 'milestone', stage, status, message }, 'Milestone review saved. The student can see it now.');
+    }
+</script>
+
+</body>
+</html>

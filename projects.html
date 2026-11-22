@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects | Student Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="projects.css">
+    <link rel="stylesheet" href="responsive.css">    
+    <script src="transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="safety.js"></script>
+    <style>
+        .btn-qr-card {
+            padding: 6px 9px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+        .btn-qr-card:hover {
+            background-color: #DC9E24;
+            color: #0B2545;
+        }
+        .subject-term-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+        .subject-tag-pill {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #0B2545;
+            border: 1px solid #bfdbfe;
+        }
+        .term-tag-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+        .subject-dropdown {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #0B2545;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 7px 12px;
+            outline: none;
+            cursor: pointer;
+        }
+        .btn-review-view {
+            width: 100%;
+            margin-bottom: 8px;
+            padding: 6px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+        .btn-review-view:hover {
+            background-color: #047857;
+            color: #ffffff;
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+</head>
+<body class="page-projects">
+    
+    <header id="header">
+        <div id="title">
+            <div id="title1">
+                <img src="cfsi logo.png" id="logo">
+                <div id="title-text-group">
+                    <h1>CHILDREN OF FATIMA SCHOOL, INC.</h1>
+                    <p>Student Portal & Academic Hub</p>
+                </div>
+            </div>
+
+            <div id="hp">
+                    <a id="home" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            </div>   
+        </div>
+        
+
+        <nav id="nav">
+            <a id="portfolio" href="Welcome.html">My Portfolio</a>
+            <a id="com-show" href="Community.html">Community Showcase</a>
+            <a id="project" href="projects.html">My Projects</a>
+            <a id="about" href="about.html">About</a>
+        </nav>
+    </header>
+
+    <main id="wrapper">
+
+        <section id="buttoners"> 
+            <button id="archiveBtn" type="button"> 
+                <img src="add.png" id="add" alt="Add Icon"> Archive Item
+            </button>
+        </section>
+
+        <section id="main1">
+            <div class="storage-grid">
+                
+                <!-- STORAGE USED -->
+                <div class="mcards card-storage">
+                    <div class="twrap">
+                        <div>
+                            <h3>STORAGE USED</h3>
+                        </div>
+                        <div class="icon-box storage-icon">
+                            <i class="fa-solid fa-hard-drive"></i>
+                        </div>
+                    </div>
+
+                    <div class="txwrap">
+                        <div class="storage-text-row">
+                            <div class="storage-numbers">
+                                <span id="statStorageUsed" class="storage-main-num">0.0 MB</span>
+                                <span class="storage-target">/ 50 MB</span>
+                            </div>
+                            <span id="statStoragePercent" class="storage-badge">0%</span>
+                        </div>
+
+                        <div class="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0">
+                            <div id="storageProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
+                        </div>
+
+                        <div class="storage-scale">
+                            <span>0 MB</span>
+                            <span>25 MB</span>
+                            <span>50 MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOTAL ITEMS -->
+                <div class="mcards card-total">
+                    <div class="twrap">
+                        <div>
+                            <h3>TOTAL ITEMS</h3>
+                        </div>
+                        <div class="icon-box total-icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                    </div>
+
+                    <div class="txwrap total-body">
+                        <div class="total-num-wrap">
+                            <span id="statTotalFiles" class="storage-main-num">0</span>
+                            <span class="status-pill"><i class="fa-solid fa-circle-check"></i> Active</span>
+                        </div>
+                        <span class="sub-label">Archived project files & assets</span>
+                    </div>
+                </div>
+
+                <!-- MEDIA FILES -->
+                <div class="mcards card-media">
+                    <div class="twrap">
+                        <div>
+                            <h3>MEDIA FILES</h3>
+                        </div>
+                        <div class="icon-box media-icon">
+                            <i class="fa-solid fa-photo-film"></i>
+                        </div>
+                    </div>
+
+                    <div class="list-wrap">
+                        <div class="item-row">
+                            <span class="label-with-icon">
+                                <span class="dot dot-emerald"></span>
+                                <i class="fa-regular fa-image"></i> Images
+                            </span>
+                            <span id="statCountImages" class="item-count badge-emerald">0</span>
+                        </div>
+                        <div class="item-row">
+                            <span class="label-with-icon">
+                                <span class="dot dot-teal"></span>
+                                <i class="fa-solid fa-video"></i> Videos
+                            </span>
+                            <span id="statCountVideos" class="item-count badge-teal">0</span>
+                        </div>
+                        <div class="item-row">
+                            <span class="label-with-icon">
+                                <span class="dot dot-blue"></span>
+                                <i class="fa-solid fa-tower-broadcast"></i> Live Apps
+                            </span>
+                            <span id="statCountLive" class="item-count badge-blue">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOCS AND PDFS -->
+                <div class="mcards card-docs">
+                    <div class="twrap">
+                        <div>
+                            <h3>DOCS & PDFS</h3>
+                        </div>
+                        <div class="icon-box doc-icon">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                    </div>
+
+                    <div class="list-wrap">
+                        <div class="item-row">
+                            <span class="label-with-icon">
+                                <span class="dot dot-rose"></span>
+                                <i class="fa-regular fa-file-pdf"></i> PDF Files
+                            </span>
+                            <span id="statCountPdfs" class="item-count badge-rose">0</span>
+                        </div>
+                        <div class="item-row">
+                            <span class="label-with-icon">
+                                <span class="dot dot-amber"></span>
+                                <i class="fa-solid fa-file-code"></i> Documents
+                            </span>
+                            <span id="statCountDocs" class="item-count badge-amber">0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEARCH & FILTER BAR -->
+        <div id="sbar"> 
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search by project name, subject, term, tag, or description..."/>
+                <button id="clearSearchBtn" type="button">Clear</button>
+            </div>
+
+            <select id="subjectFilter" class="subject-dropdown" title="Filter by Subject">
+                <option value="all">All Subjects</option>
+                <option value="Coding & ICT">Coding & ICT</option>
+                <option value="Research & Capstone">Research & Capstone</option>
+                <option value="Visual Arts & Media">Visual Arts & Media</option>
+                <option value="Entrepreneurship">Entrepreneurship</option>
+                <option value="Science & STEM">Science & STEM</option>
+                <option value="Humanities & Advocacy">Humanities & Advocacy</option>
+            </select>
+
+            <select id="skillFilter" class="subject-dropdown" title="Filter by Skill">
+                <option value="all">All Skills</option>
+            </select>
+
+            <select id="termFilter" class="subject-dropdown" title="Filter by Academic Term">
+                <option value="all">All Terms</option>
+            </select>
+
+            <div class="filter-group">
+                <button data-category="all" class="filter-tab active">All Items</button>
+                <button data-category="image" class="filter-tab">Images</button>
+                <button data-category="video" class="filter-tab">Videos</button>
+                <button data-category="pdf" class="filter-tab">PDFs</button>
+                <button data-category="document" class="filter-tab">Docs</button>
+                <button data-category="link" class="filter-tab">Links</button>
+                <button data-category="live" class="filter-tab"><i class="fa-solid fa-tower-broadcast"></i> Live Apps</button>
+            </div>
+
+            <div class="sort-group">
+                <label for="sortSelect">Sort:</label>
+                <select id="sortSelect">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="name">Name A-Z</option>
+                    <option value="size">File Size</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- FILE DISPLAY GRID -->
+        <section id="main2">
+            <!-- Dynamic cards will render here -->
+        </section>
+
+    </main>
+
+    <!-- ARCHIVE ITEM MODAL POPUP -->
+    <div id="archiveModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-cloud-arrow-up"></i> Archive New Project Item</h3>
+                <button id="closeModalBtn" type="button">&times;</button>
+            </div>
+
+            <!-- Mode Switcher · teams-integration v1 -->
+            <div class="archive-mode-switch">
+                <button type="button" class="mode-btn active" id="modeFileBtn" data-mode="file">
+                    <i class="fa-solid fa-file-arrow-up"></i> Upload Files
+                </button>
+                <button type="button" class="mode-btn" id="modeLinkBtn" data-mode="link">
+                    <i class="fa-solid fa-link"></i> Link / Hosted App
+                </button>
+                <button type="button" class="mode-btn" id="modeTeamsBtn" data-mode="teams">
+                    <i class="fa-brands fa-microsoft"></i> From Microsoft Teams
+                </button>
+            </div>
+
+            <form id="archiveForm">
+                <!-- FILE UPLOAD SECTION -->
+                <div id="fileInputSection" class="form-group">
+                    <label for="itemFile">Select File(s) to Upload (Multiple allowed)</label>
+                    <div class="file-upload-wrapper" id="dropZone">
+                        <input type="file" id="itemFile" multiple accept="image/*,video/*,.pdf,.doc,.docx,.txt,.zip,.html,.css,.js,.py" required>
+                        <div class="file-upload-prompt">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <span id="selectedFileName">Click or drag file(s) here (Max 50 MB total)</span>
+                        </div>
+                    </div>
+
+                    <!-- LOCAL PREVIEW BEFORE UPLOAD -->
+                    <div id="uploadPreviewPanel" class="upload-preview-panel" style="display: none;">
+                        <div class="upload-preview-head">
+                            <span><i class="fa-solid fa-eye"></i> Preview before you upload</span>
+                            <em id="uploadPreviewCount"></em>
+                        </div>
+                        <div id="uploadPreviewTabs" class="upload-preview-tabs"></div>
+                        <div id="uploadPreviewStage" class="upload-preview-stage"></div>
+                        <p class="upload-preview-hint">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>Local preview of your selected file — nothing is uploaded until you click "Archive Item(s)".</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- LINK URL SECTION (Hidden by default) -->
+                <div id="linkInputSection" class="form-group" style="display: none;">
+                    <label for="itemUrl">Project / Resource URL</label>
+                    <input type="url" id="itemUrl" placeholder="https://github.com/username/project or https://...">
+                </div>
+
+                <!-- MICROSOFT TEAMS LINK SECTION (Hidden by default) -->
+                <div id="teamsInputSection" class="form-group" style="display: none;">
+                    <label for="itemTeamsUrl">Microsoft Teams artifact link</label>
+                    <input type="url" id="itemTeamsUrl" placeholder="https://teams.microsoft.com/l/... or https://school.sharepoint.com/:w:/...">
+                    <p id="teamsDetectNote" class="field-hint">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>In Teams, open the finished work, choose <strong>Copy link</strong>, and paste it here. Teams, SharePoint, OneDrive, and Microsoft Forms links are accepted.</span>
+                    </p>
+                    <div class="teams-copy-box">
+                        <div class="teams-copy-head">
+                            <i class="fa-brands fa-microsoft"></i>
+                            <div>
+                                <strong>Import a permanent copy <span class="optional-tag">Optional</span></strong>
+                                <span>Download the finished file from Teams and attach the copy here. The portfolio keeps the file even if the Teams workspace changes, while the link below stays attached as the original source.</span>
+                            </div>
+                        </div>
+                        <input type="file" id="itemTeamsFile" multiple accept="image/*,video/*,.pdf,.doc,.docx,.txt,.zip,.html,.css,.js,.py">
+                        <span class="teams-file-note" id="teamsFileNote">No copy attached — only the Teams link will be archived.</span>
+                    </div>
+                    <p class="field-hint">
+                        <i class="fa-solid fa-landmark"></i>
+                        <span>This site stays the permanent showcase and record; Microsoft Teams remains the original workspace. Visitors may need a school Microsoft account to open the original link.</span>
+                    </p>
+                </div>
+
+                <!-- OPTIONAL LIVE WEB / APP PREVIEW -->
+                <div class="form-group">
+                    <label for="itemLiveUrl">Live Demo / App URL <span class="optional-tag">Optional</span></label>
+                    <input type="url" id="itemLiveUrl" placeholder="https://my-project.netlify.app or https://username.github.io/app">
+                    <p class="field-hint">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Embeds a live preview (iframe) with your uploaded file as the fallback attachment. Direct uploads share the 50 MB cap — for heavier apps, zip bundles, or databases, host the demo externally and paste the link here.</span>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemTitle">Project Title</label>
+                    <input type="text" id="itemTitle" required placeholder="e.g. Science Fair Presentation or Live Demo">
+                </div>
+
+                <!-- CROSS-SUBJECT & TERM ROW -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="itemSubject">Subject / Discipline</label>
+                        <select id="itemSubject" required>
+                            <option value="Coding & ICT">Coding & ICT</option>
+                            <option value="Research & Capstone">Research & Capstone</option>
+                            <option value="Visual Arts & Media">Visual Arts & Media</option>
+                            <option value="Entrepreneurship">Entrepreneurship</option>
+                            <option value="Science & STEM">Science & STEM</option>
+                            <option value="Humanities & Advocacy">Humanities & Advocacy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemTerm">Academic Term</label>
+                        <select id="itemTerm" required>
+                            <option value="SY 2026–2027 • Term 1">SY 2026–2027 • Term 1</option>
+                            <option value="SY 2026–2027 • Term 2">SY 2026–2027 • Term 2</option>
+                            <option value="SY 2026–2027 • Term 3">SY 2026–2027 • Term 3</option>
+                            <option value="SY 2025–2026 • 1st Sem">SY 2025–2026 • 1st Sem</option>
+                            <option value="SY 2025–2026 • 2nd Sem">SY 2025–2026 • 2nd Sem</option>
+                        </select>
+                        <p id="termAutoHint" style="margin:6px 0 0; font-size:10.5px; color:#64748b; line-height:1.4;"></p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="itemCategory">Primary Media Type</label>
+                        <select id="itemCategory" required>
+                            <option value="image">Photo / Image</option>
+                            <option value="video">Video</option>
+                            <option value="pdf">PDF File</option>
+                            <option value="document">Document (Docx/Code)</option>
+                            <option value="link">Web Link / URL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemSize">Total Size (MB)</label>
+                        <input type="number" id="itemSize" step="0.01" min="0" max="50" readonly placeholder="Auto-calculated">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemDesc">Description</label>
+                    <textarea id="itemDesc" rows="3" placeholder="Brief details about this project..." required></textarea>
+                </div>
+
+                <!-- GUIDED PORTFOLIO REFLECTION -->
+                <div class="form-group reflection-block">
+                    <label>Guided Portfolio Reflection <span class="optional-tag">Recommended</span></label>
+                    <p class="field-hint">
+                        <i class="fa-solid fa-compass"></i>
+                        <span>Prompts for <strong id="reflectionSubjectLabel">Coding &amp; ICT</strong> turn this upload into evidence of your learning, not just the finished file.</span>
+                    </p>
+                    <div id="reflectionPrompts" class="reflection-prompts"></div>
+                    <div class="reflection-toolbar">
+                        <span id="reflectionProgress" class="reflection-progress">0 of 0 answered</span>
+                        <button type="button" id="reflectionTemplateBtn" class="reflection-template-btn">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Fill description with template
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemTags">Hashtags (comma separated)</label>
+                    <input type="text" id="itemTags" placeholder="#Robotics, #2026, #GitHub">
+                </div>
+
+                <!-- SKILL TAGS FOR CAPABILITY SEARCH -->
+                <div class="form-group">
+                    <label for="itemSkills">Skill Tags / Capabilities <span class="optional-tag">Optional</span></label>
+                    <input type="text" id="itemSkills" placeholder="e.g. Python, UI Design, Video Editing">
+                    <div id="skillSuggestRow" class="skill-suggest-row"></div>
+                    <p class="field-hint">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Visitors can filter the Community gallery by these skills. Separate multiple skills with commas.</span>
+                    </p>
+                </div>
+
+                <!-- SHARE TO COMMUNITY TOGGLE -->
+                <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px; background: #eff6ff; padding: 10px 12px; border-radius: 10px; border: 1px solid #bfdbfe;">
+                    <input type="checkbox" id="shareCommunity" checked style="width: 16px; height: 16px; cursor: pointer;">
+                    <label for="shareCommunity" style="margin: 0; color: #0B2545; cursor: pointer;">
+                        Publish to <strong>Cross-Subject Community Portfolio</strong>
+                    </label>
+                </div>
+
+                <p id="uploadErrorMsg" class="error-text" style="display:none;"></p>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancelModalBtn" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-submit" id="submitArchiveBtn">Archive Item(s)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FILE PREVIEW & DOWNLOAD MODAL -->
+    <div id="previewModal" class="modal-overlay">
+        <div class="modal-content preview-modal-content">
+            <div class="modal-header">
+                <h3 id="previewModalTitle"><i class="fa-solid fa-eye"></i> File Preview</h3>
+                <button id="closePreviewBtn" type="button">&times;</button>
+            </div>
+            
+            <div id="previewViewTabs" class="preview-view-tabs" style="display: none;">
+                <div class="preview-view-tab-group">
+                    <button type="button" class="preview-view-tab active" data-view="live" onclick="switchPreviewView('live')">
+                        <i class="fa-solid fa-tower-broadcast"></i> Live Preview
+                    </button>
+                    <button type="button" class="preview-view-tab" data-view="file" onclick="switchPreviewView('file')">
+                        <i class="fa-solid fa-paperclip"></i> Fallback / Attachment
+                    </button>
+                </div>
+                <a id="openLiveLink" class="preview-open-live" href="#" target="_blank" rel="noopener noreferrer">
+                    Open live <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+
+            <div id="previewStage" class="preview-stage"></div>
+
+            <p id="liveFrameNotice" class="live-frame-notice" style="display: none;">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Some sites block embedding (X-Frame-Options / CSP). If the preview stays blank, use "Open live" or switch to the fallback attachment.</span>
+            </p>
+
+            <div class="preview-details">
+                <div class="preview-meta-row">
+                    <span id="previewSubjectTag" class="subject-tag-pill">Subject</span>
+                    <span id="previewTermTag" class="term-tag-pill">Term</span>
+                    <span id="previewBadge" class="file-type-badge">Category</span>
+                    <span id="previewSize" class="file-size-tag">0 MB</span>
+                    <span id="previewDate" class="archived-date" style="margin:0;">Archived: --</span>
+                </div>
+                <p id="previewDesc" class="preview-desc-text"></p>
+                <div id="previewSkills" class="skills-row"></div>
+                <div id="previewTags" class="file-tags"></div>
+                <div id="previewReflection" class="preview-reflection" style="display: none;"></div>
+                <div id="previewTeams" class="teams-source-box" style="display: none;">
+                    <span class="teams-source-icon"><i class="fa-brands fa-microsoft"></i></span>
+                    <div class="teams-source-body">
+                        <strong id="previewTeamsTitle">Imported from Microsoft Teams</strong>
+                        <span id="previewTeamsMeta" class="teams-source-meta"></span>
+                        <a id="previewTeamsLink" class="teams-source-link" href="#" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span>Open original</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="closePreviewFooterBtn" class="btn-cancel">Close</button>
+                <a id="downloadFileBtn" class="btn-submit btn-download" download>
+                    <i class="fa-solid fa-download"></i> Download File
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROJECT QR CODE MODAL -->
+    <div id="projectQrModal" class="modal-overlay" style="z-index: 1100;">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <div class="modal-header">
+                <h3 id="projectQrTitle"><i class="fa-solid fa-qrcode"></i> Project QR Code</h3>
+                <button type="button" onclick="closeProjectQrModal()" style="background:none; border:none; font-size:24px; color:#64748b; cursor:pointer;">&times;</button>
+            </div>
+            <p id="projectQrNotice" style="margin:0 0 12px 0; font-size:12px; color:#475569; line-height:1.4;">
+                Create a private, revocable link that opens this project without signing in.
+            </p>
+            <div id="projectShareStatus" style="display:flex; align-items:center; gap:8px; justify-content:space-between; flex-wrap:wrap;
+                        background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:9px 12px; margin-bottom:12px; text-align:left;">
+                <span style="display:flex; align-items:center; gap:7px; font-size:12px; color:#334155;">
+                    <span id="projectShareDot" style="width:8px; height:8px; border-radius:50%; background:#94a3b8; flex:none;"></span>
+                    <span id="projectShareStatusText">Checking share link...</span>
+                </span>
+                <button type="button" id="projectShareToggleBtn" onclick="toggleProjectShare()"
+                        style="font-size:11px; font-weight:700; color:#0c5cbe; background:#ffffff; border:1px solid #bfdbfe; border-radius:7px; padding:4px 9px; cursor:pointer;">
+                    Turn on
+                </button>
+            </div>
+            <div id="projectQrCanvasWrap" style="display:flex; justify-content:center; padding:14px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:12px;">
+                <div id="projectQrHolder" style="background:white; padding:10px; border-radius:10px; border:2px solid #0c5cbe;"></div>
+            </div>
+            <div style="display:flex; gap:6px; margin-bottom:16px;">
+                <input type="text" id="projectQrLinkInput" readonly style="flex:1; padding:8px 10px; font-size:11px; font-family:'JetBrains Mono',monospace; border:1px solid #cbd5e1; border-radius:8px; background:#f8fafc; color:#334155;">
+                <button type="button" id="copyProjectQrBtn" onclick="copyProjectQrLink()" class="btn-submit" style="padding:8px 12px;">
+                    Copy
+                </button>
+            </div>
+            <div class="modal-actions" style="justify-content: center; margin-top: 0;">
+                <button type="button" class="btn-cancel" onclick="closeProjectQrModal()">Close</button>
+                <button type="button" id="downloadProjectQrBtn" class="btn-submit" onclick="downloadProjectQrPng()">
+                    <i class="fa-solid fa-download"></i> Download QR PNG
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div id="deleteConfirmModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <div style="width: 52px; height: 52px; border-radius: 50%; background: #fff1f2; color: #e11d48; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 14px auto; border: 1px solid #fecdd3;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 style="margin: 0 0 8px 0; font-size: 17px; color: #0B2545;">Delete Archived Item?</h3>
+            <p style="margin: 0 0 20px 0; font-size: 13px; color: #475569; line-height: 1.5;">
+                Are you sure you want to permanently delete <strong id="deleteTargetName" style="color: #0f172a;">this item</strong>? This will also remove it from the Community Showcase.
+            </p>
+            <div class="modal-actions" style="justify-content: center; margin-top: 0;">
+                <button type="button" id="cancelDeleteBtn" class="btn-cancel">Cancel</button>
+                <button type="button" id="confirmDeleteBtn" class="btn-submit" style="background: #e11d48;">
+                    <i class="fa-solid fa-trash"></i> Yes, Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEACHER REVIEWS (read-only for the student) -->
+    <div id="teacherReviewsModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 620px;">
+            <div class="modal-header">
+                <h3 id="teacherReviewsTitle"><i class="fa-solid fa-clipboard-check"></i> Teacher Reviews</h3>
+                <button type="button" style="background:none; border:none; font-size:24px; color:#64748b; cursor:pointer;" onclick="closeTeacherReviews()">&times;</button>
+            </div>
+            <div id="teacherReviewsBody"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeTeacherReviews()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Success Animation -->
+    <div id="uploadSuccessOverlay" class="upload-success-overlay" role="status" aria-live="polite" onclick="hideUploadSuccess()">
+        <div class="upload-success-card">
+            <svg class="success-check" viewBox="0 0 52 52" aria-hidden="true">
+                <circle cx="26" cy="26" r="24"></circle>
+                <path d="M14 27l8 8 16-16"></path>
+            </svg>
+            <h3 id="uploadSuccessTitle">Successfully Archived!</h3>
+            <p id="uploadSuccessText"></p>
+        </div>
+    </div>
+
+    <script>
+        /* teams-integration v1 */
+        const MAX_STORAGE_MB = 50;
+        const SKILL_SUGGESTIONS = ['Python', 'JavaScript', 'HTML/CSS', 'React', 'UI Design', 'Figma', 'Graphic Design', 'Video Editing', 'Photography', 'Data Analysis', 'Excel', 'Robotics', 'Arduino', '3D Modeling', 'Research Writing', 'Public Speaking', 'Canva'];
+
+        let me = null;
+        let profile = null;
+        let items = [];
+        let reviewCounts = {};
+        let pendingDeleteId = null;
+        let archiveMode = 'file';
+        let currentPreviewItem = null;
+        let currentPreviewView = 'live';
+
+        let currentCategory = 'all';
+        let currentSubject = 'all';
+        let currentSkill = 'all';
+        let currentTerm = 'all';
+        let currentSearch = '';
+        let currentSort = 'newest';
+        let uploadSuccessTimer = null;
+
+        function showUploadSuccess(title, text) {
+            const overlay = document.getElementById('uploadSuccessOverlay');
+            if (!overlay) return;
+            document.getElementById('uploadSuccessTitle').textContent = title;
+            document.getElementById('uploadSuccessText').textContent = text || '';
+            overlay.classList.remove('show');
+            void overlay.offsetWidth;
+            overlay.classList.add('show');
+            clearTimeout(uploadSuccessTimer);
+            uploadSuccessTimer = setTimeout(hideUploadSuccess, 2200);
+        }
+
+        function hideUploadSuccess() {
+            clearTimeout(uploadSuccessTimer);
+            const overlay = document.getElementById('uploadSuccessOverlay');
+            if (overlay) overlay.classList.remove('show');
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            me = await requireLogin();
+            if (!me) return;
+            profile = await getMyProfile();
+            const role = profile?.role || me.user_metadata?.role;
+            if (role === 'parent') {
+                window.location.replace('Parent.html');
+                return;
+            }
+            if (role === 'teacher') {
+                window.location.replace('Teacher.html');
+                return;
+            }
+            populateUploadTermOptions();
+            await loadProjects();
+        });
+
+        async function loadProjects() {
+            const [projRes, revRes] = await Promise.all([
+                sb.from('projects')
+                    .select('*')
+                    .eq('user_id', me.id)
+                    .order('created_at', { ascending: false }),
+                sb.from('teacher_reviews')
+                    .select('project_id, kind')
+                    .eq('student_id', me.id)
+            ]);
+
+            if (projRes.error) {
+                alert('Could not load your projects. Please refresh the page.');
+                return;
+            }
+            items = (projRes.data || []).map(mapProject);
+
+            reviewCounts = {};
+            (revRes.data || []).forEach(row => {
+                if (row.project_id == null) return;
+                reviewCounts[row.project_id] = (reviewCounts[row.project_id] || 0) + 1;
+            });
+
+            renderDashboard();
+        }
+
+        function getAuthorName() {
+            if (profile && (profile.fname || profile.lname)) {
+                return `${profile.fname || ''} ${profile.lname || ''}`.trim();
+            }
+            return 'CFSI Student';
+        }
+
+        function getTotalUsedMB() {
+            return items.reduce((sum, item) => sum + Number(item.size), 0);
+        }
+
+        function getDomainFromUrl(url) {
+            try {
+                return new URL(url).hostname.replace(/^www\./, '');
+            } catch {
+                return 'External Link';
+            }
+        }
+
+        function liveCardMockHtml(url) {
+            return `
+                <div class="icon-preview live-card-preview">
+                    <div class="live-browser-mock">
+                        <div class="live-browser-bar"><i></i><i></i><i></i><em>${esc(getDomainFromUrl(url))}</em></div>
+                        <div class="live-browser-body">
+                            <i class="fa-solid fa-tower-broadcast"></i>
+                            <strong>LIVE PREVIEW</strong>
+                            <small>Click to run this app</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDashboard() {
+            const grid = document.getElementById('main2');
+            grid.innerHTML = '';
+
+            let totalFiles = items.length;
+            let totalMB = getTotalUsedMB();
+            let countImages = items.filter(i => i.category === 'image').length;
+            let countVideos = items.filter(i => i.category === 'video').length;
+            let countPdfs = items.filter(i => i.category === 'pdf').length;
+            let countDocs = items.filter(i => i.category === 'document' || i.category === 'link').length;
+            let countLive = items.filter(i => !!getLivePreviewUrl(i)).length;
+
+            document.getElementById('statTotalFiles').textContent = totalFiles;
+            document.getElementById('statCountImages').textContent = countImages;
+            document.getElementById('statCountVideos').textContent = countVideos;
+            document.getElementById('statCountPdfs').textContent = countPdfs;
+            document.getElementById('statCountDocs').textContent = countDocs;
+            document.getElementById('statCountLive').textContent = countLive;
+            updateStorageUI(totalMB, MAX_STORAGE_MB);
+            updateSkillFilterOptions();
+            updateTermFilterOptions();
+
+            let filteredItems = items.filter(item => {
+                const matchesCategory = currentCategory === 'all'
+                    || (currentCategory === 'live' ? !!getLivePreviewUrl(item) : item.category === currentCategory);
+                const matchesSubject = currentSubject === 'all' || item.subject === currentSubject;
+                const matchesSkill = currentSkill === 'all'
+                    || item.skills.some(s => s.toLowerCase() === currentSkill.toLowerCase());
+                const matchesTerm = currentTerm === 'all' || item.term === currentTerm;
+                const q = currentSearch.toLowerCase();
+                const matchesSearch = !q || 
+                    item.title.toLowerCase().includes(q) ||
+                    item.desc.toLowerCase().includes(q) ||
+                    item.subject.toLowerCase().includes(q) ||
+                    item.term.toLowerCase().includes(q) ||
+                    (item.fileUrl && item.fileUrl.toLowerCase().includes(q)) ||
+                    item.tags.some(t => t.toLowerCase().includes(q)) ||
+                    item.skills.some(s => s.toLowerCase().includes(q));
+                return matchesCategory && matchesSubject && matchesSkill && matchesTerm && matchesSearch;
+            });
+
+            filteredItems.sort((a, b) => {
+                if (currentSort === 'newest') return b.timestamp - a.timestamp;
+                if (currentSort === 'oldest') return a.timestamp - b.timestamp;
+                if (currentSort === 'name') return a.title.localeCompare(b.title);
+                if (currentSort === 'size') return b.size - a.size;
+                return 0;
+            });
+
+            if (filteredItems.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <h4>No project items found</h4>
+                        <p>Click "Archive Item" to add works from Coding, Research, Visual Arts, or other subjects.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredItems.forEach(item => {
+                let badgeClass = 'photo-badge';
+                let typeLabel = 'Photo';
+                let iconHtml = '<i class="fa-solid fa-image"></i>';
+                let previewContent = '';
+                let sizeDisplay = `${Number(item.size).toFixed(2)} MB`;
+                let actionBtnLabel = '<i class="fa-solid fa-eye"></i> Preview';
+                const liveUrl = getLivePreviewUrl(item);
+                const teamsUrl = item.teamsUrl || '';
+                const teamsMeta = teamsUrl ? teamsKindMeta(item.teamsKind || teamsArtifactKind(teamsUrl)) : null;
+
+                if (item.category === 'image') {
+                    badgeClass = 'photo-badge'; typeLabel = 'Photo';
+                    iconHtml = '<i class="fa-solid fa-image"></i>';
+                    previewContent = item.fileUrl 
+                        ? `<img src="${esc(item.fileUrl)}" alt="${esc(item.title)}" class="file-thumb-img">`
+                        : `<div class="icon-preview"><i class="fa-solid fa-image" style="font-size:40px;color:#059669;"></i></div>`;
+                } else if (item.category === 'pdf') {
+                    badgeClass = 'pdf-badge'; typeLabel = 'PDF';
+                    iconHtml = '<i class="fa-solid fa-file-pdf"></i>';
+                    previewContent = `<div class="icon-preview"><i class="fa-solid fa-file-pdf pdf-large-icon"></i></div>`;
+                } else if (item.category === 'video') {
+                    badgeClass = 'video-badge'; typeLabel = 'Video';
+                    iconHtml = '<i class="fa-solid fa-video"></i>';
+                    previewContent = `<div class="file-preview-box video-preview-box"><i class="fa-solid fa-circle-play video-play-icon"></i><div class="video-overlay-label">VIDEO</div></div>`;
+                } else if (item.category === 'document') {
+                    badgeClass = 'doc-badge'; typeLabel = 'Document';
+                    iconHtml = '<i class="fa-solid fa-file-lines"></i>';
+                    previewContent = liveUrl
+                        ? liveCardMockHtml(liveUrl)
+                        : `<div class="icon-preview"><i class="fa-solid fa-file-code doc-large-icon"></i></div>`;
+                } else if (item.category === 'link') {
+                    badgeClass = teamsUrl ? 'teams-badge' : 'link-badge';
+                    typeLabel = teamsUrl ? 'Teams' : 'Link';
+                    iconHtml = teamsUrl ? '<i class="fa-brands fa-microsoft"></i>' : '<i class="fa-solid fa-link"></i>';
+                    sizeDisplay = 'URL';
+                    actionBtnLabel = '<i class="fa-solid fa-arrow-up-right-from-square"></i> Details';
+                    previewContent = liveUrl
+                        ? liveCardMockHtml(liveUrl)
+                        : teamsUrl
+                        ? `
+                        <div class="icon-preview teams-preview-box">
+                            <i class="fa-brands fa-microsoft teams-large-icon"></i>
+                            <span class="teams-kind-label">${esc(teamsMeta.label)}</span>
+                            <em class="teams-domain-label">${esc(getDomainFromUrl(teamsUrl))}</em>
+                        </div>
+                    `
+                        : `
+                        <div class="icon-preview link-preview-box">
+                            <i class="fa-solid fa-globe link-large-icon"></i>
+                            <span class="link-domain-label">${esc(getDomainFromUrl(item.fileUrl))}</span>
+                        </div>
+                    `;
+                }
+
+                if (liveUrl) {
+                    actionBtnLabel = '<i class="fa-solid fa-tower-broadcast"></i> Live';
+                }
+
+                const tagsHtml = item.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('');
+                const skillsHtml = item.skills.map(s => `<span class="skill-chip"><i class="fa-solid fa-bolt"></i>${esc(s)}</span>`).join('');
+                const visibility = item.visibility || (item.isPublic ? 'public' : 'private');
+                const communityPill = `
+                    <span style="display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:600; color:#475569;">
+                        <i class="fa-solid fa-eye"></i>
+                        <select onchange="changeVisibility(${item.id}, this.value)" title="Who can see this project"
+                                style="font-size:10px; font-weight:600; color:#0B2545; border:1px solid #cbd5e1; border-radius:6px; padding:2px 4px; background:#ffffff; cursor:pointer;">
+                            <option value="private"${visibility === 'private' ? ' selected' : ''}>Private draft</option>
+                            <option value="teacher"${visibility === 'teacher' ? ' selected' : ''}>Teacher only</option>
+                            <option value="parents"${visibility === 'parents' ? ' selected' : ''}>Parent-approved</option>
+                            <option value="public"${visibility === 'public' ? ' selected' : ''}>School-featured</option>
+                        </select>
+                    </span>`;
+
+                const card = document.createElement('div');
+                card.className = 'file-card';
+                card.setAttribute('data-category', item.category);
+                card.innerHTML = `
+                    <div class="file-card-header">
+                        <span class="file-type-badge ${badgeClass}">${iconHtml} ${typeLabel}</span>
+                        <span class="header-meta">
+                            ${teamsUrl ? `<span class="teams-chip" title="${esc(teamsMeta.label)}"><i class="fa-brands fa-microsoft"></i> TEAMS</span>` : ''}
+                            ${liveUrl ? '<span class="live-chip" title="Has a live web/app preview"><span class="live-dot"></span> LIVE</span>' : ''}
+                            <span class="file-size-tag">${sizeDisplay}</span>
+                        </span>
+                    </div>
+                    <div class="file-preview-box" onclick="openPreview(${item.id})" style="cursor:pointer;" title="Click to view">
+                        ${previewContent}
+                    </div>
+                    <div class="file-card-body">
+                        <div class="subject-term-meta">
+                            <span class="subject-tag-pill">${esc(item.subject)}</span>
+                            <span class="term-tag-pill">${esc(item.term)}</span>
+                        </div>
+                        ${skillsHtml ? `<div class="skills-row">${skillsHtml}</div>` : ''}
+                        <h4 class="file-title" title="${esc(item.title)}">${esc(item.title)}</h4>
+                        <p class="file-desc">${esc(item.desc)}</p>
+                        <div class="file-tags">${tagsHtml}</div>
+                    </div>
+                    <div class="file-card-footer">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                            <span class="archived-date" style="margin:0;"><i class="fa-regular fa-clock"></i> ${esc(item.date)}</span>
+                            ${communityPill}
+                        </div>
+                        <button class="btn-review-view" type="button" onclick="openTeacherReviews(${item.id})">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                            Teacher Reviews${reviewCounts[item.id] ? ` (${reviewCounts[item.id]})` : ''}
+                        </button>
+                        <div class="file-actions">
+                            <button class="btn-preview" type="button" onclick="openPreview(${item.id})">${actionBtnLabel}</button>
+                            <button class="btn-qr-card" type="button" onclick="openProjectQr(${item.id})" title="Create a shareable link and QR code"><i class="fa-solid fa-qrcode"></i></button>
+                            <button class="btn-delete" type="button" onclick="promptDeleteItem(${item.id})"><i class="fa-solid fa-trash"></i> Delete</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function updateSkillFilterOptions() {
+            const select = document.getElementById('skillFilter');
+            if (!select) return;
+
+            const allSkills = Array.from(new Set(items.flatMap(i => i.skills || [])))
+                .sort((a, b) => a.localeCompare(b));
+
+            if (currentSkill !== 'all' && !allSkills.some(s => s.toLowerCase() === currentSkill.toLowerCase())) {
+                currentSkill = 'all';
+            }
+
+            select.innerHTML = '<option value="all">All Skills</option>' +
+                allSkills.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+            select.value = currentSkill;
+        }
+
+        function termSortValue(term) {
+            return academicTermRank(term);
+        }
+
+        function updateTermFilterOptions() {
+            const select = document.getElementById('termFilter');
+            if (!select) return;
+
+            const allTerms = Array.from(new Set(items.map(i => i.term).filter(Boolean)))
+                .sort((a, b) => termSortValue(b) - termSortValue(a));
+
+            if (currentTerm !== 'all' && !allTerms.includes(currentTerm)) {
+                currentTerm = 'all';
+            }
+
+            select.innerHTML = '<option value="all">All Terms</option>' +
+                allTerms.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+            select.value = currentTerm;
+        }
+
+        /* ---------- Per-project visibility ---------- */
+        async function changeVisibility(id, value) {
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+
+            const visibility = ['private', 'teacher', 'parents', 'public'].includes(value) ? value : 'private';
+            const { error } = await sb.from('projects')
+                .update({ visibility, is_public: visibility === 'public' })
+                .eq('id', id)
+                .eq('user_id', me.id);
+
+            if (error) {
+                alert('Could not update visibility. Please try again.');
+                renderDashboard();
+                return;
+            }
+
+            item.visibility = visibility;
+            item.isPublic = visibility === 'public';
+            renderDashboard();
+        }
+
+        /* ---------- Teacher reviews (read-only) ---------- */
+        async function openTeacherReviews(id) {
+            const item = items.find(i => i.id === id);
+            const title = document.getElementById('teacherReviewsTitle');
+            const body = document.getElementById('teacherReviewsBody');
+            const modal = document.getElementById('teacherReviewsModal');
+
+            title.innerHTML = `<i class="fa-solid fa-clipboard-check"></i> ${esc(item ? item.title : 'Teacher Reviews')}`;
+            body.innerHTML = '<div class="tr-empty"><i class="fa-solid fa-spinner fa-spin"></i> Loading teacher reviews...</div>';
+            modal.classList.add('active');
+
+            try {
+                const reviews = await getProjectReviews(id);
+                body.innerHTML = renderTeacherReviewsHtml(reviews);
+            } catch (error) {
+                body.innerHTML = `<div class="tr-empty">${esc(error.message || 'Could not load teacher reviews.')}</div>`;
+            }
+        }
+
+        function closeTeacherReviews() {
+            document.getElementById('teacherReviewsModal').classList.remove('active');
+        }
+
+        /* ---------- Safe share links + QR codes ---------- */
+        let qrShareItem = null;
+        let qrShareBusy = false;
+
+        function sharedProjectUrl(token) {
+            const url = new URL('Shared.html', window.location.href);
+            url.searchParams.set('t', token);
+            return url.href;
+        }
+
+        function communityProjectUrl(item) {
+            const url = new URL('Community.html', window.location.href);
+            url.searchParams.set('project', item.id);
+            return url.href;
+        }
+
+        function sharedVisibilityNote(item) {
+            if (item.visibility === 'teacher') {
+                return 'Teachers can open this from the Review Desk. Anyone with this link can also view it without an account.';
+            }
+            if (item.visibility === 'parents') {
+                return 'Linked parents can see it in the Parent Portal. Anyone with this link can also view it without an account.';
+            }
+            if (item.visibility === 'public') {
+                return 'This work is also in the Community Showcase. The link and QR open without signing in.';
+            }
+            return 'This work stays out of the Community Showcase. Only people with this link or QR code can view it.';
+        }
+
+        async function openProjectQr(id) {
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+
+            qrShareItem = item;
+            document.getElementById('projectQrTitle').innerHTML = `<i class="fa-solid fa-qrcode"></i> ${esc(item.title)}`;
+            document.getElementById('projectQrModal').classList.add('active');
+            renderProjectQr();
+
+            if (!item.shareEnabled || !item.shareToken) {
+                await setProjectShare(true);
+            }
+        }
+
+        async function setProjectShare(enabled) {
+            const item = qrShareItem;
+            if (!item || qrShareBusy) return;
+
+            qrShareBusy = true;
+            item.shareError = '';
+            renderProjectQr();
+
+            try {
+                const { data, error } = await sb.rpc('set_project_share', {
+                    p_project_id: item.id,
+                    p_enabled: !!enabled
+                });
+                if (error) throw error;
+
+                const row = Array.isArray(data) ? data[0] : data;
+                if (!row) throw new Error('No share state returned.');
+
+                item.shareToken = row.share_token || '';
+                item.shareEnabled = row.share_enabled === true;
+            } catch (error) {
+                item.shareError = error.message || 'Could not update the share link.';
+            } finally {
+                qrShareBusy = false;
+                if (qrShareItem === item) renderProjectQr();
+            }
+        }
+
+        function toggleProjectShare() {
+            if (!qrShareItem) return;
+            setProjectShare(!qrShareItem.shareEnabled);
+        }
+
+        function renderProjectQr() {
+            const item = qrShareItem;
+            if (!item) return;
+
+            const holder = document.getElementById('projectQrHolder');
+            const input = document.getElementById('projectQrLinkInput');
+            const notice = document.getElementById('projectQrNotice');
+            const statusText = document.getElementById('projectShareStatusText');
+            const statusDot = document.getElementById('projectShareDot');
+            const toggle = document.getElementById('projectShareToggleBtn');
+            const copyBtn = document.getElementById('copyProjectQrBtn');
+            const downloadBtn = document.getElementById('downloadProjectQrBtn');
+            const canvasWrap = document.getElementById('projectQrCanvasWrap');
+
+            holder.innerHTML = '';
+            input.value = '';
+
+            const usingFallback = !item.shareEnabled && item.isPublic;
+            const hasLink = item.shareEnabled && !!item.shareToken;
+            const link = hasLink
+                ? sharedProjectUrl(item.shareToken)
+                : (usingFallback ? communityProjectUrl(item) : '');
+
+            if (link) {
+                input.value = link;
+                new QRCode(holder, {
+                    text: link,
+                    width: 190,
+                    height: 190,
+                    colorDark: '#0B2545',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                canvasWrap.style.display = 'flex';
+                notice.innerHTML = hasLink
+                    ? `<strong style="color:#047857;">Share link is on.</strong> ${esc(sharedVisibilityNote(item))} Stop sharing any time to revoke it.`
+                    : `<strong style="color:#b45309;">Note:</strong> Private share links are not set up yet. This QR uses the public Community Showcase link.`;
+            } else {
+                holder.innerHTML = `
+                    <div style="width:190px; height:190px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:#94a3b8; text-align:center; padding:16px;">
+                        <i class="fa-solid fa-link-slash" style="font-size:30px;"></i>
+                        <span style="font-size:11px; line-height:1.4;">Share link is off</span>
+                    </div>`;
+                canvasWrap.style.display = 'flex';
+                notice.textContent = 'Turn on sharing to create a private, revocable link and QR code for fairs, defense panels, and applications.';
+            }
+
+            if (qrShareBusy) {
+                statusText.textContent = 'Updating share link...';
+                statusDot.style.background = '#f59e0b';
+            } else if (hasLink) {
+                statusText.textContent = 'Share link is on';
+                statusDot.style.background = '#10b981';
+            } else if (item.shareError) {
+                statusText.textContent = 'Share link unavailable';
+                statusDot.style.background = '#e11d48';
+            } else if (usingFallback) {
+                statusText.textContent = 'Using Community link';
+                statusDot.style.background = '#f59e0b';
+            } else {
+                statusText.textContent = 'Share link is off';
+                statusDot.style.background = '#94a3b8';
+            }
+
+            toggle.textContent = hasLink ? 'Stop sharing' : 'Turn on';
+            toggle.disabled = qrShareBusy;
+            toggle.style.opacity = qrShareBusy ? '0.55' : '1';
+            toggle.style.cursor = qrShareBusy ? 'wait' : 'pointer';
+            copyBtn.disabled = !link;
+            downloadBtn.disabled = !link;
+            copyBtn.style.opacity = link ? '1' : '0.5';
+            downloadBtn.style.opacity = link ? '1' : '0.5';
+        }
+
+        function closeProjectQrModal() {
+            document.getElementById('projectQrModal').classList.remove('active');
+            qrShareItem = null;
+            qrShareBusy = false;
+        }
+
+        async function copyProjectQrLink() {
+            const input = document.getElementById('projectQrLinkInput');
+            if (!input.value) return;
+            input.select();
+            await navigator.clipboard.writeText(input.value);
+            const btn = document.getElementById('copyProjectQrBtn');
+            btn.innerText = 'Copied!';
+            setTimeout(() => { btn.innerText = 'Copy'; }, 2000);
+        }
+
+        function downloadProjectQrPng() {
+            const canvas = document.querySelector('#projectQrHolder canvas');
+            if (!canvas) return;
+            const a = document.createElement('a');
+            a.download = 'CFSI_Project_QR.png';
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+        }
+
+        const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+        const deleteTargetName = document.getElementById('deleteTargetName');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+        function promptDeleteItem(id) {
+            const target = items.find(i => i.id === id);
+            if (!target) return;
+            pendingDeleteId = id;
+            deleteTargetName.textContent = `"${target.title}"`;
+            deleteConfirmModal.classList.add('active');
+        }
+
+        function closeDeleteModal() {
+            pendingDeleteId = null;
+            deleteConfirmModal.classList.remove('active');
+        }
+
+        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+        confirmDeleteBtn.addEventListener('click', async () => {
+            if (pendingDeleteId !== null) await deleteItem(pendingDeleteId);
+            closeDeleteModal();
+        });
+
+        async function deleteItem(id) {
+            const target = items.find(i => i.id === id);
+            if (!target) return;
+
+            const { error } = await sb.from('projects').delete().eq('id', id).eq('user_id', me.id);
+            if (error) {
+                alert('Could not delete item: ' + error.message);
+                return;
+            }
+
+            if (target.storagePath) {
+                await removeFile(target.storagePath);
+            }
+
+            items = items.filter(item => item.id !== id);
+            renderDashboard();
+        }
+
+        function updateStorageUI(usedMB, maxMB = 50) {
+            const clampedMB = Math.max(0, Math.min(usedMB, maxMB));
+            const percentage = Math.min(100, Math.round((clampedMB / maxMB) * 100));
+
+            const usedEl = document.getElementById('statStorageUsed');
+            const percentEl = document.getElementById('statStoragePercent');
+            const barEl = document.getElementById('storageProgressBar');
+
+            if (usedEl) usedEl.textContent = `${usedMB.toFixed(1)} MB`;
+            if (percentEl) percentEl.textContent = `${percentage}%`;
+            if (barEl) {
+                barEl.style.width = `${percentage}%`;
+                barEl.classList.remove('warning', 'danger');
+                if (percentage >= 85) barEl.classList.add('danger');
+                else if (percentage >= 65) barEl.classList.add('warning');
+            }
+        }
+
+        const previewModal = document.getElementById('previewModal');
+        const closePreviewBtn = document.getElementById('closePreviewBtn');
+        const closePreviewFooterBtn = document.getElementById('closePreviewFooterBtn');
+
+        function closePreviewModal() {
+            const activeVideo = document.querySelector('#previewStage video');
+            if (activeVideo) activeVideo.pause();
+            previewModal.classList.remove('active');
+
+            const stageEl = document.getElementById('previewStage');
+            if (stageEl) {
+                stageEl.innerHTML = '';
+                stageEl.classList.remove('live-stage');
+            }
+            currentPreviewItem = null;
+            currentPreviewView = 'live';
+            document.getElementById('liveFrameNotice').style.display = 'none';
+            document.getElementById('previewViewTabs').style.display = 'none';
+        }
+
+        closePreviewBtn.addEventListener('click', closePreviewModal);
+        closePreviewFooterBtn.addEventListener('click', closePreviewModal);
+
+        function normalizeHttpUrl(raw) {
+            let value = String(raw || '').trim();
+            if (!value) return '';
+            if (!/^https?:\/\//i.test(value)) value = 'https://' + value;
+            try {
+                const u = new URL(value);
+                return (u.protocol === 'http:' || u.protocol === 'https:') ? u.href : '';
+            } catch {
+                return '';
+            }
+        }
+
+        function openPreview(id) {
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+
+            currentPreviewItem = item;
+            const liveUrl = getLivePreviewUrl(item);
+            currentPreviewView = liveUrl ? 'live' : 'file';
+
+            document.getElementById('previewModalTitle').innerHTML = `<i class="fa-solid fa-eye"></i> ${esc(item.title)}`;
+            document.getElementById('previewSubjectTag').textContent = item.subject;
+            document.getElementById('previewTermTag').textContent = item.term;
+            document.getElementById('previewSize').textContent = item.category === 'link' ? 'External URL' : `${Number(item.size).toFixed(2)} MB`;
+            document.getElementById('previewDate').textContent = `Archived: ${item.date}`;
+            document.getElementById('previewDesc').textContent = item.desc;
+            document.getElementById('previewTags').innerHTML = item.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('');
+            document.getElementById('previewSkills').innerHTML = item.skills.map(s => `<span class="skill-chip"><i class="fa-solid fa-bolt"></i>${esc(s)}</span>`).join('');
+            const reflectionEl = document.getElementById('previewReflection');
+            reflectionEl.innerHTML = reflectionBlockHtml(item.reflection);
+            reflectionEl.style.display = reflectionEl.innerHTML ? 'block' : 'none';
+
+            const teamsBox = document.getElementById('previewTeams');
+            if (item.teamsUrl) {
+                const meta = teamsKindMeta(item.teamsKind || teamsArtifactKind(item.teamsUrl));
+                document.getElementById('previewTeamsTitle').textContent = `Imported from Microsoft Teams · ${meta.label}`;
+                document.getElementById('previewTeamsMeta').textContent =
+                    `${getDomainFromUrl(item.teamsUrl)} — opens the original artifact; a school Microsoft account may be required.`;
+                const teamsLink = document.getElementById('previewTeamsLink');
+                teamsLink.href = item.teamsUrl;
+                teamsLink.querySelector('span').textContent = teamsActionLabel(item.teamsUrl);
+                teamsBox.style.display = 'flex';
+            } else {
+                teamsBox.style.display = 'none';
+            }
+
+            const tabs = document.getElementById('previewViewTabs');
+            const openLive = document.getElementById('openLiveLink');
+            const notice = document.getElementById('liveFrameNotice');
+
+            if (liveUrl) {
+                tabs.style.display = 'flex';
+                openLive.href = liveUrl;
+                notice.style.display = 'flex';
+            } else {
+                tabs.style.display = 'none';
+                openLive.setAttribute('href', '#');
+                notice.style.display = 'none';
+            }
+
+            configurePreviewAction(item);
+            updatePreviewTabs();
+            renderPreviewStage();
+
+            previewModal.classList.add('active');
+        }
+
+        function configurePreviewAction(item) {
+            const downloadBtn = document.getElementById('downloadFileBtn');
+
+            if (item.category === 'link') {
+                downloadBtn.href = item.fileUrl || item.liveUrl || '#';
+                downloadBtn.removeAttribute('download');
+                downloadBtn.setAttribute('target', '_blank');
+                downloadBtn.setAttribute('rel', 'noopener noreferrer');
+                downloadBtn.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square"></i> Open Link';
+            } else {
+                downloadBtn.href = item.fileUrl ? downloadUrl(item.fileUrl, item.fileName || item.title) : '#';
+                downloadBtn.removeAttribute('target');
+                downloadBtn.removeAttribute('rel');
+                downloadBtn.setAttribute('download', item.fileName || item.title);
+                downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> Download File';
+            }
+        }
+
+        function updatePreviewTabs() {
+            document.querySelectorAll('#previewViewTabs .preview-view-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-view') === currentPreviewView);
+            });
+        }
+
+        function switchPreviewView(view) {
+            currentPreviewView = view;
+            updatePreviewTabs();
+            renderPreviewStage();
+        }
+
+        function renderPreviewStage() {
+            const item = currentPreviewItem;
+            if (!item) return;
+
+            const stageEl = document.getElementById('previewStage');
+            const liveUrl = getLivePreviewUrl(item);
+
+            if (liveUrl && currentPreviewView === 'live') {
+                renderLiveStage(item, liveUrl);
+            } else {
+                stageEl.classList.remove('live-stage');
+                renderAttachmentStage(item);
+            }
+        }
+
+        function renderLiveStage(item, url) {
+            const stageEl = document.getElementById('previewStage');
+            stageEl.classList.add('live-stage');
+            stageEl.innerHTML = `
+                <div class="live-frame-shell">
+                    <div class="live-frame-chrome">
+                        <span class="live-chrome-dots"><i></i><i></i><i></i></span>
+                        <span class="live-chrome-url" title="${esc(url)}">${esc(url)}</span>
+                    </div>
+                    <div class="live-frame-viewport">
+                        <div class="live-frame-loader"><span class="live-spinner"></span> Loading live preview…</div>
+                        <iframe class="live-preview-iframe"
+                            src="${esc(url)}"
+                            title="Live preview of ${esc(item.title)}"
+                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-presentation"
+                            referrerpolicy="no-referrer"
+                            allow="fullscreen; clipboard-write; autoplay; encrypted-media"></iframe>
+                    </div>
+                </div>`;
+
+            const badgeEl = document.getElementById('previewBadge');
+            badgeEl.className = 'file-type-badge live-badge';
+            badgeEl.innerHTML = '<span class="live-dot"></span> Live App';
+
+            const frame = stageEl.querySelector('.live-preview-iframe');
+            const loader = stageEl.querySelector('.live-frame-loader');
+            const reveal = () => { if (loader && loader.parentNode) loader.remove(); };
+            if (frame) {
+                frame.addEventListener('load', reveal);
+                setTimeout(reveal, 9000);
+            }
+        }
+
+        function renderAttachmentStage(item) {
+            const badgeEl = document.getElementById('previewBadge');
+            const stageEl = document.getElementById('previewStage');
+
+            if (item.category === 'link') {
+                if (item.teamsUrl) {
+                    const meta = teamsKindMeta(item.teamsKind || teamsArtifactKind(item.teamsUrl));
+                    badgeEl.className = 'file-type-badge teams-badge';
+                    badgeEl.innerHTML = '<i class="fa-brands fa-microsoft"></i> Microsoft Teams';
+                    stageEl.innerHTML = `
+                        <div class="preview-doc-placeholder teams-stage-placeholder">
+                            <i class="fa-brands fa-microsoft" style="font-size: 52px; color: #6264a7;"></i>
+                            <p><strong>${esc(meta.label)}</strong></p>
+                            <span>${esc(item.title)} · ${esc(getDomainFromUrl(item.teamsUrl))}</span>
+                            <a class="teams-stage-link" href="${esc(item.teamsUrl)}" target="_blank" rel="noopener noreferrer">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> ${esc(teamsActionLabel(item.teamsUrl))}
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+                badgeEl.className = 'file-type-badge link-badge';
+                badgeEl.innerHTML = '<i class="fa-solid fa-link"></i> Web Link';
+                stageEl.innerHTML = `
+                    <div class="preview-doc-placeholder">
+                        <i class="fa-solid fa-globe" style="font-size: 48px; color: #a855f7;"></i>
+                        <p>Archived Web Resource: <strong>${esc(item.title)}</strong></p>
+                        <span style="word-break: break-all; max-width: 90%;">${esc(item.fileUrl)}</span>
+                    </div>
+                `;
+                return;
+            }
+
+            if (item.category === 'image' && item.fileUrl) {
+                badgeEl.className = 'file-type-badge photo-badge';
+                badgeEl.innerHTML = '<i class="fa-solid fa-image"></i> Photo';
+                stageEl.innerHTML = `<img src="${esc(item.fileUrl)}" alt="${esc(item.title)}" class="preview-media-img">`;
+            } else if (item.category === 'video' && item.fileUrl) {
+                badgeEl.className = 'file-type-badge video-badge';
+                badgeEl.innerHTML = '<i class="fa-solid fa-video"></i> Video';
+                stageEl.innerHTML = `<video controls class="preview-media-video"><source src="${esc(item.fileUrl)}" type="${esc(item.mimeType)}">Your browser does not support video playback.</video>`;
+            } else if (item.category === 'pdf' && item.fileUrl) {
+                badgeEl.className = 'file-type-badge pdf-badge';
+                badgeEl.innerHTML = '<i class="fa-solid fa-file-pdf"></i> PDF';
+                stageEl.innerHTML = `<iframe src="${esc(item.fileUrl)}" class="preview-pdf-frame" title="${esc(item.title)}"></iframe>`;
+            } else {
+                badgeEl.className = 'file-type-badge doc-badge';
+                badgeEl.innerHTML = '<i class="fa-solid fa-file-lines"></i> Document';
+                stageEl.innerHTML = `
+                    <div class="preview-doc-placeholder">
+                        <i class="fa-solid fa-file-code" style="font-size: 48px; color: #d97706;"></i>
+                        <p>Document File: <strong>${esc(item.fileName || item.title)}</strong></p>
+                        <span>Ready for download (${Number(item.size).toFixed(2)} MB)</span>
+                    </div>
+                `;
+            }
+        }
+
+        const modal = document.getElementById('archiveModal');
+        const archiveBtn = document.getElementById('archiveBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelModalBtn = document.getElementById('cancelModalBtn');
+        const archiveForm = document.getElementById('archiveForm');
+        const submitArchiveBtn = document.getElementById('submitArchiveBtn');
+
+        const modeFileBtn = document.getElementById('modeFileBtn');
+        const modeLinkBtn = document.getElementById('modeLinkBtn');
+        const modeTeamsBtn = document.getElementById('modeTeamsBtn');
+        const fileInputSection = document.getElementById('fileInputSection');
+        const linkInputSection = document.getElementById('linkInputSection');
+        const teamsInputSection = document.getElementById('teamsInputSection');
+
+        const itemFileInput = document.getElementById('itemFile');
+        const itemUrlInput = document.getElementById('itemUrl');
+        const itemTeamsUrlInput = document.getElementById('itemTeamsUrl');
+        const itemTeamsFileInput = document.getElementById('itemTeamsFile');
+        const teamsDetectNote = document.getElementById('teamsDetectNote');
+        const teamsFileNote = document.getElementById('teamsFileNote');
+        const itemLiveUrlInput = document.getElementById('itemLiveUrl');
+        const itemSkillsInput = document.getElementById('itemSkills');
+        const skillSuggestRow = document.getElementById('skillSuggestRow');
+        const skillFilter = document.getElementById('skillFilter');
+        const itemCategorySelect = document.getElementById('itemCategory');
+        const itemSizeInput = document.getElementById('itemSize');
+        const selectedFileName = document.getElementById('selectedFileName');
+        const uploadErrorMsg = document.getElementById('uploadErrorMsg');
+
+        /* ---------- Local preview of files selected for upload ---------- */
+        const uploadPreviewPanel = document.getElementById('uploadPreviewPanel');
+        const uploadPreviewTabs = document.getElementById('uploadPreviewTabs');
+        const uploadPreviewStage = document.getElementById('uploadPreviewStage');
+        const uploadPreviewCount = document.getElementById('uploadPreviewCount');
+
+        const UPLOAD_TEXT_EXTS = ['txt', 'md', 'markdown', 'csv', 'json', 'xml', 'yml', 'yaml', 'log', 'ini', 'css', 'js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'py', 'java', 'c', 'cpp', 'h', 'rb', 'php', 'sql', 'sh', 'bat'];
+        const MAX_UPLOAD_TEXT_PREVIEW = 150000;
+
+        let uploadPreviewFiles = [];
+        let uploadPreviewIndex = 0;
+        let uploadPreviewToken = 0;
+        let uploadPreviewObjectUrl = '';
+        let uploadMammothPromise = null;
+
+        function uploadFileExt(file) {
+            const match = String((file && file.name) || '').match(/\.([a-z0-9]+)$/i);
+            return match ? match[1].toLowerCase() : '';
+        }
+
+        function fmtPreviewSize(bytes) {
+            const mb = bytes / (1024 * 1024);
+            return mb >= 1 ? `${mb.toFixed(2)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+        }
+
+        function loadMammothForPreview() {
+            if (window.mammoth) return Promise.resolve(window.mammoth);
+            if (!uploadMammothPromise) {
+                uploadMammothPromise = new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js';
+                    script.onload = () => resolve(window.mammoth);
+                    script.onerror = () => {
+                        uploadMammothPromise = null;
+                        reject(new Error('Document viewer failed to load'));
+                    };
+                    document.head.appendChild(script);
+                });
+            }
+            return uploadMammothPromise;
+        }
+
+        function wordPreviewHtmlPage(innerHtml) {
+            return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+                body { margin: 0; padding: 26px 30px 40px; font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #1e293b; background: #ffffff; }
+                h1, h2, h3, h4, h5 { color: #0B2545; line-height: 1.3; margin: 1.2em 0 0.5em; }
+                h1 { font-size: 22px; } h2 { font-size: 18px; } h3 { font-size: 15.5px; }
+                p { margin: 0 0 0.9em; }
+                img { max-width: 100%; height: auto; }
+                table { border-collapse: collapse; width: 100%; margin: 0.9em 0; font-size: 13px; }
+                td, th { border: 1px solid #cbd5e1; padding: 6px 9px; vertical-align: top; }
+                th { background: #f1f5f9; text-align: left; }
+                ul, ol { margin: 0 0 0.9em; padding-left: 22px; }
+                blockquote { margin: 0.9em 0; padding: 4px 14px; border-left: 3px solid #cbd5e1; color: #475569; }
+                code { font-family: Consolas, monospace; background: #f1f5f9; padding: 1px 4px; border-radius: 4px; }
+            </style></head><body>${innerHtml}</body></html>`;
+        }
+
+        function revokeUploadPreviewUrl() {
+            if (uploadPreviewObjectUrl) {
+                URL.revokeObjectURL(uploadPreviewObjectUrl);
+                uploadPreviewObjectUrl = '';
+            }
+        }
+
+        function uploadPreviewPlaceholder(icon, title, hint) {
+            uploadPreviewStage.classList.remove('doc-stage');
+            uploadPreviewStage.innerHTML = `
+                <div class="preview-doc-placeholder">
+                    <i class="fa-solid ${icon}" style="font-size: 44px; color: #fbbf24;"></i>
+                    <p><strong>${esc(title)}</strong></p>
+                    <span>${esc(hint)}</span>
+                </div>`;
+        }
+
+        function resetUploadPreview() {
+            uploadPreviewToken++;
+            uploadPreviewFiles = [];
+            uploadPreviewIndex = 0;
+            revokeUploadPreviewUrl();
+            uploadPreviewPanel.style.display = 'none';
+            uploadPreviewTabs.innerHTML = '';
+            uploadPreviewTabs.style.display = 'none';
+            uploadPreviewStage.innerHTML = '';
+            uploadPreviewStage.className = 'upload-preview-stage';
+            uploadPreviewCount.textContent = '';
+        }
+
+        function renderUploadPreview(files) {
+            resetUploadPreview();
+            if (!files || !files.length) return;
+
+            uploadPreviewFiles = Array.from(files);
+            uploadPreviewPanel.style.display = 'flex';
+
+            const totalBytes = uploadPreviewFiles.reduce((sum, f) => sum + f.size, 0);
+            uploadPreviewCount.textContent = uploadPreviewFiles.length > 1
+                ? `${uploadPreviewFiles.length} files · ${fmtPreviewSize(totalBytes)}`
+                : fmtPreviewSize(totalBytes);
+
+            uploadPreviewTabs.style.display = uploadPreviewFiles.length > 1 ? 'flex' : 'none';
+            uploadPreviewFiles.forEach((file, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'upload-preview-tab';
+                btn.textContent = `${idx + 1}. ${file.name}`;
+                btn.title = file.name;
+                btn.addEventListener('click', () => selectUploadPreview(idx));
+                uploadPreviewTabs.appendChild(btn);
+            });
+
+            selectUploadPreview(0);
+        }
+
+        function selectUploadPreview(index) {
+            uploadPreviewIndex = index;
+            uploadPreviewTabs.querySelectorAll('.upload-preview-tab').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+            renderUploadPreviewStage();
+        }
+
+        async function renderUploadPreviewStage() {
+            const token = ++uploadPreviewToken;
+            const file = uploadPreviewFiles[uploadPreviewIndex];
+            if (!file) return;
+
+            revokeUploadPreviewUrl();
+            uploadPreviewStage.classList.remove('doc-stage');
+            uploadPreviewStage.innerHTML = `<div class="preview-doc-placeholder"><span class="live-spinner"></span><p>Preparing preview…</p></div>`;
+
+            const ext = uploadFileExt(file);
+            const mime = String(file.type || '').toLowerCase();
+
+            try {
+                if (mime.startsWith('image/') || ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'].includes(ext)) {
+                    uploadPreviewObjectUrl = URL.createObjectURL(file);
+                    if (token !== uploadPreviewToken) return;
+                    uploadPreviewStage.innerHTML = `<img src="${uploadPreviewObjectUrl}" alt="${esc(file.name)}" class="upload-preview-media-img">`;
+                    return;
+                }
+
+                if (mime.startsWith('video/') || ['mp4', 'webm', 'ogv', 'mov', 'm4v'].includes(ext)) {
+                    uploadPreviewObjectUrl = URL.createObjectURL(file);
+                    if (token !== uploadPreviewToken) return;
+                    uploadPreviewStage.innerHTML = `<video controls playsinline class="upload-preview-media-video"><source src="${uploadPreviewObjectUrl}" type="${esc(file.type)}"></video>`;
+                    return;
+                }
+
+                if (mime === 'application/pdf' || ext === 'pdf') {
+                    uploadPreviewObjectUrl = URL.createObjectURL(file);
+                    if (token !== uploadPreviewToken) return;
+                    uploadPreviewStage.innerHTML = `<iframe src="${uploadPreviewObjectUrl}" class="upload-preview-pdf-frame" title="PDF preview of ${esc(file.name)}"></iframe>`;
+                    return;
+                }
+
+                const isWordDoc = ext === 'docx' || mime.includes('wordprocessingml.document');
+                if (isWordDoc) {
+                    const [mammoth, arrayBuffer] = await Promise.all([loadMammothForPreview(), file.arrayBuffer()]);
+                    if (token !== uploadPreviewToken) return;
+                    const result = await mammoth.convertToHtml({ arrayBuffer });
+                    if (token !== uploadPreviewToken) return;
+                    const page = wordPreviewHtmlPage(result.value || '<p><em>This document appears to be empty.</em></p>');
+                    uploadPreviewStage.classList.add('doc-stage');
+                    uploadPreviewStage.innerHTML = `
+                        <div class="doc-frame-shell">
+                            <div class="doc-viewer-bar"><i class="fa-solid fa-file-word"></i><span>${esc(file.name)}</span><em>Word document · read only</em></div>
+                            <iframe sandbox="" title="Document preview of ${esc(file.name)}" srcdoc="${esc(page)}"></iframe>
+                        </div>`;
+                    return;
+                }
+
+                if (ext === 'doc') {
+                    uploadPreviewPlaceholder('fa-file-word', file.name, 'Legacy .doc files cannot be previewed in the browser. The file will still upload normally.');
+                    return;
+                }
+
+                if (ext === 'zip' || ext === 'rar' || ext === '7z') {
+                    uploadPreviewPlaceholder('fa-file-zipper', file.name, 'Archives cannot be previewed. The bundle will still upload normally.');
+                    return;
+                }
+
+                if (ext === 'html' || ext === 'htm' || mime === 'text/html') {
+                    const html = await file.text();
+                    if (token !== uploadPreviewToken) return;
+                    uploadPreviewStage.classList.add('doc-stage');
+                    uploadPreviewStage.innerHTML = `
+                        <div class="doc-frame-shell">
+                            <div class="doc-viewer-bar"><i class="fa-solid fa-code"></i><span>${esc(file.name)}</span><em>Interactive page preview</em></div>
+                            <iframe sandbox="allow-scripts allow-forms allow-modals allow-popups" title="Page preview of ${esc(file.name)}" srcdoc="${esc(html)}"></iframe>
+                        </div>`;
+                    return;
+                }
+
+                if (UPLOAD_TEXT_EXTS.includes(ext) || mime.startsWith('text/')) {
+                    let text = await file.text();
+                    if (token !== uploadPreviewToken) return;
+                    const truncated = text.length > MAX_UPLOAD_TEXT_PREVIEW;
+                    if (truncated) text = text.slice(0, MAX_UPLOAD_TEXT_PREVIEW);
+                    const lineCount = text ? text.split('\n').length : 0;
+                    uploadPreviewStage.classList.add('doc-stage');
+                    uploadPreviewStage.innerHTML = `
+                        <div class="doc-viewer">
+                            <div class="doc-viewer-bar"><i class="fa-solid fa-file-code"></i><span>${esc(file.name)}</span><em>${lineCount} line${lineCount === 1 ? '' : 's'}${truncated ? ' · preview truncated' : ''}</em></div>
+                            <pre class="doc-viewer-code">${text ? esc(text) : 'This file is empty.'}</pre>
+                        </div>`;
+                    return;
+                }
+
+                uploadPreviewPlaceholder('fa-file-code', file.name, 'Preview is not available for this file type. The file will still upload normally.');
+            } catch (err) {
+                if (token !== uploadPreviewToken) return;
+                uploadPreviewPlaceholder('fa-triangle-exclamation', file.name, 'Preview could not be generated for this file. The file will still upload normally.');
+            }
+        }
+
+        function setArchiveMode(mode) {
+            archiveMode = mode;
+            uploadErrorMsg.style.display = 'none';
+            [modeFileBtn, modeLinkBtn, modeTeamsBtn].forEach(btn => btn.classList.remove('active'));
+            fileInputSection.style.display = 'none';
+            linkInputSection.style.display = 'none';
+            teamsInputSection.style.display = 'none';
+            itemFileInput.required = false;
+            itemUrlInput.required = false;
+            itemTeamsUrlInput.required = false;
+
+            if (mode === 'file') {
+                modeFileBtn.classList.add('active');
+                fileInputSection.style.display = 'flex';
+                itemFileInput.required = true;
+                itemCategorySelect.value = 'image';
+                itemCategorySelect.disabled = false;
+                itemSizeInput.value = '';
+            } else if (mode === 'link') {
+                modeLinkBtn.classList.add('active');
+                linkInputSection.style.display = 'flex';
+                itemUrlInput.required = true;
+                itemCategorySelect.value = 'link';
+                itemCategorySelect.disabled = true;
+                itemSizeInput.value = '0.00';
+            } else {
+                modeTeamsBtn.classList.add('active');
+                teamsInputSection.style.display = 'flex';
+                itemTeamsUrlInput.required = true;
+                itemCategorySelect.value = 'link';
+                itemCategorySelect.disabled = true;
+                itemSizeInput.value = '0.00';
+            }
+        }
+
+        modeFileBtn.addEventListener('click', () => setArchiveMode('file'));
+        modeLinkBtn.addEventListener('click', () => setArchiveMode('link'));
+        modeTeamsBtn.addEventListener('click', () => setArchiveMode('teams'));
+
+        function updateTeamsDetection() {
+            const raw = itemTeamsUrlInput.value.trim();
+            teamsDetectNote.classList.remove('is-valid', 'is-invalid');
+            if (!raw) {
+                teamsDetectNote.innerHTML = '<i class="fa-solid fa-circle-info"></i> <span>In Teams, open the finished work, choose <strong>Copy link</strong>, and paste it here. Teams, SharePoint, OneDrive, and Microsoft Forms links are accepted.</span>';
+                return;
+            }
+            const url = normalizeTeamsUrl(raw);
+            if (!url) {
+                teamsDetectNote.classList.add('is-invalid');
+                teamsDetectNote.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <span>That does not look like a Microsoft Teams, SharePoint, OneDrive, or Microsoft Forms link. Use <strong>Link / Hosted App</strong> for other sites.</span>';
+                return;
+            }
+            const meta = teamsKindMeta(teamsArtifactKind(url));
+            teamsDetectNote.classList.add('is-valid');
+            teamsDetectNote.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>Recognized: <strong>${esc(meta.label)}</strong> from ${esc(new URL(url).hostname)}.</span>`;
+        }
+
+        if (itemTeamsUrlInput) itemTeamsUrlInput.addEventListener('input', updateTeamsDetection);
+
+        if (itemTeamsFileInput) {
+            itemTeamsFileInput.addEventListener('change', () => {
+                const files = Array.from(itemTeamsFileInput.files || []);
+                if (!files.length) {
+                    teamsFileNote.textContent = 'No copy attached — only the Teams link will be archived.';
+                    itemSizeInput.value = '0.00';
+                    return;
+                }
+                const totalSizeMB = files.reduce((sum, f) => sum + f.size / (1024 * 1024), 0);
+                teamsFileNote.textContent = `${files.length} file${files.length > 1 ? 's' : ''} attached · ${Math.max(0.01, Number(totalSizeMB.toFixed(2)))} MB total. The Teams link stays attached as the source.`;
+                itemSizeInput.value = Math.max(0.01, Number(totalSizeMB.toFixed(2)));
+            });
+        }
+
+        function renderSkillSuggestions() {
+            if (!skillSuggestRow || !itemSkillsInput) return;
+
+            const selected = new Set(parseSkillInput(itemSkillsInput.value).map(s => s.toLowerCase()));
+            skillSuggestRow.innerHTML = '';
+
+            SKILL_SUGGESTIONS.forEach(skill => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'skill-suggest-chip' + (selected.has(skill.toLowerCase()) ? ' active' : '');
+                btn.textContent = skill;
+                btn.addEventListener('click', () => {
+                    const list = parseSkillInput(itemSkillsInput.value);
+                    const idx = list.findIndex(s => s.toLowerCase() === skill.toLowerCase());
+                    if (idx >= 0) list.splice(idx, 1); else list.push(skill);
+                    itemSkillsInput.value = list.join(', ');
+                    renderSkillSuggestions();
+                });
+                skillSuggestRow.appendChild(btn);
+            });
+        }
+
+        if (itemSkillsInput) {
+            itemSkillsInput.addEventListener('input', renderSkillSuggestions);
+            renderSkillSuggestions();
+        }
+
+        /* ---------- Guided portfolio reflection prompts ---------- */
+        const REFLECTION_PROMPTS = {
+            'Coding & ICT': [
+                { id: 'problem', prompt: 'What problem did this project solve, and for whom?', hint: 'Name the user, need, or task behind it.' },
+                { id: 'challenge', prompt: 'What was the hardest bug or design decision, and how did you handle it?', hint: 'What went wrong, and what did you try?' },
+                { id: 'revision', prompt: 'What changed between your first version and the final one?', hint: 'Features, code, or structure you revised.' }
+            ],
+            'Research & Capstone': [
+                { id: 'question', prompt: 'What question or problem does this research answer?', hint: 'Why does it matter to your community or field?' },
+                { id: 'evidence', prompt: 'What evidence or method supports your conclusion?', hint: 'Surveys, experiments, sources, or data you gathered.' },
+                { id: 'revision', prompt: 'What changed after feedback, peer review, or your first draft?', hint: 'Arguments, data, or sections you reworked.' }
+            ],
+            'Visual Arts & Media': [
+                { id: 'message', prompt: 'What message or feeling was this piece meant to communicate?', hint: 'The idea behind the work, not just the subject.' },
+                { id: 'choices', prompt: 'Which creative choices (color, composition, edit, sound) carry that message?', hint: 'Explain two specific decisions.' },
+                { id: 'revision', prompt: 'What changed in your revision, and why?', hint: 'Drafts, cuts, or layouts you replaced.' }
+            ],
+            'Entrepreneurship': [
+                { id: 'problem', prompt: 'What customer problem does this venture or plan address?', hint: 'Who is the customer and what do they need?' },
+                { id: 'evidence', prompt: 'What feedback, sales, or research validated the idea?', hint: 'Any customer interviews, surveys, or trial results.' },
+                { id: 'revision', prompt: 'What did you change in your plan after learning that?', hint: 'Pricing, product, or target market shifts.' }
+            ],
+            'Science & STEM': [
+                { id: 'question', prompt: 'What question or hypothesis did you investigate?', hint: 'State it as a clear, testable claim.' },
+                { id: 'findings', prompt: 'What did your results or prototype show, and how do you know?', hint: 'Compare data, trials, or observations.' },
+                { id: 'revision', prompt: 'What would you change in your procedure, materials, or design next time?', hint: 'A concrete improvement for a repeat run.' }
+            ],
+            'Humanities & Advocacy': [
+                { id: 'issue', prompt: 'What issue or perspective does this work bring forward?', hint: 'Who is affected, and why now?' },
+                { id: 'evidence', prompt: 'Which sources, experiences, or examples support your position?', hint: 'Cite the strongest evidence you used.' },
+                { id: 'revision', prompt: 'How did your argument or approach change after feedback?', hint: 'What you cut, added, or reframed.' }
+            ]
+        };
+
+        const DESCRIPTION_TEMPLATES = {
+            'Coding & ICT': 'The Problem:\n\nMy Solution:\n\nHow It Works:\n\nRevision & Improvements:\n\nWhat I Learned:',
+            'Research & Capstone': 'Research Question:\n\nMethod & Evidence:\n\nKey Findings:\n\nRevision After Feedback:\n\nContribution:',
+            'Visual Arts & Media': 'Concept & Message:\n\nCreative Choices:\n\nProcess:\n\nRevision:\n\nWhat I Learned:',
+            'Entrepreneurship': 'Customer Problem:\n\nProposed Solution:\n\nValidation & Evidence:\n\nRevision:\n\nNext Steps:',
+            'Science & STEM': 'Question / Hypothesis:\n\nProcedure & Materials:\n\nResults:\n\nRevision:\n\nConclusion:',
+            'Humanities & Advocacy': 'Issue & Perspective:\n\nEvidence & Sources:\n\nAudience & Purpose:\n\nRevision:\n\nCall to Action:'
+        };
+
+        const reflectionPromptsHolder = document.getElementById('reflectionPrompts');
+        const reflectionProgressEl = document.getElementById('reflectionProgress');
+        const reflectionSubjectLabel = document.getElementById('reflectionSubjectLabel');
+        const reflectionTemplateBtn = document.getElementById('reflectionTemplateBtn');
+        const itemSubjectSelect = document.getElementById('itemSubject');
+        const itemDescInput = document.getElementById('itemDesc');
+
+        const reflectionDrafts = {};
+        let reflectionDraftSubject = null;
+
+        function reflectionSubject() {
+            return itemSubjectSelect.value || 'Coding & ICT';
+        }
+
+        function reflectionPromptsFor(subject) {
+            return REFLECTION_PROMPTS[subject] || REFLECTION_PROMPTS['Coding & ICT'];
+        }
+
+        function captureReflectionDraft() {
+            if (!reflectionDraftSubject) return;
+            const answers = {};
+            reflectionPromptsHolder.querySelectorAll('textarea[data-prompt-id]').forEach(ta => {
+                if (ta.value.trim()) answers[ta.getAttribute('data-prompt-id')] = ta.value;
+            });
+            reflectionDrafts[reflectionDraftSubject] = answers;
+        }
+
+        function updateReflectionProgress() {
+            const boxes = Array.from(reflectionPromptsHolder.querySelectorAll('textarea'));
+            const answered = boxes.filter(t => t.value.trim()).length;
+            reflectionProgressEl.textContent = `${answered} of ${boxes.length} answered`;
+            reflectionProgressEl.classList.toggle('complete', boxes.length > 0 && answered === boxes.length);
+        }
+
+        function renderReflectionPrompts() {
+            captureReflectionDraft();
+            const subject = reflectionSubject();
+            reflectionDraftSubject = subject;
+
+            reflectionSubjectLabel.textContent = subject;
+            const drafts = reflectionDrafts[subject] || {};
+            reflectionPromptsHolder.innerHTML = '';
+
+            reflectionPromptsFor(subject).forEach(p => {
+                const wrap = document.createElement('div');
+                wrap.className = 'reflection-item';
+                const fieldId = `reflect_${p.id}`;
+                wrap.innerHTML = `
+                    <label for="${fieldId}"><i class="fa-solid fa-circle-question"></i> ${esc(p.prompt)}</label>
+                    <textarea id="${fieldId}" data-prompt-id="${p.id}" rows="2" placeholder="${esc(p.hint)}"></textarea>`;
+                reflectionPromptsHolder.appendChild(wrap);
+                const ta = wrap.querySelector('textarea');
+                ta.value = drafts[p.id] || '';
+                ta.addEventListener('input', updateReflectionProgress);
+            });
+
+            updateReflectionProgress();
+        }
+
+        function collectReflection() {
+            captureReflectionDraft();
+            const subject = reflectionSubject();
+            const drafts = reflectionDrafts[subject] || {};
+            return reflectionPromptsFor(subject)
+                .map(p => ({ prompt: p.prompt, answer: String(drafts[p.id] || '').trim() }))
+                .filter(entry => entry.answer);
+        }
+
+        function resetReflection() {
+            Object.keys(reflectionDrafts).forEach(k => delete reflectionDrafts[k]);
+            reflectionDraftSubject = null;
+            renderReflectionPrompts();
+        }
+
+        function encodeReflectionTag(json) {
+            const bytes = new TextEncoder().encode(json);
+            let bin = '';
+            bytes.forEach(b => { bin += String.fromCharCode(b); });
+            return btoa(bin);
+        }
+
+        if (itemSubjectSelect) {
+            itemSubjectSelect.addEventListener('change', renderReflectionPrompts);
+            renderReflectionPrompts();
+        }
+
+        if (reflectionTemplateBtn) {
+            reflectionTemplateBtn.addEventListener('click', () => {
+                const template = DESCRIPTION_TEMPLATES[reflectionSubject()] || DESCRIPTION_TEMPLATES['Coding & ICT'];
+                if (itemDescInput.value.trim() && !confirm('Replace your current description with this subject template?')) return;
+                itemDescInput.value = template;
+                itemDescInput.focus();
+                itemDescInput.setSelectionRange(template.length, template.length);
+            });
+        }
+
+        function populateUploadTermOptions() {
+            const select = document.getElementById('itemTerm');
+            if (!select) return;
+
+            const options = academicTermOptions();
+            const current = currentAcademicTerm();
+
+            select.innerHTML = options
+                .map(term => `<option value="${esc(term)}">${esc(term)}</option>`)
+                .join('');
+            if (current && options.includes(current)) select.value = current;
+
+            const hint = document.getElementById('termAutoHint');
+            if (hint) {
+                hint.textContent = current
+                    ? `Auto-selected from today's date (${current}). Change it if this work belongs to another term.`
+                    : 'Choose the academic term this work belongs to.';
+            }
+        }
+
+        archiveBtn.addEventListener('click', () => {
+            setArchiveMode('file');
+            populateUploadTermOptions();
+            modal.classList.add('active');
+        });
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+        cancelModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+        itemUrlInput.addEventListener('blur', () => {
+            const urlVal = itemUrlInput.value.trim();
+            const titleInput = document.getElementById('itemTitle');
+            if (urlVal && !titleInput.value.trim()) {
+                titleInput.value = getDomainFromUrl(urlVal);
+            }
+        });
+
+        itemFileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            uploadErrorMsg.style.display = 'none';
+
+            if (!files || files.length === 0) {
+                selectedFileName.textContent = "Click or drag file(s) here (Max 50 MB total)";
+                itemSizeInput.value = '';
+                resetUploadPreview();
+                return;
+            }
+
+            if (files.length === 1) {
+                selectedFileName.textContent = files[0].name;
+                const titleInput = document.getElementById('itemTitle');
+                if (!titleInput.value.trim()) {
+                    titleInput.value = files[0].name;
+                }
+            } else {
+                selectedFileName.textContent = `${files.length} files selected`;
+                const titleInput = document.getElementById('itemTitle');
+                if (!titleInput.value.trim()) {
+                    titleInput.value = `Project Bundle (${files.length} files)`;
+                }
+            }
+
+            let totalSizeMB = 0;
+            for (let f of files) {
+                totalSizeMB += f.size / (1024 * 1024);
+            }
+            const formattedSize = Math.max(0.01, Number(totalSizeMB.toFixed(2)));
+            itemSizeInput.value = formattedSize;
+
+            const firstType = files[0].type;
+            if (firstType.startsWith('image/')) {
+                itemCategorySelect.value = 'image';
+            } else if (firstType.startsWith('video/')) {
+                itemCategorySelect.value = 'video';
+            } else if (firstType === 'application/pdf' || files[0].name.toLowerCase().endsWith('.pdf')) {
+                itemCategorySelect.value = 'pdf';
+            } else {
+                itemCategorySelect.value = 'document';
+            }
+
+            if (getTotalUsedMB() + formattedSize > MAX_STORAGE_MB) {
+                uploadErrorMsg.textContent = `Storage limit exceeded! You only have ${(MAX_STORAGE_MB - getTotalUsedMB()).toFixed(2)} MB remaining.`;
+                uploadErrorMsg.style.display = 'block';
+            }
+
+            renderUploadPreview(files);
+        });
+
+        async function insertProjectRow(payload) {
+            let row = { ...payload };
+            let { error } = await sb.from('projects').insert(row);
+            let guard = 0;
+
+            // Tolerate older tables that lack newer columns; live URLs and skills fall back to hidden tags.
+            while (error && guard < 6) {
+                guard++;
+                let changed = false;
+
+                if (/live_url/i.test(error.message) && 'live_url' in row) {
+                    if (row.live_url) {
+                        row.tags = Array.from(new Set([...(row.tags || []), 'live:' + row.live_url]));
+                    }
+                    delete row.live_url;
+                    changed = true;
+                } else if (/visibility/i.test(error.message) && 'visibility' in row) {
+                    delete row.visibility;
+                    changed = true;
+                } else if (/skills/i.test(error.message) && 'skills' in row) {
+                    if (row.skills && row.skills.length) {
+                        row.tags = Array.from(new Set([...(row.tags || []), ...row.skills.map(s => 'skill:' + s)]));
+                    }
+                    delete row.skills;
+                    changed = true;
+                } else if (/subject/i.test(error.message) && 'subject' in row) {
+                    delete row.subject;
+                    changed = true;
+                } else if (/term/i.test(error.message) && 'term' in row) {
+                    delete row.term;
+                    changed = true;
+                } else if (/reflection/i.test(error.message) && 'reflection' in row) {
+                    if (row.reflection && row.reflection.length) {
+                        const compact = JSON.stringify(row.reflection.map(e => [e.prompt, e.answer]));
+                        row.tags = Array.from(new Set([...(row.tags || []), 'reflect:' + encodeReflectionTag(compact)]));
+                    }
+                    delete row.reflection;
+                    changed = true;
+                }
+
+                if (!changed) break;
+                ({ error } = await sb.from('projects').insert(row));
+            }
+
+            if (error) throw error;
+        }
+
+        archiveForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            uploadErrorMsg.style.display = 'none';
+
+            const title = document.getElementById('itemTitle').value.trim();
+            const subject = document.getElementById('itemSubject').value;
+            const term = document.getElementById('itemTerm').value;
+            const desc = document.getElementById('itemDesc').value.trim();
+            const isPublic = document.getElementById('shareCommunity').checked;
+            const tagsInput = document.getElementById('itemTags').value;
+            const rawTags = tagsInput 
+                ? tagsInput.split(',').map(t => t.trim()).filter(Boolean).map(t => t.startsWith('#') ? t : '#' + t) 
+                : [];
+            const subjectTag = '#' + subject.replace(/[^a-zA-Z0-9]/g, '');
+            let tags = Array.from(new Set([subjectTag, ...rawTags]));
+            const skills = parseSkillInput(document.getElementById('itemSkills').value);
+            const reflection = collectReflection();
+            const author = getAuthorName();
+            const batchId = 'bundle_' + Date.now();
+            const rawLiveUrl = itemLiveUrlInput.value.trim();
+            const liveUrl = rawLiveUrl ? normalizeHttpUrl(rawLiveUrl) : '';
+
+            if (rawLiveUrl && !liveUrl) {
+                uploadErrorMsg.textContent = 'Live demo URL must be a valid http:// or https:// link.';
+                uploadErrorMsg.style.display = 'block';
+                return;
+            }
+
+            let teamsUrl = '';
+            if (archiveMode === 'teams') {
+                teamsUrl = normalizeTeamsUrl(itemTeamsUrlInput.value);
+                if (!teamsUrl) {
+                    uploadErrorMsg.textContent = 'Paste a valid Microsoft Teams, SharePoint, OneDrive, or Microsoft Forms link. Use "Link / Hosted App" for other sites.';
+                    uploadErrorMsg.style.display = 'block';
+                    return;
+                }
+            } else if (archiveMode === 'link') {
+                teamsUrl = normalizeTeamsUrl(itemUrlInput.value);
+            }
+            if (teamsUrl) {
+                tags = Array.from(new Set([...tags, '#MicrosoftTeams', 'teams:' + teamsUrl]));
+            }
+
+            submitArchiveBtn.disabled = true;
+            submitArchiveBtn.textContent = 'Archiving...';
+
+            let archivedCount = 0;
+
+            try {
+                if (archiveMode === 'teams') {
+                    const files = itemTeamsFileInput.files;
+                    const safetyText = [title, desc, tags.join(' '), skills.join(' '), reflection.map(e => e.answer).join(' '), teamsUrl].join('\n');
+
+                    if (files && files.length > 0) {
+                        const fileList = Array.from(files);
+                        const totalBatchSize = fileList.reduce((sum, f) => sum + f.size / (1024 * 1024), 0);
+                        if (getTotalUsedMB() + totalBatchSize > MAX_STORAGE_MB) {
+                            uploadErrorMsg.textContent = `Cannot import: exceeds 50 MB limit (${(MAX_STORAGE_MB - getTotalUsedMB()).toFixed(2)} MB free). Link the Teams artifact only, or upload a smaller copy.`;
+                            uploadErrorMsg.style.display = 'block';
+                            return;
+                        }
+
+                        submitArchiveBtn.textContent = 'Checking safety...';
+                        const verdict = await checkUploadSafety(fileList, safetyText);
+                        if (verdict.flagged) {
+                            await showSafetyWarning(verdict.reasons);
+                            return;
+                        }
+                        if (verdict.academic && verdict.academic.relevant === false) {
+                            submitArchiveBtn.textContent = 'Not an academic file?';
+                            const proceed = await showAcademicWarning(verdict.academic.reason);
+                            if (!proceed) return;
+                        }
+
+                        submitArchiveBtn.textContent = 'Importing from Teams...';
+                        for (let i = 0; i < fileList.length; i++) {
+                            const file = fileList[i];
+                            const up = await uploadFile(file, me.id, 'projects');
+                            const fileSizeMB = Math.max(0.01, Number((file.size / (1024 * 1024)).toFixed(4)));
+                            let fCategory = 'document';
+                            if (file.type.startsWith('image/')) fCategory = 'image';
+                            else if (file.type.startsWith('video/')) fCategory = 'video';
+                            else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) fCategory = 'pdf';
+
+                            await insertProjectRow({
+                                user_id: me.id,
+                                author,
+                                title: fileList.length > 1 ? `${title} (${i + 1}/${fileList.length})` : title,
+                                group_title: title,
+                                batch_id: fileList.length > 1 ? batchId : null,
+                                file_name: file.name,
+                                category: fCategory,
+                                subject,
+                                term,
+                                size_mb: fileSizeMB,
+                                description: desc,
+                                tags,
+                                skills,
+                                reflection: reflection.length ? reflection : null,
+                                file_url: up.url,
+                                live_url: liveUrl || null,
+                                storage_path: up.path,
+                                mime_type: file.type || 'application/octet-stream',
+                                is_public: isPublic,
+                                visibility: isPublic ? 'public' : 'private'
+                            });
+                            archivedCount++;
+                        }
+                    } else {
+                        submitArchiveBtn.textContent = 'Checking safety...';
+                        const verdict = await checkUploadSafety([], safetyText);
+                        if (verdict.flagged) {
+                            await showSafetyWarning(verdict.reasons);
+                            return;
+                        }
+                        if (verdict.academic && verdict.academic.relevant === false) {
+                            submitArchiveBtn.textContent = 'Not an academic file?';
+                            const proceed = await showAcademicWarning(verdict.academic.reason);
+                            if (!proceed) return;
+                        }
+
+                        submitArchiveBtn.textContent = 'Archiving...';
+                        await insertProjectRow({
+                            user_id: me.id,
+                            author,
+                            title,
+                            group_title: title,
+                            batch_id: batchId,
+                            file_name: teamsUrl,
+                            category: 'link',
+                            subject,
+                            term,
+                            size_mb: 0,
+                            description: desc,
+                            tags,
+                            skills,
+                            reflection: reflection.length ? reflection : null,
+                            file_url: teamsUrl,
+                            live_url: liveUrl || null,
+                            mime_type: 'text/uri-list',
+                            is_public: isPublic,
+                            visibility: isPublic ? 'public' : 'private'
+                        });
+                        archivedCount = 1;
+                    }
+                } else if (archiveMode === 'link') {
+                    let rawUrl = itemUrlInput.value.trim();
+                    if (!rawUrl) return;
+                    if (!/^https?:\/\//i.test(rawUrl)) {
+                        rawUrl = 'https://' + rawUrl;
+                    }
+
+                    const payload = {
+                        user_id: me.id,
+                        author,
+                        title,
+                        group_title: title,
+                        batch_id: batchId,
+                        file_name: rawUrl,
+                        category: 'link',
+                        subject,
+                        term,
+                        size_mb: 0,
+                        description: desc,
+                        tags,
+                        skills,
+                        reflection: reflection.length ? reflection : null,
+                        file_url: teamsUrl || rawUrl,
+                        live_url: liveUrl || null,
+                        mime_type: 'text/uri-list',
+                        is_public: isPublic,
+                        visibility: isPublic ? 'public' : 'private'
+                    };
+
+                    submitArchiveBtn.textContent = 'Checking safety...';
+                    const verdict = await checkUploadSafety(
+                        [],
+                        [title, desc, tags.join(' '), skills.join(' '), reflection.map(e => e.answer).join(' '), rawUrl].join('\n')
+                    );
+                    if (verdict.flagged) {
+                        await showSafetyWarning(verdict.reasons);
+                        return;
+                    }
+                    if (verdict.academic && verdict.academic.relevant === false) {
+                        submitArchiveBtn.textContent = 'Not an academic file?';
+                        const proceed = await showAcademicWarning(verdict.academic.reason);
+                        if (!proceed) return;
+                    }
+
+                    submitArchiveBtn.textContent = 'Archiving...';
+                    await insertProjectRow(payload);
+                    archivedCount = 1;
+                } else {
+                    const files = itemFileInput.files;
+                    if (!files || files.length === 0) return;
+
+                    let totalBatchSize = parseFloat(itemSizeInput.value);
+                    const currentUsed = getTotalUsedMB();
+
+                    if (currentUsed + totalBatchSize > MAX_STORAGE_MB) {
+                        uploadErrorMsg.textContent = `Cannot upload: exceeds 50 MB limit (${(MAX_STORAGE_MB - currentUsed).toFixed(2)} MB free).`;
+                        uploadErrorMsg.style.display = 'block';
+                        return;
+                    }
+
+                    const category = itemCategorySelect.value;
+
+                    submitArchiveBtn.textContent = 'Checking safety...';
+                    const verdict = await checkUploadSafety(
+                        Array.from(files),
+                        [title, desc, tags.join(' '), skills.join(' '), reflection.map(e => e.answer).join(' ')].join('\n')
+                    );
+                    if (verdict.flagged) {
+                        await showSafetyWarning(verdict.reasons);
+                        return;
+                    }
+                    if (verdict.academic && verdict.academic.relevant === false) {
+                        submitArchiveBtn.textContent = 'Not an academic file?';
+                        const proceed = await showAcademicWarning(verdict.academic.reason);
+                        if (!proceed) return;
+                    }
+
+                    submitArchiveBtn.textContent = 'Archiving...';
+
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const up = await uploadFile(file, me.id, 'projects');
+                        const fileSizeMB = Math.max(0.01, Number((file.size / (1024 * 1024)).toFixed(4)));
+
+                        let fCategory = category;
+                        if (file.type.startsWith('image/')) fCategory = 'image';
+                        else if (file.type.startsWith('video/')) fCategory = 'video';
+                        else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) fCategory = 'pdf';
+
+                        const payload = {
+                            user_id: me.id,
+                            author,
+                            title: files.length > 1 ? `${title} (${i + 1}/${files.length})` : title,
+                            group_title: title,
+                            batch_id: files.length > 1 ? batchId : null,
+                            file_name: file.name,
+                            category: fCategory,
+                            subject,
+                            term,
+                            size_mb: fileSizeMB,
+                            description: desc,
+                            tags,
+                            skills,
+                            reflection: reflection.length ? reflection : null,
+                            file_url: up.url,
+                            live_url: liveUrl || null,
+                            storage_path: up.path,
+                            mime_type: file.type || 'application/octet-stream',
+                            is_public: isPublic,
+                            visibility: isPublic ? 'public' : 'private'
+                        };
+                        await insertProjectRow(payload);
+                        archivedCount++;
+                    }
+                }
+
+                await loadProjects();
+                archiveForm.reset();
+                if (archiveMode === 'teams') {
+                    teamsFileNote.textContent = 'No copy attached — only the Teams link will be archived.';
+                    itemSizeInput.value = '0.00';
+                    updateTeamsDetection();
+                }
+                document.getElementById('shareCommunity').checked = true;
+                selectedFileName.textContent = "Click or drag file(s) here (Max 50 MB total)";
+                resetUploadPreview();
+                renderSkillSuggestions();
+                resetReflection();
+                modal.classList.remove('active');
+                showUploadSuccess(
+                    'Successfully Archived!',
+                    archivedCount > 1
+                        ? `${archivedCount} projects were added to your portfolio.`
+                        : 'Your project is now in your portfolio.'
+                );
+            } catch (err) {
+                uploadErrorMsg.textContent = 'Archive failed: ' + (err.message || err);
+                uploadErrorMsg.style.display = 'block';
+            } finally {
+                submitArchiveBtn.disabled = false;
+                submitArchiveBtn.textContent = 'Archive Item(s)';
+            }
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderDashboard();
+        });
+
+        document.getElementById('clearSearchBtn').addEventListener('click', () => {
+            document.getElementById('searchInput').value = '';
+            currentSearch = '';
+            renderDashboard();
+        });
+
+        document.getElementById('subjectFilter').addEventListener('change', (e) => {
+            currentSubject = e.target.value;
+            renderDashboard();
+        });
+
+        document.getElementById('termFilter').addEventListener('change', (e) => {
+            currentTerm = e.target.value;
+            renderDashboard();
+        });
+
+        skillFilter.addEventListener('change', (e) => {
+            currentSkill = e.target.value;
+            renderDashboard();
+        });
+
+        document.querySelectorAll('.filter-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.getAttribute('data-category');
+                renderDashboard();
+            });
+        });
+
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            renderDashboard();
+        });
+    </script>
+</body>
+</html>

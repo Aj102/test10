@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up (Step 2) | Student Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wght@0,100..900;1,100..900&family=Belanosima:wght@400;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="signup1.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+</head>
+<body class="page-signup1">
+
+<section id="form1">
+    <div id="header">
+        <div>
+            <h1>STUDENT PORTFOLIO: SIGN UP</h1>
+            <p>Create your account to showcase your academic achievements and work.</p>
+        </div>
+        <div id="lpa">
+            <div class="line" id="blue"></div>
+            <div class="line" id="blue"></div>
+        </div>
+    </div>
+
+    <div id="PI">
+        <h3>Security Credentials</h3>
+
+        <label for="pass">Create Password</label>
+        <input id="pass" type="password" minlength="8" autocomplete="new-password"
+               placeholder="At least 8 characters" required>
+
+        <label for="cpass">Confirm Password</label>
+        <input id="cpass" type="password" minlength="8" autocomplete="new-password"
+               placeholder="Re-enter password" required>
+
+        <div id="checkbox">
+            <input required type="checkbox" id="agree" class="check">
+            <label for="agree" class="agree">
+                I agree to the <a href="#" class="SHC">Student Honor Code</a> and
+                <a href="#" class="pp">Privacy Policy</a> of Children of Fatima School, Inc.
+            </label>
+        </div>
+
+        <p id="signupMessage" role="status" aria-live="polite"></p>
+    </div>
+
+    <div id="btn">
+        <a id="bbtn" href="Signup.html">Back</a>
+        <button id="mainbtn" type="button">COMPLETE REGISTRATION</button>
+    </div>
+</section>
+
+<script>
+    const STUDENT_EMAIL_PATTERN = /^[a-z0-9._%+-]+@fatima\.edu\.ph$/i;
+
+    document.getElementById("mainbtn").addEventListener("click", async () => {
+        const password = document.getElementById("pass").value;
+        const confirmPassword = document.getElementById("cpass").value;
+        const agreed = document.getElementById("agree").checked;
+        const message = document.getElementById("signupMessage");
+
+        message.textContent = "";
+
+        if (password.length < 8) {
+            message.textContent = "Password must be at least 8 characters.";
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match.";
+            return;
+        }
+
+        if (!agreed) {
+            message.textContent = "Please agree to the Honor Code and Privacy Policy.";
+            return;
+        }
+
+        let profile;
+
+        try {
+            profile = JSON.parse(localStorage.getItem("cfsi_pending_signup") || "null");
+        } catch {
+            profile = null;
+        }
+
+        if (!profile || !profile.email) {
+            message.textContent = "Sign-up details are missing. Please return to Step 1.";
+            return;
+        }
+
+        if (!STUDENT_EMAIL_PATTERN.test(String(profile.email).trim())) {
+            message.textContent = "Student accounts require an @fatima.edu.ph email. Go back to Step 1 and correct it.";
+            return;
+        }
+
+        try {
+            await registerAccount(profile, password);
+            localStorage.removeItem("cfsi_pending_signup");
+            window.location.href = "Welcome.html";
+        } catch (error) {
+            message.textContent = error.message || "Could not create your account.";
+        }
+    });
+</script>
+
+</body>
+</html>

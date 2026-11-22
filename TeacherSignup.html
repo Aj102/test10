@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher sign up | Student Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wght@0,100..900;1,100..900&family=Belanosima:wght@400;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="signup1.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+    <script src="face-verify.js"></script>
+
+    <style>
+        /* Same card as the student and parent sign-ups (two columns, 750px). */
+        body.page-teacher-signup {
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        body.page-teacher-signup #form1 {
+            width: 750px;
+            max-width: 100%;
+            max-height: none;
+            overflow: visible;
+            justify-content: flex-start;
+        }
+
+        #TDCP {
+            display: flex;
+            gap: 36px;
+            align-items: flex-start;
+        }
+
+        #TD,
+        #SC {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #TD > h3,
+        #SC > h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: var(--ink);
+            margin: 0 0 12px 0;
+        }
+
+        #TD > label,
+        #SC > label {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink);
+            margin: 12px 0 4px 0;
+        }
+
+        #TD input[type="text"],
+        #TD input[type="email"],
+        #SC input[type="password"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: solid #cbd5e1 1px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background-color: #ffffff;
+            margin-bottom: 4px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #TD input:focus,
+        #SC input[type="password"]:focus {
+            border-color: var(--brand);
+            outline: none;
+            box-shadow: 0 0 5px var(--focus-ring);
+        }
+
+        .teacher-note {
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--tint);
+            border: 1px solid var(--tint-border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: var(--text-soft);
+            margin: 8px 0 4px 0;
+        }
+
+        .teacher-note strong {
+            color: var(--ink);
+        }
+
+        #emailHint {
+            font-family: 'Inter', sans-serif;
+            font-size: 11.5px;
+            color: var(--text-soft);
+            margin: 0 0 4px 0;
+        }
+
+        #emailHint.email-hint-error {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        #checkbox {
+            margin-top: 16px;
+        }
+
+        #signupMessage:not(:empty) {
+            margin: 12px 0 0 0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--tint);
+            border: 1px solid var(--tint-border);
+            color: var(--text-soft);
+            font-size: 13px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #btn {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        @media (max-width: 800px) {
+            #TDCP {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #btn {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            #btn #bbtn,
+            #btn #mainbtn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body class="page-signup1 page-teacher-signup">
+
+<section id="form1">
+    <div id="header">
+        <div>
+            <h1>TEACHER SIGN UP</h1>
+            <p>Create a faculty account to review posted and featured student work.</p>
+        </div>
+    </div>
+
+    <div id="TDCP">
+        <div id="TD">
+            <h3>Teacher Details</h3>
+
+            <label for="tfname">First Name</label>
+            <input id="tfname" type="text" placeholder="e.g. Maria" autocomplete="given-name" required>
+
+            <label for="tlname">Last Name</label>
+            <input id="tlname" type="text" placeholder="e.g. Dela Cruz" autocomplete="family-name" required>
+
+            <label for="temail">School Email Address</label>
+            <input id="temail" type="email" placeholder="you@fatima.edu.ph" autocomplete="email" required>
+            <p id="emailHint">Only @fatima.edu.ph institutional emails are accepted.</p>
+
+            <div class="teacher-note">
+                <strong>What can teachers do?</strong> Teacher accounts can give
+                <strong>feedback</strong>, score <strong>rubrics</strong>, and approve
+                <strong>milestone reviews</strong> for student projects posted in the Community
+                Showcase and for featured works. Students see your reviews on their dashboard.
+            </div>
+        </div>
+
+        <div id="SC">
+            <h3>Security Credentials</h3>
+
+            <label for="pass">Create Password</label>
+            <input id="pass" type="password" minlength="8" autocomplete="new-password"
+                   placeholder="At least 8 characters" required>
+
+            <label for="cpass">Confirm Password</label>
+            <input id="cpass" type="password" minlength="8" autocomplete="new-password"
+                   placeholder="Re-enter password" required>
+
+            <div id="checkbox">
+                <input required type="checkbox" id="agree" class="check">
+                <label for="agree" class="agree">
+                    I am a faculty member of Children of Fatima School, Inc., and I agree to the
+                    <a href="#" class="pp">Teacher Review &amp; Privacy Policy</a>.
+                </label>
+            </div>
+
+            <p id="signupMessage" role="status" aria-live="polite"></p>
+        </div>
+    </div>
+
+    <p class="fv-page-hint"><i class="fa-solid fa-shield-halved"></i>A quick on-camera age check confirms adult accounts are created for teachers and parents only. It stays on your device.</p>
+
+    <div id="btn">
+        <a id="bbtn" href="login.html">Back</a>
+        <button id="mainbtn" type="button">CREATE TEACHER ACCOUNT</button>
+    </div>
+</section>
+
+<script>
+    const TEACHER_EMAIL_PATTERN = /^[a-z0-9._%+-]+@fatima\.edu\.ph$/i;
+    const emailInput = document.getElementById("temail");
+    const emailHint = document.getElementById("emailHint");
+
+    function updateTeacherEmailHint() {
+        const value = emailInput.value.trim();
+        const invalid = value !== "" && !TEACHER_EMAIL_PATTERN.test(value);
+        emailHint.classList.toggle("email-hint-error", invalid);
+        emailInput.setCustomValidity(
+            invalid ? "Teacher accounts require an @fatima.edu.ph email address." : ""
+        );
+        return value === "" || !invalid;
+    }
+
+    emailInput.addEventListener("input", updateTeacherEmailHint);
+    updateTeacherEmailHint();
+
+    document.getElementById("mainbtn").addEventListener("click", async () => {
+        const fname = document.getElementById("tfname").value.trim();
+        const lname = document.getElementById("tlname").value.trim();
+        const email = emailInput.value.trim().toLowerCase();
+        const password = document.getElementById("pass").value;
+        const confirmPassword = document.getElementById("cpass").value;
+        const agreed = document.getElementById("agree").checked;
+        const message = document.getElementById("signupMessage");
+        const button = document.getElementById("mainbtn");
+
+        message.textContent = "";
+
+        if (!fname || !lname) {
+            message.textContent = "Enter your first and last name.";
+            return;
+        }
+
+        if (!email) {
+            message.textContent = "Enter your school email address.";
+            return;
+        }
+
+        if (!updateTeacherEmailHint()) {
+            message.textContent = "Teacher accounts require an @fatima.edu.ph email address.";
+            emailInput.focus();
+            return;
+        }
+
+        if (password.length < 8) {
+            message.textContent = "Password must be at least 8 characters.";
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match.";
+            return;
+        }
+
+        if (!agreed) {
+            message.textContent = "Please confirm the Teacher Review & Privacy Policy.";
+            return;
+        }
+
+        const face = await FaceVerify.ensure({ mode: "adult" });
+        if (!face) return;
+
+        if (!face.adult) {
+            const next = await FaceVerify.showMinorNotice();
+            if (next === "retry") document.getElementById("mainbtn").click();
+            return;
+        }
+
+        button.disabled = true;
+
+        try {
+            await registerTeacher({ fname, lname, email, faceCheck: face.method, faceResult: face.adult ? "adult" : "student" }, password);
+            window.location.href = "Teacher.html";
+        } catch (error) {
+            message.textContent = error.message || "Could not create your teacher account.";
+            button.disabled = false;
+        }
+    });
+
+    document.getElementById("cpass").addEventListener("keydown", event => {
+        if (event.key === "Enter") document.getElementById("mainbtn").click();
+    });
+</script>
+
+</body>
+</html>

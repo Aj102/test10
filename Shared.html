@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Shared Student Work | Children of Fatima School, Inc.</title>
+    <!-- teams-integration v1 -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+
+    <style>
+        :root {
+            --navy: #0B2545;
+            --blue: #0c5cbe;
+            --ink: #0f172a;
+            --muted: #475569;
+            --line: #e2e8f0;
+            --bg: #eef4fb;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 8%, rgba(12, 92, 190, 0.12), transparent 34%),
+                radial-gradient(circle at 88% 0%, rgba(5, 150, 105, 0.10), transparent 30%),
+                var(--bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .shared-header {
+            background: var(--navy);
+            color: #ffffff;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ffffff;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.4px;
+        }
+
+        .brand p {
+            margin: 2px 0 0 0;
+            font-size: 11px;
+            color: #bfdbfe;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 999px;
+            padding: 7px 13px;
+            transition: background 0.18s ease;
+        }
+
+        .header-links a:hover { background: rgba(255, 255, 255, 0.14); }
+
+        main {
+            flex: 1;
+            width: min(920px, 100%);
+            margin: 0 auto;
+            padding: 30px 18px 46px;
+        }
+
+        .shared-card {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 22px 60px rgba(11, 37, 69, 0.10);
+        }
+
+        .shared-banner {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 20px;
+            background: #ecfdf5;
+            border-bottom: 1px solid #a7f3d0;
+            color: #047857;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        .shared-body { padding: 26px 24px 28px; }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eff6ff;
+            color: var(--blue);
+            border: 1px solid #bfdbfe;
+            border-radius: 999px;
+            padding: 4px 11px;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        h2.shared-title {
+            margin: 14px 0 8px 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(22px, 4vw, 30px);
+            line-height: 1.22;
+            color: var(--navy);
+        }
+
+        .shared-meta {
+            margin: 0 0 4px 0;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .shared-author {
+            margin: 0 0 20px 0;
+            font-size: 12.5px;
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .shared-author i { color: var(--blue); margin-right: 5px; }
+
+        .preview-stage {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: #f8fafc;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .preview-stage img,
+        .preview-stage video {
+            display: block;
+            width: 100%;
+            max-height: 480px;
+            object-fit: contain;
+            background: #0f172a;
+        }
+
+        .preview-stage iframe {
+            display: block;
+            width: 100%;
+            height: min(62vh, 520px);
+            border: 0;
+            background: #ffffff;
+        }
+
+        .stage-fallback {
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            color: #94a3b8;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .stage-fallback i { font-size: 34px; }
+        .stage-fallback span { font-size: 12px; }
+
+        .stage-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 9px 13px;
+            border-bottom: 1px solid var(--line);
+            background: #ffffff;
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+
+        .stage-bar strong {
+            color: var(--navy);
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+        .shared-desc {
+            margin: 0 0 18px 0;
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: #334155;
+            white-space: pre-wrap;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+
+        .skill-chip,
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10.5px;
+            font-weight: 600;
+            border-radius: 999px;
+            padding: 4px 10px;
+        }
+
+        .skill-chip { background: #ecfeff; color: #0e7490; border: 1px solid #a5f3fc; }
+        .tag-chip { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+        .reflection-title {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 4px 0 10px 0;
+        }
+
+        .reflection-entry {
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            border-left: 3px solid var(--blue);
+            border-radius: 10px;
+            padding: 11px 13px;
+            margin-bottom: 9px;
+        }
+
+        .reflection-q {
+            margin: 0 0 4px 0;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .reflection-a {
+            margin: 0;
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: #475569;
+            white-space: pre-wrap;
+        }
+
+        .shared-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            padding-top: 6px;
+        }
+
+        .shared-actions a {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            font-size: 12.5px;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 11px 16px;
+            transition: transform 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .shared-actions a:hover { transform: translateY(-1px); }
+
+        .action-primary {
+            background: var(--blue);
+            color: #ffffff;
+            box-shadow: 0 8px 18px rgba(12, 92, 190, 0.22);
+        }
+
+        .action-secondary {
+            background: #ffffff;
+            color: var(--navy);
+            border: 1px solid #cbd5e1;
+        }
+
+        .shared-note {
+            margin: 18px 0 0 0;
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.5;
+            border-top: 1px dashed var(--line);
+            padding-top: 14px;
+        }
+
+        .state-view {
+            padding: 54px 26px;
+            text-align: center;
+        }
+
+        .state-view i {
+            font-size: 40px;
+            color: #94a3b8;
+            margin-bottom: 14px;
+        }
+
+        .state-view h2 {
+            margin: 0 0 8px 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: var(--navy);
+        }
+
+        .state-view p {
+            margin: 0 auto 20px auto;
+            max-width: 460px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+
+        .loader {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 3px solid #dbeafe;
+            border-top-color: var(--blue);
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px auto;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        footer {
+            text-align: center;
+            padding: 18px;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        img, video, iframe { max-width: 100%; }
+
+        @media (max-width: 640px) {
+            .shared-header { padding: 12px 14px; gap: 10px; }
+            .brand { gap: 10px; }
+            .brand img { width: 36px; height: 36px; }
+            .brand h1 { font-size: 12.5px; line-height: 1.3; }
+            .brand p { font-size: 9.5px; letter-spacing: 0.4px; }
+            .header-links { width: 100%; }
+            .header-links a {
+                flex: 1 1 auto;
+                text-align: center;
+                justify-content: center;
+                display: inline-flex;
+            }
+            main { padding: 16px 12px 30px; }
+            .shared-card { border-radius: 16px; }
+            .shared-banner {
+                padding: 9px 14px;
+                font-size: 11px;
+                align-items: flex-start;
+            }
+            .shared-body { padding: 18px 15px 22px; }
+            .shared-actions a { flex: 1 1 150px; justify-content: center; }
+            .state-view { padding: 40px 16px; }
+            .preview-stage iframe { height: min(58vh, 420px); }
+            .stage-bar { flex-wrap: wrap; }
+        }
+
+        @media (max-width: 400px) {
+            .brand h1 { font-size: 11.5px; }
+            h2.shared-title { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="shared-header">
+        <a class="brand" href="Welcome.html">
+            <img src="cfsi logo.png" alt="CFSI logo">
+            <div>
+                <h1>CHILDREN OF FATIMA SCHOOL, INC.</h1>
+                <p>Shared Student Work</p>
+            </div>
+        </a>
+        <nav class="header-links">
+            <a href="Welcome.html"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="Community.html"><i class="fa-solid fa-people-group"></i> Community</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="shared-card" id="sharedCard">
+            <div class="shared-banner">
+                <i class="fa-solid fa-shield-halved"></i>
+                Shared with permission. This link can be revoked by the student at any time.
+            </div>
+            <div class="state-view" id="sharedState">
+                <div class="loader"></div>
+                <p>Opening shared work...</p>
+            </div>
+            <div class="shared-body" id="sharedBody" style="display:none;"></div>
+        </section>
+    </main>
+
+    <footer>Children of Fatima School, Inc. &middot; Student Portfolio</footer>
+
+    <script>
+        const sharedToken = (new URLSearchParams(window.location.search).get('t') || '').trim().toLowerCase();
+        const stateEl = document.getElementById('sharedState');
+        const bodyEl = document.getElementById('sharedBody');
+
+        window.addEventListener('DOMContentLoaded', loadSharedProject);
+
+        function showState(icon, title, text) {
+            bodyEl.style.display = 'none';
+            stateEl.style.display = 'block';
+            stateEl.innerHTML = `
+                <i class="fa-solid ${icon}"></i>
+                <h2>${esc(title)}</h2>
+                <p>${esc(text)}</p>
+                <div class="shared-actions" style="justify-content:center;">
+                    <a class="action-primary" href="Community.html"><i class="fa-solid fa-people-group"></i> Browse Community</a>
+                    <a class="action-secondary" href="Welcome.html"><i class="fa-solid fa-house"></i> Go Home</a>
+                </div>`;
+        }
+
+        async function loadSharedProject() {
+            if (!/^[a-f0-9]{32}$/.test(sharedToken)) {
+                showState('fa-link-slash', 'This link is incomplete',
+                    'Ask the student to open My Projects, press the QR button, and share the link again.');
+                return;
+            }
+
+            const { data, error } = await sb.rpc('get_shared_project', { p_token: sharedToken });
+
+            if (error) {
+                showState('fa-triangle-exclamation', 'This link could not be opened',
+                    'The sharing service may be unavailable. Please try again in a moment.');
+                return;
+            }
+
+            const row = Array.isArray(data) ? data[0] : data;
+            if (!row) {
+                showState('fa-lock', 'This link is no longer available',
+                    'The student may have turned off sharing, or the link may have been replaced with a new one.');
+                return;
+            }
+
+            renderSharedProject(mapProject(row));
+        }
+
+        const CATEGORY_LABELS = {
+            image: 'Image',
+            pdf: 'PDF Document',
+            video: 'Video',
+            document: 'Document',
+            link: 'External Link'
+        };
+
+        const CATEGORY_ICONS = {
+            image: 'fa-image',
+            pdf: 'fa-file-pdf',
+            video: 'fa-video',
+            document: 'fa-file-lines',
+            link: 'fa-globe'
+        };
+
+        function getDomainFromUrl(url) {
+            try { return new URL(url).hostname.replace(/^www\./, ''); }
+            catch { return 'External Link'; }
+        }
+
+        function stageHtml(item) {
+            const fileUrl = item.fileUrl;
+            const liveUrl = getLivePreviewUrl(item);
+            const category = item.category || 'document';
+            const teamsUrl = item.teamsUrl || '';
+
+            if (category === 'image' && fileUrl) {
+                return `<img src="${esc(fileUrl)}" alt="${esc(item.title)}">`;
+            }
+
+            if (category === 'video' && fileUrl) {
+                return `<video controls playsinline preload="metadata" src="${esc(fileUrl)}"></video>`;
+            }
+
+            if (liveUrl) {
+                return `
+                    <div class="stage-bar">
+                        <strong>${esc(getDomainFromUrl(liveUrl))}</strong>
+                        <span>Live preview</span>
+                    </div>
+                    <iframe src="${esc(liveUrl)}"
+                            title="Live preview of ${esc(item.title)}"
+                            loading="lazy"
+                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-presentation"></iframe>`;
+            }
+
+            if (category === 'pdf' && fileUrl) {
+                return `
+                    <div class="stage-bar">
+                        <strong>${esc(item.fileName || 'Document.pdf')}</strong>
+                        <span>PDF preview</span>
+                    </div>
+                    <iframe src="${esc(fileUrl)}#view=FitH" title="PDF preview of ${esc(item.title)}"></iframe>`;
+            }
+
+            if (teamsUrl) {
+                const teamsMeta = teamsKindMeta(item.teamsKind || teamsArtifactKind(teamsUrl));
+                return `
+                    <div class="stage-fallback" style="background:#f5f6ff;">
+                        <i class="fa-brands fa-microsoft" style="color:#6264a7;"></i>
+                        <span>${esc(teamsMeta.label)}</span>
+                        <small style="display:block; margin-top:6px; color:#64748b; font-size:11px;">
+                            ${esc(getDomainFromUrl(teamsUrl))} — original work kept in Microsoft Teams
+                        </small>
+                        <a class="action-primary" style="margin-top:12px; display:inline-flex;" href="${esc(teamsUrl)}" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> ${esc(teamsActionLabel(teamsUrl))}
+                        </a>
+                    </div>`;
+            }
+
+            return `
+                <div class="stage-fallback">
+                    <i class="fa-solid ${CATEGORY_ICONS[category] || 'fa-file'}"></i>
+                    <span>${esc(item.fileName || CATEGORY_LABELS[category] || 'Student work')}</span>
+                </div>`;
+        }
+
+        function renderSharedProject(item) {
+            const category = item.category || 'document';
+            const label = CATEGORY_LABELS[category] || 'Student Work';
+            const fileUrl = item.fileUrl;
+            const liveUrl = getLivePreviewUrl(item);
+            const skills = (item.skills || []).map(s => `<span class="skill-chip"><i class="fa-solid fa-bolt"></i>${esc(s)}</span>`).join('');
+            const tags = (item.tags || []).map(t => {
+                const label = String(t).trim();
+                return `<span class="tag-chip">${esc(label.startsWith('#') ? label : '#' + label)}</span>`;
+            }).join('');
+            const reflection = reflectionBlockHtml(item.reflection);
+            const teamsUrl = item.teamsUrl || '';
+            const teamsMeta = teamsUrl ? teamsKindMeta(item.teamsKind || teamsArtifactKind(teamsUrl)) : null;
+
+            const primaryHref = liveUrl || teamsUrl || fileUrl;
+            const primaryLabel = liveUrl
+                ? '<i class="fa-solid fa-arrow-up-right-from-square"></i> Open live work'
+                : teamsUrl
+                ? `<i class="fa-brands fa-microsoft"></i> ${esc(teamsActionLabel(teamsUrl))}`
+                : '<i class="fa-solid fa-eye"></i> Open file';
+
+            const downloadHref = fileUrl && !(teamsUrl && fileUrl === teamsUrl)
+                ? downloadUrl(fileUrl, item.fileName || 'student-work')
+                : '';
+            const meta = [item.subject, item.term, item.date ? `Shared ${item.date}` : ''].filter(Boolean).join(' \u2022 ');
+
+            bodyEl.innerHTML = `
+                <span class="type-badge"><i class="fa-solid ${CATEGORY_ICONS[category] || 'fa-file'}"></i> ${esc(label)}</span>
+                <h2 class="shared-title">${esc(item.title || 'Student Work')}</h2>
+                <p class="shared-meta">${esc(meta)}</p>
+                <p class="shared-author"><i class="fa-solid fa-user-graduate"></i>${esc(item.author || 'CFSI Student')}</p>
+
+                <div class="preview-stage">${stageHtml(item)}</div>
+
+                ${item.desc ? `<p class="shared-desc">${esc(item.desc)}</p>` : ''}
+                ${teamsMeta ? `<div class="chip-row"><span class="tag-chip" style="border-color:#c7c9f4; background:#eef0ff; color:#4f52b2;"><i class="fa-brands fa-microsoft"></i> Microsoft Teams &middot; ${esc(teamsMeta.label)}</span></div>` : ''}
+                ${skills ? `<div class="chip-row">${skills}</div>` : ''}
+                ${tags ? `<div class="chip-row">${tags}</div>` : ''}
+
+                <div id="sharedReflection">${reflection}</div>
+
+                <div class="shared-actions">
+                    ${primaryHref ? `<a class="action-primary" href="${esc(primaryHref)}" target="_blank" rel="noopener">${primaryLabel}</a>` : ''}
+                    ${downloadHref ? `<a class="action-secondary" href="${esc(downloadHref)}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> Download file</a>` : ''}
+                </div>
+
+                <p class="shared-note">
+                    This page is a read-only preview created by a CFSI student. Grades, private notes,
+                    and account details are never included in a shared link.
+                </p>`;
+            stateEl.style.display = 'none';
+            bodyEl.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
